@@ -15,6 +15,8 @@ more details.
 
 Homepage: http://phage.cisat.jmu.edu
 
+This project was forked under GNU License v2 section 2 as above.
+
 Requirements
 ------------
     * Python
