@@ -1,0 +1,15 @@
+from distutils.core import setup
+import glob
+
+setup(name='phamerator',
+      version='0.9.7',
+      #py_modules=['phamerator'],
+      author='Steve Cresawn',
+      author_email='cresawsg@jmu.edu',
+      url='http://phage.cisat.jmu.edu',
+      packages=['phamerator'],
+      package_dir={'phamerator': 'phamerator'},
+      scripts=['phamerator/Phamerator'],
+      package_data={'phamerator': ['html/*']},
+      data_files=[('/usr/share/phamerator/glade', ['phamerator/phageManager.glade']), ('/usr/share/phamerator/glade', glob.glob('phamerator/pixmaps/*.svg'))],
+      )

@@ -1,0 +1,53 @@
+Version 1.0.6    14 May 2009
+    new upstream release
+
+Version 1.0.5    13 May 2009
+    new upstream release
+
+Version 1.0.4    27 Apr 2009
+    new upstream release
+
+Version 1.0.3    26 Jan 2009
+    new upstream release
+
+Version 1.0.2    24 Jan 2009
+    new upstream release
+
+Version 1.0.1    23 Jan 2009
+    new upstream release
+
+Version 1.0    20 Dec 2008
+    new upstream release
+
+Version 0.9.9    09 Dec 2008
+    new upstream release
+
+Version 0.9.8    09 Dec 2008
+    new upstream release
+
+Version 0.9.7    01 Nov 2008
+    new upstream release
+
+Version 0.9.6    23 Aug 2008
+    new upstream release
+
+Version 0.9.5    20 Aug 2008
+    new upstream release
+
+Version 0.9.4    16 Jun 2008
+    new upstream release
+
+Version 0.9.3    14 Mar 2008
+    new upstream release
+
+Version 0.9.2.1  19 Dec 2007
+    added a new application icon
+
+Version 0.9.2    19 Dec 2007
+    changed a bunch of icon paths
+
+Version 0.9.1    19 Dec 2007
+    changed main program name from 'phamerator.py' to 'Phamerator'
+
+Version 0.9    18 Dec 2007
+    initial publicly released version

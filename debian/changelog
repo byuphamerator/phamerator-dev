@@ -1,0 +1,186 @@
+phamerator (1.0.6-1) hardy; urgency=medium
+
+  * fixed a bug in the phamily circle drawing code
+
+ -- Steve Cresawn <cresawsg@jmu.edu>  Thu, 14 May 2009 08:40:55 -0400
+
+phamerator (1.0.5-1) hardy; urgency=medium
+
+  * fixed a bug in the database switching code
+
+ -- Steve Cresawn <cresawsg@jmu.edu>  Wed, 13 May 2009 01:25:31 -0400
+
+phamerator (1.0.4-1) hardy; urgency=medium
+
+  * Added a wizard that will setup database properly for new users
+  * Numerous small bug fixes
+
+ -- Steve Cresawn <cresawsg@jmu.edu>  Mon, 27 Apr 2009 11:42:15 -0400
+
+phamerator (1.0.3-1) hardy; urgency=medium
+
+  * Fixed a bug in the cluster table export
+
+ -- Steve Cresawn <cresawsg@jmu.edu>  Mon, 26 Jan 2009 17:31:42 -0500
+
+phamerator (1.0.2-1) hardy; urgency=medium
+
+  * Bugfix release for a malformed SQL statement (missing GROUP BY)
+
+ -- Steve Cresawn <cresawsg@jmu.edu>  Sat, 24 Jan 2009 18:44:29 -0500
+
+phamerator (1.0.1-1) hardy; urgency=medium
+
+  * Added new columns of information to the pham and cluster .tsv export
+
+ -- Steve Cresawn <cresawsg@jmu.edu>  Fri, 23 Jan 2009 11:37:57 -0500
+
+phamerator (1.0-1) hardy; urgency=medium
+
+  * Added the clusters and number of clusters columns in the pham view
+
+ -- Steve Cresawn <cresawsg@jmu.edu>  Sat, 20 Dec 2008 22:54:01 -0500
+
+phamerator (0.9.9-1) hardy; urgency=medium
+
+  * Removed menu items for adding users and changed pham circle font sizes
+
+ -- Steve Cresawn <scresawn@gmail.com>  Wed, 10 Dec 2008 22:50:53 -0500
+
+phamerator (0.9.8-2) hardy; urgency=medium
+
+  * Bug fixes and improvements to context specific menu items
+
+ -- Steve Cresawn <scresawn@gmail.com>  Wed, 10 Dec 2008 19:50:56 -0500
+
+phamerator (0.9.8-1) intrepid; urgency=medium
+
+  * Removed the login dialog for SEA
+
+ -- Steve Cresawn <scresawn@gmail.com>  Tue, 09 Dec 2008 00:54:17 -0500
+
+phamerator (0.9.7-2) hardy; urgency=medium
+
+  * Fixed a silly packaging bug that caused a post-install error
+
+ -- Steve Cresawn <scresawn@gmail.com>  Sun, 02 Nov 2008 15:03:57 -0500
+
+phamerator (0.9.7-1) hardy; urgency=medium
+
+  * Added export function for phamily table
+
+ -- Steve Cresawn <scresawn@gmail.com>  Sat, 01 Nov 2008 13:07:40 -0400
+
+phamerator (0.9.6-1) hardy; urgency=medium
+
+  * Bug fixes for saving phamily circle diagrams
+
+ -- Steve Cresawn <scresawn@gmail.com>  Sat, 23 Aug 2008 22:56:38 -0400
+
+phamerator (0.9.5-1) hardy; urgency=medium
+
+  * Show notes on genome maps
+  * Export maps to png
+  * Added what's new dialog
+  * Added database statistics dialog
+  * Ability to turn off phamily color-coding
+  * Calculate ClustalW and some BLAST scores on-the-fly
+  * New, more efficient database schema
+  * Improved support for removing genomes
+
+ -- Steve Cresawn <scresawn@gmail.com>  Wed, 20 Aug 2008 00:07:00 -0400
+
+phamerator (0.9.4-2) hardy; urgency=medium
+
+  * fixed silly import bug
+
+ -- Steve Cresawn <scresawn@gmail.com>  Mon, 16 Jun 2008 15:11:18 -0400
+
+phamerator (0.9.4-1) hardy; urgency=medium
+
+  * Improved changing start position
+  * New info in the Phages pane
+  * bug fixes for file saving operations
+
+ -- Steve Cresawn <scresawn@gmail.com>  Mon, 16 Jun 2008 13:51:45 -0400
+
+phamerator (0.9.3-2) gutsy; urgency=medium
+
+  * fixed some minor packaging problems
+
+ -- Steve Cresawn <scresawn@gmail.com>  Mon, 17 Mar 2008 20:11:06 -0400
+
+phamerator (0.9.3-1) gutsy; urgency=medium
+
+  * added ability to move move genomes laterally to align them (left-click and
+    drag)
+
+ -- Steve Cresawn <scresawn@gmail.com>  Fri, 14 Mar 2008 18:43:53 -0400
+
+phamerator (0.9.2.1-4) gutsy; urgency=medium
+
+  * added dependencies on pyro, python-biopython, python-pygoocanvas, python-mysqldb
+
+ -- Steve Cresawn <scresawn@gmail.com>  Wed, 19 Dec 2007 22:50:44 -0500
+
+phamerator (0.9.2.1-3) gutsy; urgency=medium
+
+  * incorporating debian packaging stuff into bzr repository
+
+ -- Steve Cresawn <scresawn@gmail.com>  Wed, 19 Dec 2007 15:37:12 -0500
+
+phamerator (0.9.2.1-2) gutsy; urgency=medium
+
+  * Fixing a broken package (I hope)
+
+ -- Steve Cresawn <scresawn@gmail.com>  Wed, 19 Dec 2007 14:54:18 -0500
+
+phamerator (0.9.2.1-1) gutsy; urgency=medium
+
+  * new upstream version
+
+ -- Steve Cresawn <scresawn@gmail.com>  Wed, 19 Dec 2007 14:26:35 -0500
+
+phamerator (0.9.2-1) gutsy; urgency=medium
+
+  * new upstream version
+
+ -- Steve Cresawn <scresawn@gmail.com>  Wed, 19 Dec 2007 12:06:10 -0500
+
+phamerator (0.9-6) gutsy; urgency=medium
+
+  * new upstream version
+
+ -- Steve Cresawn <scresawn@gmail.com>  Wed, 19 Dec 2007 11:45:05 -0500
+
+phamerator (0.9-5) gutsy; urgency=medium
+
+  * new upstream version
+
+ -- Steve Cresawn <scresawn@gmail.com>  Wed, 19 Dec 2007 11:23:33 -0500
+
+phamerator (0.9-4) gutsy; urgency=medium
+
+  * installed phamerator icon to /usr/share/pixmaps
+
+ -- Steve Cresawn <scresawn@gmail.com>  Wed, 19 Dec 2007 10:52:19 -0500
+
+phamerator (0.9-3) gutsy; urgency=medium
+
+  * added a non-fuzzy phamerator icon in the applications->education menu
+  * added a better description of what phamerator is
+
+ -- Steve Cresawn <scresawn@gmail.com>  Wed, 19 Dec 2007 10:52:19 -0500
+
+phamerator (0.9-2) gutsy; urgency=medium
+
+  * added a phamerator icon in the applications->accessories menu
+  * added a (marginally) better description of what phamerator is
+
+ -- Steve Cresawn <scresawn@gmail.com>  Tue, 18 Dec 2007 19:55:25 -0500
+
+phamerator (0.9-1) gutsy; urgency=medium
+
+  * Initial release
+
+ -- Steve Cresawn <scresawn@gmail.com>  Tue, 18 Dec 2007 14:51:18 -0500

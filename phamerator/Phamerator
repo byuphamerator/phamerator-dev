@@ -1,0 +1,2861 @@
+#!/usr/bin/env python
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#
+# Copyright Steve Cresawn, 2006-2012
+
+try:
+  import dialogs
+  from phamerator import logger, cartographer, PhamDisplay, pham, phamerator_manage_db, config, getopt, db_status
+  from dialogs.dialogs import *
+  from ui.ui import *
+  from utils.utils import *
+ 
+except:
+  import sys, os, getopt
+  sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+  import dialogs
+  from phamerator import logger, cartographer, PhamDisplay, pham, phamerator_manage_db, config, db_status
+  from dialogs.dialogs import *
+  from ui.ui import *
+  from utils.utils import *
+
+import glib
+import MySQLdb
+import Queue, sys, os, time, string, gobject, cairo, threading, goocanvas, gconf, subprocess, pango
+import urllib2
+import shutil
+import ConfigParser
+from Bio import AlignIO
+#from Bio.Align.Applications import ClustalwCommandline
+import urllib
+
+#from pkg_resources import resource_filename
+
+gobject.threads_init()
+from phamerator.phamerator_manage_db import *
+from datetime import date
+try:
+  import pygtk
+  #pygtk.require("2.0")
+except:
+  print "can't import pygtk"
+  sys.exit(1)
+  #logger.logger.log()
+try:
+  import gtk
+except:
+  print "can't import gtk"
+  sys.exit()
+
+from pickle import *
+
+class phageOpener(threading.Thread):
+  def __init__(self, evnt, fname, progressQueue, c):
+    threading.Thread.__init__(self)
+    self.evnt = evnt
+    self.fname = fname
+    self.c = c
+    self.progressQueue = progressQueue
+    self.logger = logger.logger(True)
+  def run(self):
+    record = parse_GenBank_file(self.fname)
+    problems = check_record_for_problems(record)
+    if problems:
+      self.logger.log('could not add phage due to the errors printed above\ndatabase is unchanged')
+      pString = 'Phage cannot be added to the database for the following reasons:\n\n%s'\
+        % string.join(problems, '\n\n')
+      errorDlg = ErrorAddingPhageDialog(pString)
+      result = errorDlg.run()
+      self.logger.log(result)
+      if result != gtk.RESPONSE_YES:
+        self.evnt.set()
+        return
+    PhageID = add_phage(record, c = self.c)
+    if PhageID:
+      add_genes(record, c = self.c)
+    else:
+      self.logger.log('no PhageID was found')
+      self.logger.log('exiting without making changes to the database')
+    self.c.execute("COMMIT")
+    self.evnt.set()
+    self.logger.log('done adding phage') 
+
+class phageSearch(threading.Thread):
+  def __init__(self, phageName, allowRefSeqs, evnt, progressQueue, resultQueue, c):
+    threading.Thread.__init__(self)
+    self.c = c
+    self.phageName = phageName
+    self.allowRefSeqs = allowRefSeqs
+    self.evnt = evnt
+    self.progressQueue = progressQueue
+    self.resultQueue = resultQueue
+    self.logger = logger.logger(True)
+  def run(self):
+    NcbiQuery = query.query(self.phageName, self.allowRefSeqs)
+    self.logger.log('running query...')
+    NcbiQuery.run()
+    self.logger.log('done running query')
+    self.resultQueue.put(NcbiQuery.results)
+    self.evnt.set()
+
+class phageAdder(threading.Thread):
+  def __init__(self, result, evnt, progressQueue, c):
+    threading.Thread.__init__(self)
+    self.c = c
+    self.result = result
+    self.evnt = evnt
+    self.progressQueue = progressQueue
+    self.logger = logger.logger(True)
+  def run(self):
+    self.logger.log('adding phage to phage table')
+    PhageID = add_phage(self.result,c=self.c)
+    if not PhageID:
+      # show error dialog
+      self.logger.log('error adding phage')
+      errorDlg = ErrorAddingPhageDialog()
+      errorDlg.run()
+      self.evnt.set()
+      return
+    self.logger.log('adding genes to gene table')
+    add_genes(self.result, c = self.c)
+    self.logger.log('adding alignments to alignment table')
+    self.logger.log('COMMIT changes')
+    self.c.execute("COMMIT")
+    self.logger.log('done')
+    self.evnt.set()
+    self.logger.log('done adding phage')
+
+class downloadBlastThread(threading.Thread):
+  def __init__(self,progressbar):
+    threading.Thread.__init__(self)
+    self.progressbar = progressbar
+    self.logger = logger.logger(True)
+  def run(self):
+    import ConfigParser, platform
+    cfg = ConfigParser.RawConfigParser()
+    cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+    blast_dir = cfg.get('Phamerator','BLAST_dir')
+    blast_version = '2.2.21'
+    blast_dir_original = blast_dir
+    blast_dir = blast_dir.rstrip('/"').lstrip('"')
+    if blast_dir[0] == '~':
+      blast_dir = blast_dir.lstrip('~/')
+      blast_dir = os.path.join(os.environ['HOME'], blast_dir)
+    if blast_dir != blast_dir_original:
+      cfg.set('Phamerator','BLAST_dir', blast_dir)
+      cfg_file = open(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'), 'w')
+      cfg.write(cfg_file)
+      cfg_file.close()
+    print "BLAST Directory: " + cfg.get('Phamerator','BLAST_dir')
+    if not os.path.exists(blast_dir):
+      self.logger.log("blast binary location does not exist, creating it.")
+      folders = blast_dir.split('/')
+      location = '/'
+      for folder in folders:
+        self.logger.log("trying " + os.path.join(location,folder))
+        if not os.path.exists(os.path.join(location,folder)):
+          print os.path.join(location,folder) + " does not exist, creating it."
+          os.mkdir(os.path.join(location,folder))
+        location = os.path.join(location,folder)
+    if platform.architecture()[0] == '32bit':
+      fname = "blast-" + blast_version + "-ia32-linux.tar.gz"
+    else:
+      fname = "blast-" + blast_version + "-x64-linux.tar.gz"
+    if not os.path.exists(os.path.join(blast_dir,'bin','bl2seq')):
+      url = "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/release/" + blast_version + "/" + fname
+      self.logger.log("executable " + os.path.join(blast_dir, 'bin','bl2seq') + " does not exist, downloading from %s" % url)
+      block_size = 10240
+      i = 0
+      count = 0
+      temp = urllib2.urlopen(url)
+      headers = temp.info()
+      size = int(headers['Content-Length'])
+      data = open (os.path.join('/tmp',fname), 'wb')
+      while i < size:
+        data.write (temp.read(block_size))
+        i = i + block_size
+        count = count + 1
+        fraction = float((count*block_size)/float(size))
+        gtk.threads_enter()
+        self.progressbar.set_fraction(fraction)
+        self.progressbar.set_text("Downloading %s BLAST (" % platform.architecture()[0] + str(int(fraction * 100.0)) + "% Complete)")
+        gtk.threads_leave()
+
+      gtk.threads_enter()
+      self.progressbar.hide()
+      gtk.threads_leave()
+
+      data.close()
+      temp.close()
+      command = 'cd ' + blast_dir + ";" + 'tar xvf %s%s' % ("/tmp/", fname)
+      self.logger.log("extracting: " + command)
+      os.system(command)
+      if not os.path.exists(os.path.join(blast_dir,("blast-" + blast_version))):
+        self.logger.log("error downloading BLAST")
+      else:
+        command = 'cd ' + os.path.join(blast_dir,("blast-" + blast_version)) + " ; mv ./* ../; " + "cd ..; " + "rm -R ./blast-" + blast_version
+        os.system(command)
+        self.logger.log("finished downloading BLAST")
+
+    import ConfigParser
+    cfg = ConfigParser.RawConfigParser()
+    cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+    cfg.set('Phamerator','draw_blast_alignments','True')
+    cfg_file = open(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'), 'w')
+    cfg.write(cfg_file)
+    cfg_file.close()
+    conf = config.PhameratorConfiguration()
+    conf.set_bool('/apps/phamerator/show_alignment_text', True)
+    conf.set_bool('/apps/phamerator/show_alignment', True)
+
+class ClustalWDisplay:
+  #Uses PyGTK TextView to display the .aln file output from the ClustalWCommandLine
+
+    def __init__(self):
+        window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        window.set_resizable(True)
+        window.set_default_size(750,550)
+        window.set_title("Clustal W Alignment")
+
+        box1 = gtk.VBox(False, 0)
+        window.add(box1)
+        box1.show()
+
+        box2 = gtk.VBox(False, 0)
+        box2.set_border_width(0)
+        box1.pack_start(box2, True, True, 0)
+        box2.show()
+
+        sw = gtk.ScrolledWindow()
+        sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        textview = gtk.TextView()
+        textbuffer = textview.get_buffer()
+        sw.add(textview)
+        sw.show()
+        textview.show()
+
+        box2.pack_start(sw)
+        # Load the file into the text window
+        infile = open("/tmp/gene_alignment_temp.aln", "r")
+
+        if infile:
+            string = infile.read()
+            infile.close()
+            textbuffer.set_text(string)
+
+        hbox = gtk.HButtonBox()
+        box2.pack_start(hbox, False, False, 0)
+        hbox.show()
+
+        vbox = gtk.VBox()
+        vbox.show()
+        hbox.pack_start(vbox, False, False, 0)
+
+        separator = gtk.HSeparator()
+        box1.pack_start(separator, False, True, 0)
+        separator.show()
+
+        box2 = gtk.VBox(False, 10)
+        box2.set_border_width(0)
+        box1.pack_start(box2, False, True, 0)
+        box2.show()
+
+        window.show()
+    
+        pangoFont = pango.FontDescription('Courier 10')
+        textview.modify_font(pangoFont)
+
+class WeblogosDisplay:
+  #Uses PyGTK box and scolled window to display an the .png file output from web_logos
+  def __init__(self):
+    window = gtk.Window(gtk.WINDOW_TOPLEVEL) 
+    window.set_border_width(10)
+    window.set_resizable(True)
+    window.set_title("WebLogos")
+    window.set_default_size(650,550)
+    window.show()
+    
+    image = gtk.Image()
+    image.set_from_file("/tmp/gene_alignment_temp.png")
+    image.show()
+    
+    box1 = gtk.HBox(False, 0)
+    box1.add(image)
+    box1.show()
+    
+    sw = gtk.ScrolledWindow()
+    sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+    window.add(sw)
+    sw.add_with_viewport(box1)
+    sw.show()
+
+class phageManager:
+  """This is the Phamerator application"""
+
+  def show_blast_download_warning(self):
+    md = gtk.MessageDialog(parent=self.mw,flags=gtk.DIALOG_DESTROY_WITH_PARENT, type=gtk.MESSAGE_INFO, buttons=gtk.BUTTONS_CLOSE, message_format='Downloading BLAST.\nAll BLAST related features will be disabled until dowload completes.')
+    md.run()
+    md.destroy()
+
+  def show_blast_download_complete(self):
+    md = gtk.MessageDialog(parent=self.mw,flags=gtk.DIALOG_DESTROY_WITH_PARENT, type=gtk.MESSAGE_INFO, buttons=gtk.BUTTONS_CLOSE, message_format='Finished downloading BLAST, all BLAST related features will be enabled.')
+    md.run()
+    md.destroy()
+
+  def __init__(self):
+    print 'running ConfigChecker()...'
+    ConfigChecker()
+    self.canvas = self.create_canvas(None,None,'genomeMap',None,None,None,None)
+    self.phamCircleCanvas = self.create_canvas(None,None,'phamCircleMap',None,None,None,None)
+
+    self.logger = logger.logger(True)
+    #Set the Glade file
+    self.gladefile = gladeFile().filename
+    self.wTree = gtk.Builder()
+    self.wTree.add_objects_from_file(self.gladefile, ['mainWindow', 'mapToggleToolButtonIconWidget', 'phamCircleToggleToolButtonIconWidget', 'GMapsToggleToolButtonIconWidget'])
+
+    import webkit
+    self.web_kit = webkit.WebView()
+
+    result = self.check_for_blast()
+    noInternet = False
+    blastNeedsDownloadeedStill = False
+    if result == "downloadBLAST":
+      try:
+        f = urllib2.urlopen('http://blast.ncbi.nlm.nih.gov/Blast.cgi', timeout=100)
+        line = f.readlines()[0]
+        its_okay = True
+      except:
+        its_okay = False
+        print "cannot contact NCBI"
+      if its_okay == True:
+        conf = config.PhameratorConfiguration()
+        conf.set_bool('/apps/phamerator/show_alignment_text', False)
+        conf.set_bool('/apps/phamerator/show_alignment', False)
+        import ConfigParser
+        cfg = ConfigParser.RawConfigParser()
+        cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+        cfg.set('Phamerator','draw_blast_alignments','False')
+        cfg_file = open(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'), 'w')
+        cfg.write(cfg_file)
+        cfg_file.close()
+        blastNeedsDownloadeedStill = True
+
+      elif its_okay == False:
+        md = gtk.MessageDialog(parent=None,flags=gtk.DIALOG_DESTROY_WITH_PARENT, type=gtk.MESSAGE_INFO, buttons=gtk.BUTTONS_CLOSE, message_format="Unable to contact NCBI, disabling BLAST alignments.\nCheck internet connection and try again later.")
+        md.run()
+        md.destroy()
+        result == "noBLAST"
+        noInternet = True
+        
+    if result == "noBLAST":
+      if noInternet != True:
+        md = gtk.MessageDialog(parent=None,flags=gtk.DIALOG_DESTROY_WITH_PARENT, type=gtk.MESSAGE_INFO, buttons=gtk.BUTTONS_CLOSE, message_format='BLAST alignments disabled, restart Phamerator and opt to download BLAST to enable this feature.  The "Nucleotide Conservation" Section of the preferences dialog will also be affected.')
+        md.run()
+        md.destroy()
+      conf = config.PhameratorConfiguration()
+      conf.set_bool('/apps/phamerator/show_alignment_text', False)
+      conf.set_bool('/apps/phamerator/show_alignment', False)
+      import ConfigParser
+      cfg = ConfigParser.RawConfigParser()
+      cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+      cfg.set('Phamerator','draw_blast_alignments','False')
+      cfg_file = open(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'), 'w')
+      cfg.write(cfg_file)
+      cfg_file.close()
+      print "no Blast"
+    self.createUserDialogWTree = gtk.Builder()
+    self.createUserDialogWTree.add_objects_from_file(self.gladefile, ['createUserDialog'])
+    dic = {"on_createUserButton_clicked" : self.on_createUserButton_clicked,
+           "on_createUserDialog_close" : self.on_createUserDialog_close} 
+    self.createUserDialogWTree.connect_signals(dic)
+    if 0 == 1: #len(sys.argv) != 1: # I need to be a command line argument
+      self.loginDialogWTree = gtk.Builder()
+      self.loginDialogWTree.add_objects_from_file(self.gladefile, ['loginDialog'])
+      dic = {"on_signInButton_clicked" : self.on_signIn_clicked,
+             "on_loginDialog_destroy" : gtk.main_quit}
+      self.loginDialogWTree.connect_signals(dic)
+      self.loginDialog = self.loginDialogWTree.get_object('loginDialog')
+      self.loginDialogWTree.get_object('loginServerAddressComboEntry').set_active(0)
+      self.loginDialogWTree.get_object('loginDatabaseComboEntry').set_active(0)
+
+      result = self.loginDialog.run()
+      if result == gtk.RESPONSE_DELETE_EVENT: sys.exit()
+    else:
+      self.username='anonymous'
+      self.password='anonymous'
+      self.server='localhost'
+      import ConfigParser
+      cfg = ConfigParser.RawConfigParser()
+      import shutil
+      if not os.path.exists(os.path.join(os.environ['HOME'], '.phamerator')):
+        print '~/.phamerator directory is missing--creating one for you'
+        os.mkdir(os.path.join(os.environ['HOME'], '.phamerator'))
+      if not os.path.exists(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf')):
+        print 'phamerator.conf file is missing--creating one for you'
+        try: 
+          shutil.copyfile(os.path.join(os.curdir, 'config', 'phamerator.conf.sample'), os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+        except:
+          shutil.copyfile(os.path.join('/usr/share/phamerator/config/', 'phamerator.conf.sample'), os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+      cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+      try:
+        self.database = cfg.get('Phamerator','defaultDatabase')
+      except:
+        self.database = ""
+      if self.database == "":
+        self.database = "SEA"
+        cfg.set('Phamerator','defaultDatabase', 'SEA')
+      try:
+        self.remote_server = cfg.get('Phamerator','defaultServer')
+      except:
+        self.remote_server = ""
+
+      try:
+        otherDatabases = cfg.get('Phamerator','otherDatabases')
+      except:
+        cfg.set('Phamerator', 'otherDatabases', '')
+      try:
+        otherServers = cfg.get('Phamerator','otherServers')
+      except:
+        cfg.set('Phamerator', 'otherServers', '')
+      cfg_file = open(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'), 'w')
+      cfg.write(cfg_file)
+      cfg_file.close()
+
+      have_root_credentials = False
+      while 1:
+        try:
+          dbc = db_conf.db_conf(username=self.username,password=self.password, server=self.server, db=self.database)
+          self.c = dbc.get_cursor()
+          if dbc: break
+        except db_conf.AuthenticationError, instance:
+          #databaseConnectionErrorDlg = databaseConnectionErrorDialog(instance.msg)
+          #databaseConnectionErrorDlg.run()
+          if not have_root_credentials:  
+            dbSetupWarningDlg = databaseSetupWarningDialog(self.database)
+            result = dbSetupWarningDlg.run()
+            print 'dbSetup returned', result
+            if result in (gtk.RESPONSE_CANCEL, gtk.RESPONSE_DELETE_EVENT): sys.exit()
+            have_root_credentials = True
+          try:
+            rootdbc = db_conf.db_conf(username='root',password=dbSetupWarningDlg.pwd, server='localhost', db='mysql')
+            r = rootdbc.get_cursor()
+          except:
+            have_root_credentials = False
+            continue
+          cfg.set('Phamerator','defaultDatabase', dbSetupWarningDlg.dbname)
+          cfg_file = open(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'), 'w')
+          cfg.write(cfg_file)
+          if instance.msg[1] == "Unknown database '%s'" % dbSetupWarningDlg.dbname:
+            print "database doesn't exist...creating it"
+            r.execute("CREATE DATABASE %s" % dbSetupWarningDlg.dbname)
+          if instance.msg[1].startswith('Access denied for user'):
+            print "user doesn't exist or lacks sufficient privileges"
+            r.execute("GRANT ALL ON %s.* TO anonymous@localhost IDENTIFIED BY 'anonymous'" % dbSetupWarningDlg.dbname)
+            r.execute("FLUSH PRIVILEGES")
+          self.database = dbSetupWarningDlg.dbname
+
+    evnt = threading.Event()
+    evnt.clear()
+    class Shared:
+      def __init__(self):
+        self.text = ''
+    current_db_status = Shared()
+
+    pbar = self.wTree.get_object('progressbar1')
+    pbar.set_pulse_step(0.01)
+
+    def pulse(pbar):
+      pbar.pulse()
+      return True
+
+    pbar.show()
+    glib.timeout_add(10, pulse,pbar)
+
+    glib.timeout_add(500, self.check_db_update_done, current_db_status)
+    self.update_database(current_db_status)
+    if result == gtk.RESPONSE_CANCEL: 
+      pass
+
+    self.phageMenuWTree = gtk.Builder()
+    self.phageMenuWTree.add_objects_from_file(self.gladefile, ['phageMenu'])
+    dic = {"on_flipMeCheckButton_activate" : self.on_flipMeCheckButton_activate}
+    self.phageMenuWTree.connect_signals(dic)
+
+    self.searchMenuWTree = gtk.Builder()
+    self.searchMenuWTree.add_objects_from_file(self.gladefile, ['searchMenu'])
+    dic = {"on_nameContainsMenuItem_activate" : self.on_nameContainsMenuItem_activate,
+           "on_clusterContainsMenuItem_activate" : self.on_clusterContainsMenuItem_activate}
+    self.searchMenuWTree.connect_signals(dic)
+
+    self.mapWTree = gtk.Builder()
+    self.mapWTree.add_objects_from_file(self.gladefile, ['mapWindow']) 
+    dic = {"on_mapWindow_delete_event" : self.on_mapWindow_delete_event,
+          "on_zoomInToolButton_clicked" : self.on_zoomInToolButton_clicked,
+          "on_zoomOutToolButton_clicked" : self.on_zoomOutToolButton_clicked,
+          "on_zoomDefaultToolButton_clicked" : self.on_zoomDefaultToolButton_clicked,
+          "on_zoomInMenuItem_activate" : self.on_zoomInToolButton_clicked,
+          "on_zoomOutMenuItem_activate" : self.on_zoomOutToolButton_clicked,
+          "on_zoomDefaultMenuItem_activate" : self.on_zoomDefaultToolButton_clicked,
+          "on_mapAlignLeftButton_clicked" : self.on_mapAlignLeftButton_clicked,
+          "on_mapAlignRightButton_clicked" : self.on_mapAlignRightButton_clicked,
+          "on_eValuesCheckBox_toggled": self.on_eValuesCheckBox_toggled,
+          "on_blastAlignmentCheckBox_toggled": self.on_blastAlignmentCheckBox_toggled,
+          "on_show_phamily_names_checkBox_activate" : self.on_show_phamily_names_activate,
+          "on_show_domains_checkBox_activate": self.on_show_domains_checkBox_activate,
+          "on_shorten_description_checkBox_activate" : self.on_shorten_description_checkBox_activate,
+          "on_show_description_checkBox_activate" : self.on_show_description_checkBox_activate,
+          "on_hover_highlights_pham_checkBox_activate" : self.on_hover_highlights_pham_checkBox_activate,
+          "on_no_color_activate" : self.on_no_color_activate,
+          "on_color_by_phamily_activate" : self.on_color_by_phamily_activate,
+          "on_color_by_cluster_conservation_activate" : self.on_color_by_cluster_conservation_activate,
+          "on_color_by_abundance_activate" : self.on_color_by_abundance_activate,
+          "on_color_by_gc_activate" : self.on_color_by_gc_activate,
+          "on_closeMapWindowMenuItem_activate" : self.on_closeMapWindowMenuItem_activate,
+          "on_saveToolButton_clicked" : self.on_saveToolButton_clicked,
+          "on_saveAsMenuItem_activate" : self.on_saveToolButton_clicked}
+    self.mapWTree.connect_signals(dic)
+    sw = self.mapWTree.get_object('MapWindowScrolledWindow')
+
+    sw.add_with_viewport(self.canvas)
+    self.canvas.show()
+    sw.show()
+
+    self.canvasInterface = cartographer.CanvasInterface(self.c, self.canvas)
+    self.canvasController = cartographer.CanvasController(self.c, self.mapWTree, self.canvasInterface)
+    self.canvasInterface.controller = self.canvasController
+    self.canvasController.interface = self.canvasInterface
+    
+    self.phamCircleWTree = gtk.Builder()
+    self.phamCircleWTree.add_objects_from_file(self.gladefile, ['phamCircleWindow'])
+    dic = {"on_phamCircleWindow_delete_event" : self.on_phamCircleWindow_delete_event,
+          "on_phamCircleZoomInToolButton_clicked" : self.on_phamCircleZoomInToolButton_clicked,
+          "on_phamCircleZoomOutToolButton_clicked" : self.on_phamCircleZoomOutToolButton_clicked,
+          "on_phamCircleZoomDefaultToolButton_clicked" : self.on_phamCircleZoomDefaultToolButton_clicked,
+          "on_phamCircleZoomInMenuItem_activate" : self.on_phamCircleZoomInToolButton_clicked,
+          "on_phamCircleZoomOutMenuItem_activate" : self.on_phamCircleZoomOutToolButton_clicked,
+          "on_phamCircleZoomDefaultMenuItem_activate" : self.on_phamCircleZoomDefaultToolButton_clicked,
+          "on_phamCircleCloseMenuItem_activate" : self.on_phamCircleCloseMenuItem_activate,
+          "on_phamCircleSaveAsMenuItem_activate" : self.on_phamCircleSaveAsMenuItem_activate,
+          "on_phamCircleColorToolButton_clicked" : self.on_phamCircleColorToolButton_clicked,
+          "on_slider_changed":self.on_slider_changed,
+          "on_preferences_activate":self.show_preferences_dialog}
+    self.phamCircleWTree.connect_signals(dic)
+    sw = self.phamCircleWTree.get_object('phamCircleWindowScrolledWindow')
+    sw.add_with_viewport(self.phamCircleCanvas)
+    self.phamCircleCanvas.show()
+    sw.show()
+    
+    sw = self.wTree.get_object('webKitScrolledWindow')
+    sw.add(self.web_kit)
+
+    self.wTree.get_object('createUserMenuItem').set_sensitive(False)
+    self.window = self.wTree.get_object('mainWindow')
+    self.statusbar = self.wTree.get_object('statusbar1')
+    self.dataSourceTreeView = self.wTree.get_object('dataSourceTreeView')
+    self.dataSourceCols = []
+    self.dataTreeView = self.wTree.get_object('dataTreeView')
+
+    treeSelection = self.dataTreeView.get_selection()
+    treeSelection.connect('changed', self.on_selection_changed, treeSelection)
+
+    self.dataCols = []
+    self.db = pham.db(c = self.c)
+    self.rowsTreeView = self.wTree.get_object('rowsTreeView')
+    self.rowsCols = []
+    # connect signal handlers for the main window
+    dic = {"on_mainWindow_destroy" : self.quit,
+          "on_dataSourceTreeView_cursor_changed" : self.on_dataSourceTreeView_cursor_changed,
+          "on_dataTreeView_cursor_changed": self.on_dataTreeView_cursor_changed,
+          "on_dataTreeView_button_press_event": self.on_dataTreeView_button_press_event,
+          "on_rowsTreeView_cursor_changed": self.on_rowsTreeView_cursor_changed,
+          "on_open_GenBank_file_clicked" : self.on_open_GenBank_file_clicked,
+          "on_add_phage_clicked" : self.on_add_phage_clicked,
+          "on_remove_phage_clicked" : self.on_remove_phage_clicked,
+          "on_mapToggleToolButton_toggled" : self.on_mapToggleToolButton_toggled,
+          "on_phamCircleToggleToolButton_toggled" : self.on_phamCircleToggleToolButton_toggled,
+          "on_buildPhamsToolButton_clicked" : self.on_buildPhamsToolButton_clicked,
+          "on_createUserMenuItem_activate" : self.on_createUserMenuItem_activate,
+          "on_batchSaveMenuItem_activate" : self.on_batchSaveMenuItem_activate,
+          "on_logOutMenuItem_activate" : self.on_logOutMenuItem_activate,
+          "on_exportPhamTableMenuItem_activate" : self.on_exportPhamTableMenuItem_activate,
+          "on_exportClusterTableMenuItem_activate" : self.on_exportClusterTableMenuItem_activate,
+          "on_exportGenomeMenuItem_activate" : self.on_exportGenomeMenuItem_activate,
+          "on_exportFastaMenuItem_activate" : self.on_exportFastaMenuItem_activate,
+          "on_exportFastaNucleotideMenuItem_activate" : self.on_exportFastaNucleotideMenuItem_activate,
+          "on_searchButton_button_press_event" : self.on_searchButton_button_press_event,
+          "on_searchEntry_editing_done" : self.on_searchEntry_editing_done,
+          "on_searchEntry_activate" : self.on_searchEntry_activate,
+          "on_searchEntry_changed" : self.on_searchEntry_changed,
+          "on_searchClearButton_clicked" : self.on_searchClearButton_clicked,
+          "on_about1_activate" : self.show_about_dialog,
+          "on_whatsNew_activate" : self.show_whatsNew_dialog,
+          "on_dbStatsMenuItem_activate" : self.show_dbStats_dialog,
+          "on_preferences_activate":self.show_preferences_dialog,
+          "on_gene_alignment_toggled":self.on_gene_alignment_toggled,
+          "on_GMapsToggleToolButton_toggled":self.on_GMapsToggleToolButton_toggled,
+          "on_GMapsWindow_delete_event":self.on_GMapsWindow_delete_event}
+    self.wTree.connect_signals(dic)
+    self.mw = self.wTree.get_object('mainWindow')
+    self.mw.show()
+
+    self.populate_dataSourceTreeView()
+
+  def quit(self, widget=None):
+    try:
+      self.updater.apply()
+    except:
+      pass
+    gtk.main_quit()
+  def update_database(self, shared, force=False):
+
+    self.shared = shared
+    status = db_status.dbStatus(self.username, self.password, self.remote_server, self.database, shared, force=force)
+    result = status.start()
+    #self.dbStatsDialogwTree = gtk.glade.XML(self.gladefile, root='dbStatusDialog')
+    self.dbStatsDialogwTree = gtk.Builder()
+    self.dbStatsDialogwTree.add_objects_from_file(self.gladefile, ['dbStatusDialog'])
+    dbDialog = self.dbStatsDialogwTree.get_object('dbStatusDialog')
+    dbStatusLabel = self.dbStatsDialogwTree.get_object('dbStatusLabel')
+    pbar = self.dbStatsDialogwTree.get_object('dbStatusProgressBar')
+    # update progressbar here
+    #def pulse(pbar):
+    #  pbar.pulse()
+    #dbDialog.show()
+    #while not evnt.isSet():
+    #  #if dbStatusLabel.get_text() != shared.text:
+    #  dbStatusLabel.set_text(shared.text)
+    # while gtk.events_pending():
+    #    gtk.main_iteration(False)
+    #  pulse(pbar)
+    #  evnt.wait(0.1)
+    #dbDialog.hide()
+    
+  def check_db_update_done(self, shared):
+    #self.logger.log('checking for database update...')
+    statusbar = self.wTree.get_object('statusbar1')
+    context_id = self.statusbar.get_context_id('database update')
+    if context_id: self.statusbar.pop(context_id)
+    self.statusbar.push(context_id, self.shared.text)
+    pbar = self.wTree.get_object('progressbar1')
+
+    if shared.text in ('Downloading updates...', 'Applying updates...'):
+      # update progressbar here
+      pass
+    elif shared.text == 'database update complete':
+      pbar.hide()
+      self.logger.log('database update complete')
+      dlg = NewDatabaseAvailableDialog()
+      result = dlg.run()
+      have_root_credentials = False
+      if result == -5:
+        updater = db_status.dbUpdater(self.database)
+        updater.apply()
+        self.on_logOutMenuItem_activate()
+        return False
+      elif result == -6:        
+        self.updater = db_status.dbUpdater(self.database)
+        return False
+    elif shared.text == 'database is already the newest version':
+      pbar.hide()
+      return False
+    #self.logger.log('database update in progress')
+    return True
+
+  def check_for_blast(self):
+    print "checking for blast binary files..."
+    if not os.path.exists(os.path.join(os.environ['HOME'], '.phamerator')):
+      print '~/.phamerator directory is missing--creating one for you'
+      os.mkdir(os.path.join(os.environ['HOME'], '.phamerator'))
+    if not os.path.exists(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf')):
+      print 'phamerator.conf file is missing--creating one for you'
+      try: 
+        shutil.copyfile(os.path.join(os.curdir, 'config', 'phamerator.conf.sample'), os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+      except:
+          shutil.copyfile(os.path.join('/usr/share/phamerator/config/', 'phamerator.conf.sample'), os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+    ConfigChecker(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+
+    import ConfigParser
+    cfg = ConfigParser.RawConfigParser()
+    cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+    needsBlast = False
+    try:
+      blast_dir = cfg.get('Phamerator','BLAST_dir')
+      if not os.path.exists(os.path.join(blast_dir,'bin','bl2seq')):
+        print "didn't find blast executables in blast_dir specified in phamerator.conf, launching download dialog."
+        needsBlast = True
+    except:
+      needsBlast = True
+      print "didn't find blast_dir in phamerator.conf, launching download dialog."
+    if needsBlast == True:
+      md = gtk.MessageDialog(parent=None,flags=gtk.DIALOG_DESTROY_WITH_PARENT, type=gtk.MESSAGE_INFO, buttons=gtk.BUTTONS_CLOSE, message_format="Unable to Locate BLAST Binaries")
+      md.run()
+      md.destroy()
+      blastDownloadDialog = BlastDownloadDialog()
+      result = blastDownloadDialog.run()
+      #dlg.dlg.destroy()
+      if result == -5:
+        cfg.set('Phamerator','BLAST_dir',os.path.join(os.environ['HOME'], 'Applications', 'BLAST'))
+        cfg_file = open(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'), 'w')
+        cfg.write(cfg_file)
+        cfg_file.close()
+        class Shared:
+          def __init__(self):
+            self.text = 0
+        progressbarShared = Shared()
+        progressbar = self.wTree.get_object('progressbar2')
+        #progressbar.set_text("Downloading BLAST (0% Complete)")
+        progressbar.show()
+        dwnldblast = downloadBlastThread(progressbar)
+        dwnldblast.start()
+        #while int(progressbarShared.text) < 1:
+        #  print progressbarShared.text
+        #  progressbar.set_text("Downloading BLAST (%s% Complete)" % str(int(progressbarShared.text)*100))
+          #while gtk.events_pending():
+          #  gtk.main_iteration()
+          
+      print 'dialog result: %s' % result
+      if result == None:
+        print "User opted to not download blast, BLAST alignments will be disabled."
+        return "noBLAST"
+      return
+      #resultType = dlg.info.partition(':')[0]
+      if resultType == "existing":
+        cfg.set('Phamerator','BLAST_dir',dlg.info.partition(':')[2])
+        cfg.set('Phamerator','draw_blast_alignments','True')
+        cfg_file = open(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'), 'w')
+        cfg.write(cfg_file)
+        cfg_file.close()
+        conf = config.PhameratorConfiguration()
+        conf.set_bool('/apps/phamerator/show_alignment_text', True)
+        conf.set_bool('/apps/phamerator/show_alignment', True)
+      if resultType == "download":
+        if dlg.info.partition(':')[2] == "defaultLocation":
+          cfg.set('Phamerator','BLAST_dir',os.path.join(os.environ['HOME'], 'Applications', 'BLAST'))
+          cfg_file = open(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'), 'w')
+          cfg.write(cfg_file)
+          cfg_file.close()
+        else:
+          cfg.set('Phamerator','BLAST_dir', dlg.info.partition(':')[2])
+          cfg_file = open(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'), 'w')
+          cfg.write(cfg_file)
+          cfg_file.close()
+        return "downloadBLAST"
+    else:
+      print "BLAST executables found, starting phamerator..."
+      import ConfigParser
+      cfg = ConfigParser.RawConfigParser()
+      cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+      cfg.set('Phamerator','draw_blast_alignments','True')
+      cfg_file = open(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'), 'w')
+      cfg.write(cfg_file)
+      cfg_file.close()
+      conf = config.PhameratorConfiguration()
+      #conf.set_bool('/apps/phamerator/show_alignment_text', True)
+      #conf.set_bool('/apps/phamerator/show_alignment', True)
+      return "itsAllGOOD"
+
+  def on_show_phamily_names_activate(self, widget):
+    conf = config.PhameratorConfiguration()
+    conf.set_bool('/apps/phamerator/show_pham_names', widget.get_active())
+
+  def on_shorten_description_checkBox_activate(self, widget):
+    print 'change shorten desc'
+    conf = config.PhameratorConfiguration()
+    conf.set_bool('/apps/phamerator/shorten_description', widget.get_active())
+  
+  def on_hover_highlights_pham_checkBox_activate(self, widget):
+    print 'hover highlights pham'
+    conf = config.PhameratorConfiguration()
+    conf.set_bool('/apps/phamerator/hover_highlights_pham', widget.get_active())
+    
+  def on_show_domains_checkBox_activate(self, widget):
+    conf = config.PhameratorConfiguration()
+    conf.set_bool('/apps/phamerator/show_domains', widget.get_active())
+    print 'show domains clicked.  status: %s' % widget.get_active()
+
+  def on_show_description_checkBox_activate(self, widget):
+    conf = config.PhameratorConfiguration()
+    conf.set_bool('/apps/phamerator/show_description', widget.get_active())
+
+  def on_no_color_activate(self, widget):
+    self.color_gene_by('no_color')
+
+  def on_color_by_phamily_activate(self, widget):
+    self.color_gene_by('color_by_phamily')
+    
+  def on_color_by_abundance_activate(self, widget):
+    self.color_gene_by('color_by_abundance')
+
+  def on_color_by_gc_activate(self, widget):
+    self.color_gene_by('color_by_gc')
+    
+  def on_color_by_cluster_conservation_activate(self, widget):
+    self.color_gene_by('color_by_cluster_conservation')
+
+  def color_gene_by(self, color_by):
+    conf = config.PhameratorConfiguration()
+    conf.set('/apps/phamerator/gene_color', color_by)
+    
+  def on_slider_changed(self,widget):
+    x = widget.get_adjustment()
+    adjustment = float(x.value/100)
+
+    self.phamCircle.update_arc_groupModel(adjustment)
+
+  def get_selected_row(self):
+    tv = self.wTree.get_object('dataSourceTreeView')
+    s = tv.get_selection()
+    catagory = s.get_selected()
+    treeselection = self.dataTreeView.get_selection()
+    try:
+      (model, iter) = treeselection.get_selected()
+      selectedStuff = "iter",iter
+    except:
+      (model, pathlist) = treeselection.get_selected_rows()
+      selectedStuff = "pathlist",pathlist
+    myFile = open("metadata","w")
+    Pickler(myFile,0).dump(selectedStuff)
+    myFile.close()  
+  def set_selected_row(self):
+    treeselection = self.dataTreeView.get_selection()
+    if os.path.exists("metadata"):
+      try:
+        myFile = open("metadata")
+        selectedStuff = Unpickler(myFile).load()
+        myFile.close()
+        if selectedStuff[0] == "iter":
+          iter = selectedStuff[1]
+          treeselection.select_iter(iter)
+        if selectedStuff[0] == "pathlist":
+          pathlist = selectedStuff[1]
+          treeselection.select_path(path)
+      except:
+        pass
+
+  def show_preferences_dialog(self,widget):
+    cfg = ConfigParser.RawConfigParser()
+    cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+    try:
+      old_database = cfg.get('Phamerator','defaultDatabase')
+    except:
+      pass
+    self.preferencesDlg = PreferencesDialog(self)
+    result = self.preferencesDlg.run()
+    cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+    try:
+      new_database = cfg.get('Phamerator','defaultDatabase')
+    except:
+      pass
+    if old_database != new_database:
+      self.on_logOutMenuItem_activate(widget)
+ 
+  def on_signIn_clicked(self, widget):
+    loginDialog = self.loginDialogWTree.get_object('loginDialog')
+    username = self.loginDialogWTree.get_object('usernameEntry').get_text()
+    password = self.loginDialogWTree.get_object('passwordEntry').get_text()
+    server = self.loginDialogWTree.get_object('loginServerAddressComboEntry').child.get_text()
+    database = self.loginDialogWTree.get_object('loginDatabaseComboEntry').child.get_text()
+    print 'username:', username
+    print 'server:', server
+    print 'database:', database
+    sys.stdout.write(database)
+    return self.authenticate(username, password, server, database)
+
+  def on_createUserMenuItem_activate(self, widget):
+    createUserDialog = self.createUserDialogWTree.get_object('createUserDialog')
+    userEntry = self.createUserDialogWTree.get_object('createUserUsernameEntry')
+    userEntry.set_text('')
+
+    passwordEntry = self.createUserDialogWTree.get_object('createUserPasswordEntry')
+    passwordEntry.set_text('')
+
+    serverEntry = self.createUserDialogWTree.get_object('createUserServerEntry')
+    serverEntry.set_text(self.server)
+
+    databaseEntry = self.createUserDialogWTree.get_object('createUserDatabaseEntry')
+    databaseEntry.set_text(self.database)
+
+    createUserDialog.set_focus(userEntry)
+    createUserDialog.show()
+
+  def on_batchSaveMenuItem_activate(self, widget):
+    dlg = batchFileSaveAsDialog(self)
+    dlg.run()
+
+  def on_logOutMenuItem_activate(self, *args):
+    # return the user to the login screen
+    print '***** gtk.main_level: %s *****' % gtk.main_level()
+    self.window.destroy()
+    self.mapWTree.get_object('mapWindow').destroy()
+    self.phamCircleWTree.get_object('phamCircleWindow').destroy()
+    try: self.preferencesDlg.wTree.get_object('preferencesDialog').destroy()
+    except: pass
+    main()
+
+  def on_createUserDialog_close(self, widget, data):
+    createUserDialog = self.createUserDialogWTree.get_object('createUserDialog')
+    createUserDialog.hide()
+    return True
+
+  def on_createUserButton_clicked(self, widget):
+    createUserDialog = self.createUserDialogWTree.get_object('createUserDialog')
+    username = self.createUserDialogWTree.get_object('createUserUsernameEntry').get_text()
+    password = self.createUserDialogWTree.get_object('createUserPasswordEntry').get_text()
+    database = self.createUserDialogWTree.get_object('createUserDatabaseEntry').get_text()
+    d = db_conf.db_conf(username=self.username, password=self.password, server=self.server, db="mysql").get_cursor()
+    d.execute("SELECT * FROM user WHERE user = '%s'" % (username))
+    if d.rowcount > 0:
+      print 'username already exists.  Adding privileges for this database'
+      # can't create account
+    else:
+      print "account created"
+    try:
+      self.c.execute("GRANT SELECT, UPDATE, CREATE ON %s.* TO '%s'@'%%'        IDENTIFIED BY '%s'" % (database, username, password))
+      dlg = accountCreationSuccessDialog()
+      createUserDialog.hide()
+    except MySQLdb.OperationalError, e:
+      print 'e:', e
+      dlg = accountCreationErrorDialog()
+      label = dlg.wTree.get_object('accountCreationErrorLabel')
+      if e[1].lower().find('access denied') != -1: text = "You don't have permission to create accounts"
+      else: text = e[1]
+      label.set_text(text)
+      createUserDialog.hide()
+    dlg.run()
+
+  def authenticate(self, username, password, server, database):
+    if not username or not server or not database: return False
+    try:
+      self.c = db_conf.db_conf(username=username,password=password, server=server, db=database).get_cursor()
+      self.loginDialogWTree.get_object('loginDialog').destroy()
+      self.username=username
+      self.password=password
+      self.remote_server=server
+      self.database=database
+      return True
+    except db_conf.AuthenticationError:
+      print 'login failed'
+      loginDialog = self.loginDialogWTree.get_object('loginDialog')
+      self.loginDialogWTree.get_object('loginLabel').set_markup("<span color='red'><i>username and password do not match</i></span>")
+      userEntry = self.loginDialogWTree.get_object('usernameEntry')
+      passwordEntry = self.loginDialogWTree.get_object('passwordEntry')
+      userEntry.set_text('')
+      passwordEntry.set_text('')
+      loginDialog.set_focus(userEntry)
+      self.loginDialogWTree.get_object('loginDialog').run()
+      return False
+
+  def on_exportPhamTableMenuItem_activate(self, widget):
+    import time
+    dialog = ExportPhamTableDialog()
+    response = dialog.run()
+    if response != gtk.RESPONSE_OK: 
+      return
+    handle = open(dialog.dlg.get_filename(), 'w')
+    controller = pham.PhamController(self.c, source='db')
+    phams = controller.get_pham()
+    phages = get_phages(self.c, name=True)
+    phages.sort()
+    handle.write('pham\t%s\t' % 'number of members')
+    handle.write('%s\t' % 'mean translation length')
+    handle.write('%s' % string.join(phages, '\t'))
+    for p in phams:
+      phageGeneDict = {}
+      for phage in phages:
+        phageGeneDict[phage] = list()
+      for m in p.members:
+        phage = get_phage_name_from_PhageID(self.c, get_PhageID_from_GeneID(self.c, m))
+        gene = get_gene_name_from_GeneID(self.c, m)
+        if gene.upper().find(phage.upper()) == -1:
+          n = phage + '_' + gene
+        else:
+          n = gene
+        phageGeneDict[phage].append(n)
+      handle.write('\n%s\t' % p.name)
+      handle.write('%s\t' % get_number_of_pham_members(self.c, p.name))
+      handle.write('%s\t' % get_mean_translation_size_for_pham(self.c, p.name))
+      for phage in phages:
+        handle.write('%s\t' % string.join(phageGeneDict[phage],', '))
+    handle.close()
+
+  def on_exportClusterTableMenuItem_activate(self, widget):
+    import time
+    dialog = ExportClusterTableDialog()
+    response = dialog.run()
+    if response != gtk.RESPONSE_OK: 
+      return
+    handle = open(dialog.dlg.get_filename(), 'w')
+    controller = pham.PhamController(self.c, source='db')
+    phams = controller.get_pham()
+    phages = get_phages(self.c, name=True)
+    clusters = get_clusters(self.c, include_unclustered=True)
+    phages.sort()
+    print clusters
+    handle.write('pham\t%s\t' % 'number of members')
+    handle.write('%s\t' % 'mean translation length')
+    handle.write('%s' % string.join(clusters, '\t'))
+
+    for p in phams:
+      PhageIDs = []
+      pClusters = {}
+
+      for g in p.members:
+        PhageID = get_PhageID_from_GeneID(self.c, g)
+        cluster = get_cluster_from_PhageID(self.c, PhageID)
+        if not cluster: cluster = get_phage_name_from_PhageID(self.c, PhageID)
+        if not pClusters.has_key(cluster):
+          pClusters[cluster] = 1
+        else:
+          pClusters[cluster] += 1
+
+      handle.write('\n%s\t' % p.name)
+      handle.write('%s\t' % get_number_of_pham_members(self.c, p.name))
+      handle.write('%s\t' % get_mean_translation_size_for_pham(self.c, p.name))
+
+      for cluster in clusters:
+        try: handle.write('%s\t' % pClusters[cluster])
+        except KeyError:
+          handle.write('\t')
+
+    handle.close()
+
+  def export_genome_fasta(self, filename, phages):
+    '''export the selected genome as a single entry in a fasta file'''
+    data = ""
+    for phage in phages:
+      data = '%s%s' % (data, get_fasta_from_phage(self.c, phage))
+    f = open(filename, 'w')
+    f.write(data)
+    f.close()
+    print 'writing file %s' % filename
+
+  def export_genes_nucleotide_fasta(self, filename, selected_item, extra=None):
+    '''export each of the genes in the selected genome as an entry in a nucleotide fasta file'''
+    mode = self.get_sel()
+    if mode == 'Phams':
+      data = get_fasta_nt_from_pham(self.c, selected_item, extra=extra)
+    elif mode == 'Phages':
+      data = get_fasta_from_phage(self.c, selected_item, type='nt', extra=extra)
+    f = open(filename, 'w')
+    f.write(data)
+    f.close()
+    print 'writing file %s' % filename
+
+  def export_genes_amino_acid_fasta(self, filename, selected_items):
+    '''export each of the genes in the selected genome as an entry in an amino acid fasta file'''
+    mode = self.get_sel()
+    data = ""
+    if mode == 'Phams':
+      for pham in selected_items:
+        data = '%s%s' % (data,get_fasta_from_pham(self.c, pham))
+
+    elif mode == 'Phages':
+      for phage in selected_items:
+        data = '%s%s' % (data, get_fasta_from_phage(self.c, phage, type='aa'))
+
+      #data = get_fasta_from_phage(self.c, selected_item, type='aa')
+    f = open(filename, 'w')
+    f.write(data)
+    f.close()
+    print 'writing file %s' % filename
+
+  def on_exportFastaMenuItem_activate(self, widget):
+    '''export the selected data (pham or genomes) as a fasta file'''
+    # mode is 'Phages', 'Phams', or 'Genes'
+    mode = self.get_sel()
+
+    # open the file chooser
+    dialog = ExportFastaDialog()
+    result = dialog.run()
+    if result == gtk.RESPONSE_OK:
+      filename = dialog.dlg.get_filename()
+
+      treeselection = self.wTree.get_object('dataTreeView').get_selection()
+
+      (model, pathlist) = treeselection.get_selected_rows()
+      path = pathlist[0]
+      #iter = self.dataTreeStore.get_iter(path)
+      iter = model.get_iter(path)
+      selected_item = model.get_value(iter,0)
+
+      selected_items = []
+      for path in pathlist:
+        iter = model.get_iter(path)
+        selected_items.append(model.get_value(iter,0))
+
+      if mode == 'Phams':
+        self.export_genes_amino_acid_fasta(filename, selected_items)
+      elif mode == 'Phages':
+        self.export_genes_amino_acid_fasta(filename, selected_items)
+    else:
+      pass
+  def on_exportGenomeMenuItem_activate(self, widget):
+    '''export the selected genome as a fasta file'''
+    mode = self.get_sel()
+    if mode != 'Phages':
+      return
+    dialog = ExportFastaGenomeDialog()
+    result = dialog.run()
+    if result == gtk.RESPONSE_OK:
+      filename = dialog.dlg.get_filename()
+      #treeselection = self.dataTreeView.get_selection()
+      treeselection = self.wTree.get_object('dataTreeView').get_selection()
+
+      (model, pathlist) = treeselection.get_selected_rows()
+      selected_items = []
+      for path in pathlist:
+        #path = pathlist[0]
+        #iter = self.dataTreeStore.get_iter(path)
+        iter = model.get_iter(path)
+        #selected_item = self.dataTreeStore.get_value(iter,0)
+        selected_items.append(model.get_value(iter,0))
+      self.export_genome_fasta(filename, selected_items)
+    else:
+      pass
+
+  def on_exportFastaNucleotideMenuItem_activate(self, widget):
+    '''export the selected pham as a fasta file'''
+    mode = self.get_sel()
+    # open the file chooser
+    dialog = ExportFastaNucleotideDialog()
+    result, extra = dialog.run()
+    if result == gtk.RESPONSE_OK:
+      filename = dialog.dlg.get_filename()
+      # get the selected rows
+      ####treeselection = self.dataTreeView.get_selection()
+      treeselection = self.wTree.get_object('dataTreeView').get_selection()
+
+      (model, pathlist) = treeselection.get_selected_rows()
+      path = pathlist[0]
+      ####iter = self.dataTreeStore.get_iter(path)
+      iter = model.get_iter(path)
+      ####selected_item = self.dataTreeStore.get_value(iter,0)
+      selected_item = model.get_value(iter,0)
+      self.export_genes_nucleotide_fasta(filename, selected_item, extra)
+
+  def on_searchButton_button_press_event(self, widget, event):
+    '''user has clicked on the search button so show the search popup menu'''
+    time = event.time
+    popup = self.searchMenuWTree.get_object('searchMenu')
+    menu = popup.popup( None, None, None, event.button, time)
+    
+  def on_searchClearButton_clicked(self, widget):
+    '''user clicked the button to clear the filter box'''
+    search = self.wTree.get_object('searchEntry')
+    bounds = search.get_selection_bounds()
+    # if the complete text of the search entry is selected, clear it...
+    # otherwise, select all the text
+    if bounds and bounds[1]-bounds[0] == len(search.get_text()):
+      search.set_text('')
+    else:
+      search.select_region(0, len(search.get_text()))
+    search.grab_focus()
+
+  def on_nameContainsMenuItem_activate(self, widget):
+    group = widget.get_group()
+    for item in group:
+      if widget == item and item.get_active():
+        print 'name contains'
+
+  def on_clusterContainsMenuItem_activate(self, widget):
+    group = widget.get_group()
+    for item in group:
+      if widget == item and item.get_active():
+        print 'cluster contains'
+
+  def on_searchEntry_editing_done(self, widget):
+    '''user has typed text on which to filter a search'''
+    filterText = widget.get_text()
+    print self.wTree.get_object('dataTreeView').get_model()
+    self.wTree.get_object('dataTreeView').get_model().get_model().refilter()
+    return False
+
+  def on_searchEntry_activate(self, widget):
+    filterText = widget.get_text()
+    print 'activate: filterText:', filterText
+    #self.modelfilter.refilter()
+
+  def on_searchEntry_changed(self, widget):
+    try:
+      gobject.source_remove(self.source_id)
+    except:
+      pass
+    self.source_id = gobject.timeout_add(500, self.on_searchEntry_editing_done, widget)
+    #filterText = widget.get_text()
+    #print 'changed: filterText:', filterText
+    #print self.wTree.get_object('dataTreeView').get_model()
+    #self.wTree.get_object('dataTreeView').get_model().get_model().refilter()
+
+  def on_buildPhamsToolButton_clicked(self, widget):
+    '''assembles genes into phamilies based on scores in the blast and clustalw tables, saving that info to the pham table'''
+    phamBuilder4.main()
+    
+  def create_canvas(self, glade, create_canvas, map, str1, str2, int1, int2):
+    if map == 'genomeMap':
+      self.canvas = goocanvas.Canvas()
+      self.canvas.show()
+      bg_color = gtk.gdk.color_parse("white")
+      self.canvas.modify_base(gtk.STATE_NORMAL, bg_color)
+      self.canvas.props.anchor = gtk.ANCHOR_NW
+      self.canvas.props.automatic_bounds = True
+      self.canvas.props.bounds_padding = 10
+      """
+      self.canvasController.DNATextView = self.mapWTree.get_object('DNATextView')
+      self.canvasController.DNATextView.set_wrap_mode(gtk.WRAP_CHAR)
+      self.canvasController.ProteinTextView = self.mapWTree.get_object('ProteinTextView')
+      self.canvasController.ProteinTextView.set_wrap_mode(gtk.WRAP_CHAR)
+      self.canvasController.assign_interface(self.canvasInterface)
+      self.canvasController.DNATextBuffer = self.canvasController.DNATextView.get_buffer()
+      self.canvasController.ProteinTextBuffer = self.canvasController.ProteinTextView.get_buffer()
+      """
+      return self.canvas
+    elif map == 'phamCircleMap':
+      self.phamCircleCanvas = goocanvas.Canvas()
+      return self.phamCircleCanvas
+
+  def drag_data_received(self, treeview, context, x, y, selection, info, timestamp):
+    model = treeview.get_model()
+    data = selection.data
+    print 'data: %s' % data
+    drop_info = treeview.get_dest_row_at_pos(x, y)
+    if drop_info:
+        path, position = drop_info
+        iter = model.get_iter(path)
+        print 'moving %s before %s' % (data, path[0])
+        print 'position: %s' % position
+        if (position == gtk.TREE_VIEW_DROP_BEFORE
+          or position == gtk.TREE_VIEW_DROP_INTO_OR_BEFORE):
+          model.move_before(model.get_iter(data),iter)
+        else:
+          model.move_after(model.get_iter(data),iter)
+
+    if context.action == gtk.gdk.ACTION_MOVE:
+      context.finish(True, True, timestamp)
+    return
+
+  def drag_data_get_data(self, treeview, context, selection, target_id, etime):
+    #print 'context: %s' % dir(context)
+    #print 'selection: %s' % dir(selection)
+    print 'selection.target: %s' % selection.target
+    print 'target_id: %s' % target_id
+    sel = treeview.get_columns()[0].get_title()
+
+    treeselection = treeview.get_selection()
+    model, pathlist = treeselection.get_selected_rows()
+    path = pathlist[0]
+    iter = self.dataTreeStore.get_iter(path)
+
+    if sel == 'Phamily':
+      pham = self.dataTreeStore.get_value(iter,0)
+      data = get_fasta_from_pham(self.c, pham)
+
+    elif sel == 'PhageID':
+      phage = self.dataTreeStore.get_value(iter,0)
+      if selection.target == 'MY_TREE_MODEL_ROW':
+        print 'model: %s' % model
+        print 'pathlist: %s' % pathlist
+        data = str(pathlist[0][0])
+        #data = model.get_value(iter,0)
+
+      elif target_id == 27:
+        data = get_fasta_from_phage(self.c, phage, type='aa')
+      elif target_id == 29:
+        data = get_fasta_from_phage(self.c, phage, type=None)
+      else:
+        data = get_fasta_from_phage(self.c, phage, type='nt')
+    selection.set(selection.target, 8, data)
+
+  def on_phamCircleZoomInToolButton_clicked(self, widget):
+    oldScale = self.phamCircleCanvas.get_scale()
+    newScale = oldScale + 0.1
+    self.phamCircleCanvas.set_scale(newScale)
+    width, height = self.phamCircleCanvas.get_size_request()
+    self.phamCircleCanvas.scroll_to(0,0)
+    self.phamCircleCanvas.set_size_request(int(width*float(newScale)/oldScale), int(height*float(newScale)/oldScale))
+    
+  def on_phamCircleZoomOutToolButton_clicked(self, widget):
+    oldScale = self.phamCircleCanvas.get_scale()
+    newScale = oldScale - 0.1
+    if newScale < 0.1: newScale = 0.1
+    self.phamCircleCanvas.set_scale(newScale)
+    width, height = self.phamCircleCanvas.get_size_request()
+    self.phamCircleCanvas.set_size_request(int(width*float(newScale)/oldScale), int(height*float(newScale)/oldScale))
+  def on_phamCircleZoomDefaultToolButton_clicked(self, widget):
+    self.phamCircleCanvas.set_scale(1.0)
+    x, y = self.defaultPhamCircleCanvasSize[0], self.defaultPhamCircleCanvasSize[1]
+    self.phamCircleCanvas.set_size_request(x, y)
+    self.phamCircleCanvas.scroll_to(0,0)
+    
+  def on_phamCircleColorToolButton_clicked(self, widget):
+    pass
+
+  def on_zoomInToolButton_clicked(self, widget):
+    oldScale = self.canvas.get_scale()
+    newScale = oldScale * 1.1
+    if newScale > 4.0: newScale = 4.0
+    self.canvas.set_scale(newScale)
+    width, height = self.canvas.get_size_request()
+    self.canvas.set_size_request(int(width*float(newScale)/oldScale), int(height*float(newScale)/oldScale))
+    self.canvas.scroll_to(0,0)
+    
+  def on_zoomOutToolButton_clicked(self, widget):
+    oldScale = self.canvas.get_scale()
+    newScale = oldScale * 0.9
+    self.canvas.set_scale(newScale)
+    width, height = self.canvas.get_size_request()
+    self.canvas.set_size_request(int(width*float(newScale)/oldScale), int(height*float(newScale)/oldScale))
+
+  def on_zoomDefaultToolButton_clicked(self, widget):
+    oldScale = self.canvas.get_scale()
+    newScale = 1.0
+    self.canvas.set_scale(newScale)
+    width, height = self.canvas.get_size_request()
+    x, y = self.defaultCanvasSize[0], self.defaultCanvasSize[1]
+    self.canvas.set_size_request(int(width*float(newScale)/oldScale), int(height*float(newScale)/oldScale))
+    
+  def on_mapAlignLeftButton_clicked(self, widget):
+    # get the selected genes
+    selected_genes = self.canvasInterface.selectedCanvasItems
+
+    # figure out which genomes they are from
+    phage_groups = set()
+    for gene in selected_genes:
+      phage_groups.add(gene.get_model().get_parent().get_parent())
+      
+    # get the left most gene in each genome
+    phage_gene = {}
+    for phage_group in phage_groups:
+      gene_from_phage = None
+      for gene in selected_genes:
+        if gene.get_model().get_parent().get_parent() == phage_group:
+          if gene_from_phage == None:
+            gene_from_phage = gene
+          else:
+            if gene.get_simple_transform()[0] < gene_from_phage.get_simple_transform()[0]:
+              gene_from_phage = gene
+      phage_gene[phage_group] = gene_from_phage        
+
+    # of the left most genes, figure out which is farthest from the left end of its genome
+    new_left = 0
+    #reference_phage = None
+    for phage_group in phage_gene.keys():
+      print phage_group.get_simple_transform()[0] + phage_gene[phage_group].get_simple_transform()[0]
+      if not new_left or phage_group.get_simple_transform()[0] + phage_gene[phage_group].get_simple_transform()[0] > new_left:
+        new_left = phage_group.get_simple_transform()[0] + phage_gene[phage_group].get_simple_transform()[0]
+        #reference_phage = phage_group
+        print 'reference is %s' % phage_group.get_data('name')
+        
+    # move the other genomes so that the selected gene in them aligns with that one
+    for phage_group in phage_gene.keys():
+      if phage_group.get_simple_transform()[0] + phage_gene[phage_group].get_simple_transform()[0] == new_left:
+        continue
+
+      phage_group.translate(new_left - (phage_group.get_simple_transform()[0] + phage_gene[phage_group].get_simple_transform()[0]), 0)
+
+      rBounds = self.canvas.get_root_item().get_bounds()
+      cx1, cy1, cx2, cy2 = self.canvas.get_bounds()
+      cBounds = goocanvas.Bounds(cx1, cy1, cx2, cy2)
+
+      rx1, ry1, rx2, ry2 = rBounds.x1, rBounds.y1, rBounds.x2, rBounds.y2
+
+      print 'root   bounds: %s' % rBounds.x1, rBounds.y1, rBounds.x2, rBounds.y2
+      print 'canvas bounds: %s' % cBounds.x1, cBounds.y1, cBounds.x2, cBounds.y2
+
+      upper = max(cx2, rx2)
+      lower = min(cx1, rx1)
+
+      scale = self.canvas.get_scale()
+      self.canvas.set_size_request(int(((upper-lower)+10)*scale), int((ry2-ry1)*scale))
+
+    for blastMatch in self.canvasInterface.blastMatches:
+      blastMatch.blastAlignmentLabel.remove()
+      blastMatch.polylineModel.remove()
+    self.canvasInterface.draw_blastn_alignments()
+
+  def on_mapAlignRightButton_clicked(self, widget):
+    # get the selected genes
+    selected_genes = self.canvasInterface.selectedCanvasItems
+
+    # figure out which genomes they are from
+    phage_groups = set()
+    for gene in selected_genes:
+      phage_groups.add(gene.get_model().get_parent().get_parent())
+      
+    # get the left most gene in each genome
+    phage_gene = {}
+    for phage_group in phage_groups:
+      gene_from_phage = None
+      for gene in selected_genes:
+        if gene.get_model().get_parent().get_parent() == phage_group:
+          if gene_from_phage == None:
+            gene_from_phage = gene
+          else:
+            if gene.get_simple_transform()[0] > gene_from_phage.get_simple_transform()[0]:
+              gene_from_phage = gene
+      phage_gene[phage_group] = gene_from_phage        
+
+    # of the right-most genes, figure out which is farthest from the right end of its genome
+    new_right = 0
+    #reference_phage = None
+    for phage_group in phage_gene.keys():
+      print phage_group.get_simple_transform()[0] + phage_gene[phage_group].get_simple_transform()[0]
+      if not new_right or phage_group.get_simple_transform()[0] + phage_gene[phage_group].get_simple_transform()[0] + phage_gene[phage_group].get_model().get_data('width') > new_right:
+        new_right = phage_group.get_simple_transform()[0] + phage_gene[phage_group].get_simple_transform()[0] + phage_gene[phage_group].get_model().get_data('width')
+        #reference_phage = phage_group
+        print 'reference is %s' % phage_group.get_data('name')
+
+    # move the other genomes so that the selected gene in them aligns with that one
+    for phage_group in phage_gene.keys():
+      if phage_group.get_simple_transform()[0] + phage_gene[phage_group].get_simple_transform()[0] + phage_gene[phage_group].get_model().get_data('width') == new_right:
+        continue
+
+      phage_group.translate(new_right - (phage_group.get_simple_transform()[0] + phage_gene[phage_group].get_simple_transform()[0] + phage_gene[phage_group].get_model().get_data('width')), 0)
+      
+      rBounds = self.canvas.get_root_item().get_bounds()
+      cx1, cy1, cx2, cy2 = self.canvas.get_bounds()
+      cBounds = goocanvas.Bounds(cx1, cy1, cx2, cy2)
+
+      rx1, ry1, rx2, ry2 = rBounds.x1, rBounds.y1, rBounds.x2, rBounds.y2
+
+      print 'root   bounds: %s' % rBounds.x1, rBounds.y1, rBounds.x2, rBounds.y2
+      print 'canvas bounds: %s' % cBounds.x1, cBounds.y1, cBounds.x2, cBounds.y2
+      
+      upper = max(cx2, rx2)
+      lower = min(cx1, rx1)
+
+      scale = self.canvas.get_scale()
+      self.canvas.set_size_request(int(((upper-lower)+10)*scale), int((ry2-ry1)*scale))
+
+    for blastMatch in self.canvasInterface.blastMatches:
+      blastMatch.blastAlignmentLabel.remove()
+      blastMatch.polylineModel.remove()
+    self.canvasInterface.draw_blastn_alignments()
+
+  def update_hscrollbar(self, upper):
+    sw = self.canvasController.mapWTree.get_object('MapWindowScrolledWindow')
+    hAdj = sw.get_hadjustment()
+    hAdj.upper = upper
+
+  def get_chooser_filename(self, chooser, combo):
+    filename = chooser.get_filename()
+    choices = ['','svg','pdf','ps','png']
+    #combo = self.chooserwTree.get_object(comboName)
+    ext = choices[combo.get_active()]
+    if ext:
+      if ext in filename.lower():
+        pass
+      else:
+        filename += '.' + ext
+    else:
+      ext = filename.split('.')[-1]
+      if ext not in ['svg', 'pdf', 'ps','png']:
+        ext = 'pdf'
+        filename += '.' + ext
+    return filename, ext
+
+  def on_phamCircleSaveAsMenuItem_activate(self, widget):
+    #self.chooserwTree = gtk.glade.XML(self.gladefile,'phamCircleFileChooserDialog') 
+    self.chooserwTree = gtk.Builder()
+    self.chooserwTree.add_objects_from_file(self.gladefile, ['phamCircleFileChooserDialog']) 
+    chooser = self.chooserwTree.get_object('phamCircleFileChooserDialog')
+
+    combo = self.chooserwTree.get_object('saveAsComboBox2')
+    listStore = gtk.ListStore(str)
+    cell = gtk.CellRendererText()
+    combo.pack_start(cell, True)
+    combo.add_attribute(cell, "text", 0)
+    file_types = ['automatic (by file extension)', 'svg', 'pdf', 'ps', 'png']
+    for f in file_types:
+      listStore.append(row=(f,))
+    combo.set_model(listStore)
+    combo.set_active(0)
+    
+    treeSelection = self.dataTreeView.get_selection()
+    (model, pathlist) = treeSelection.get_selected_rows()
+    if len(pathlist) > 1:
+      print "cannot display multiple cicles at once.  Displaying only one"
+    path = pathlist[0]
+    iter = model.get_iter(path)
+    phamName = model.get_value(iter,0)
+
+    x1, y1, x2, y2 = self.phamCircleCanvas.get_bounds()
+    x, y = int(x2-x1)+240, int(y2-y1)+240
+
+    chooser.set_current_name('pham'+str(phamName))
+    response = chooser.run()
+    if response == gtk.RESPONSE_OK: 
+      filename, ext = self.get_chooser_filename(chooser, combo)
+      #self.phamCircleCanvas.set_bounds(0,0, 10000, 10000)
+      if ext == 'svg':
+        surface = cairo.SVGSurface (filename, x, y)
+      elif ext == 'pdf':
+        surface = cairo.PDFSurface (filename, x, y)
+      elif ext == 'ps':
+        surface = cairo.PSSurface (filename, x, y)
+      elif ext == 'png':
+        surface = cairo.ImageSurface (cairo.FORMAT_ARGB32, x, y)
+
+      cr = cairo.Context (surface)
+
+      # center in the page (9x10)
+
+      cr.translate (36, 130)
+      self.phamCircleCanvas.render (cr, None, 0.1)
+      cr.show_page ()
+      if ext == 'png': surface.write_to_png(filename)
+
+    elif response == gtk.RESPONSE_CANCEL:
+      pass
+    chooser.destroy()
+
+  def on_saveToolButton_clicked(self, widget):
+    #self.chooserwTree = gtk.glade.XML(self.gladefile,'genomeMapFileChooserDialog') 
+    self.chooserwTree = gtk.Builder()
+    self.chooserwTree.add_objects_from_file(self.gladefile, ['genomeMapFileChooserDialog'])
+    chooser = self.chooserwTree.get_object('genomeMapFileChooserDialog')
+    combo = self.chooserwTree.get_object('saveAsComboBox1')
+    listStore = gtk.ListStore(str)
+    
+    cell = gtk.CellRendererText()
+    combo.pack_start(cell, True)
+    combo.add_attribute(cell, "text", 0)
+  
+    file_types = ['automatic (by file extension)', 'svg', 'pdf', 'ps', 'png']
+    for f in file_types:
+      listStore.append(row=(f,))
+
+    combo.set_model(listStore)
+
+    combo.set_active(0)
+    phages, length = self.get_selected_PhageIDs()
+    PhageIDs = []
+    if phages:
+      for phage in phages: PhageIDs.append(phage['PhageID'])
+      if len(PhageIDs) == 1:
+        PhageIDs = PhageIDs[0]
+        phageNames = [get_name_from_PhageID(self.c, PhageIDs)]
+        fname = phageNames[0]
+      else:
+        phageNames = []
+        for PhageID in PhageIDs: phageNames.append(get_name_from_PhageID(self.c, PhageID))
+        fname = string.join(phageNames, '_')
+    else:
+      fname = 'empty'
+      phageNames = ['empty']
+      length = 1
+
+    chooser.set_current_name(fname)
+
+    zoomFactor = 20.0
+
+    response = chooser.run()
+    if response == gtk.RESPONSE_OK:
+      filename, ext = self.get_chooser_filename(chooser, combo)
+      bounds = goocanvas.Bounds()
+      bounds.x1, bounds.y1, bounds.x2, bounds.y2 = self.canvas.get_bounds()
+
+      if ext == 'svg':
+        surface = cairo.SVGSurface (filename, bounds.x2-bounds.x1, bounds.y2-bounds.y1)
+      elif ext == 'pdf':
+        surface = cairo.PDFSurface (filename, bounds.x2-bounds.x1, bounds.y2-bounds.y1)
+      elif ext == 'ps':
+        surface = cairo.PSSurface (filename, bounds.x2-bounds.x1, bounds.y2-bounds.y1)
+      elif ext == 'png':
+        surface = cairo.ImageSurface (cairo.FORMAT_ARGB32, bounds.x2-bounds.x1, bounds.y2-bounds.y1)
+
+      cr = cairo.Context (surface)
+      self.canvas.render (cr, None, 0.1)
+      cr.show_page ()
+      if ext == 'png': surface.write_to_png(filename)
+
+    elif response == gtk.RESPONSE_CANCEL:
+      pass
+    chooser.destroy()
+
+  def populate_dataSourceTreeView(self):
+    self.dataSourceTreeStore = gtk.TreeStore(str)
+    if 'Sources' not in self.dataSourceCols:
+      self.dataSourceCols.append('Sources')
+      self.tvcolumn = gtk.TreeViewColumn('Sources')
+      self.dataSourceTreeView.append_column(self.tvcolumn)
+      # create a CellRendererText to render the data
+      self.cell = gtk.CellRendererText()
+      # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.pack_start(self.cell, True)
+      # set the cell "text" attribute to column 0 - retrieve text
+      # from that column in dataSourceTreeStore
+      self.tvcolumn.add_attribute(self.cell, 'text', 0)
+
+    self.dataSourceTreeStore.clear()
+    sources = ['Phages', 'Phams', 'Genes', 'Domains']
+    for source in sources: self.dataSourceTreeStore.append(None, [source])
+    self.dataSourceTreeView.set_model(self.dataSourceTreeStore)
+    self.logger.log('populating the source list')
+    self.dataSourceTreeView.columns_autosize()
+    
+  def fill_text_buffer(self):
+    c = db_conf.db_conf(username=self.username,password=self.password,db=self.database).get_cursor()
+    treeSelection = self.dataTreeView.get_selection()
+    (model, iter) = treeSelection.get_selected()
+    PhageID = self.dataTreeStore.get_value(iter, 0)
+    seq = get_seq_from_PhageID(c, PhageID)
+
+  def draw_phamCircle_canvas(self, phamName=None):
+    #self.phamCircleCanvas = self.create_canvas(None,None,'phamCircleMap',None,None,None,None)
+
+    c = db_conf.db_conf(username=self.username,password=self.password,server=self.server,db=self.database).get_cursor()
+    adj = self.phamCircleWTree.get_object('arc_scale').get_adjustment()
+    adj.configure(32.5, 32.5, 100.0, 1.0, 10.0, 0)
+    #self.phamCircleWTree.get_object('arc_scale').set_adjustment(adj)
+    if not phamName:
+      treeSelection = self.dataTreeView.get_selection()
+      (model, pathlist) = treeSelection.get_selected_rows()
+      if len(pathlist) > 1:
+        print "cannot display multiple cicles at once.  Displaying only one"
+      path = pathlist[0]
+      iter = model.get_iter(path)
+      phamName = model.get_value(iter,0)
+
+    ###########################################################################
+    ### selection from a list where selection is gtk.SELECTION_MULTIPLE #######
+    ### which is incompatible with batch save                           #######
+    #(model, iter) = treeSelection.get_selected()                       #######
+    #phamName = self.dataTreeStore.get_value(iter, 0)                   #######
+    #print 'pham name:', phamName                                       #######
+    ###########################################################################
+
+    GeneIDs = get_members_of_pham(c, phamName)
+    memberPhages, self.nonMemberPhages = [], []
+    for GeneID in GeneIDs:
+      PhageID = get_PhageID_from_GeneID(c, GeneID)
+      if PhageID not in memberPhages: memberPhages.append(PhageID)
+    totalPhages = get_PhageIDs(c)
+    for p in totalPhages:
+      if p not in memberPhages: self.nonMemberPhages.append(get_phage_name_from_PhageID(c, p))
+    self.l = []
+    self.genes = []
+
+    self.genes = GeneIDs
+    for a in GeneIDs:
+      clustalwScores, blastScores = get_pham_scores(c, a)
+      for cs in clustalwScores:
+        if cs[2] >= 0.275: self.l.append((cs[0], cs[1], 'clustalw',cs[2]))
+      for bs in blastScores:
+        if bs[2] <= 0.0001: self.l.append((bs[0], bs[1], 'blast',bs[2]))
+
+    self.phamCircle = PhamDisplay.PhamCircle(phamName, self.c)
+    adjustment = 0.275
+    conf = config.PhameratorConfiguration()
+    if conf.get('/apps/phamerator/pham_circle_color_scheme') == 'alignmentType':
+      self.phamCircleCanvas.set_root_item_model(self.phamCircle.create_canvas_model(self.nonMemberPhages, self.genes, self.l,adjustment,(conf.get_float('/apps/phamerator/transparency_adjustment')/100),blastColor='#ff0000', clustalwColor='#0000ff'))
+    else:
+      phamColorFromDataBase = self.db.select('pham_color','color',name = phamName)[0][0]
+      self.phamCircleCanvas.set_root_item_model(self.phamCircle.create_canvas_model(self.nonMemberPhages, self.genes, self.l,adjustment,(conf.get_float('/apps/phamerator/transparency_adjustment')/100),allColor = phamColorFromDataBase))
+
+    self.phamCircleCanvas.props.automatic_bounds = True
+
+    ###
+    #b = self.phamCircleCanvas.get_root_item().get_bounds()
+    #x1, y1, x2, y2 = b.x1, b.y1, b.x2, b.y2
+    x1, y1, x2, y2 = self.phamCircleCanvas.get_bounds()
+
+    x, y = int(x2-x1)+120, int(y2-y1)+120
+    ###
+    print x, y
+    self.phamCircleCanvas.set_size_request(x, y)
+    self.defaultPhamCircleCanvasSize = (x, y)
+    self.phamCircleCanvas.props.automatic_bounds = True
+
+    self.phamCircleCanvas.show()
+    self.window.window.set_cursor(None)
+    return False
+
+  def get_selected_PhageIDs(self):
+    phages = []
+    
+    treeSelection = self.wTree.get_object('dataTreeView').get_selection()
+    (model, pathlist) = treeSelection.get_selected_rows()
+    print model
+    if not pathlist: return (None, None) # no phages are selected
+    for path in pathlist:
+      phageDict = {}
+
+      iter = model.get_iter(path)
+      phageDict['PhageID'] = model.get_value(iter,0)
+      phageDict['display_reversed'] = model.get_value(iter,5)
+      phageDict['length'] = get_length_of_genome(self.c, phageDict['PhageID'])
+      phages.append(phageDict)
+    lengths = []
+    for phage in phages:
+      lengths.append(phage['length'])
+    lengths.sort()
+    length = lengths[-1]
+    return phages, length
+
+  def get_selected_GeneIDs(self):
+    tempA = open('/tmp/gene_alignment_temp.fasta', 'w')#(os.path.join('/tmp', 'gene_alignment_temp' + '.fasta'), 'w')
+    genes_for_alignment = []
+    if self.get_sel() == 'Genes':
+      treeSelection = self.wTree.get_object('dataTreeView').get_selection()
+      (model, pathlist) = treeSelection.get_selected_rows()
+      if not pathlist: return (None, None) # no phages are selected
+      for path in pathlist:
+        geneDict = {}
+        iter = self.dataTreeStore.get_iter(path)
+        geneDict['GeneID'] = self.dataTreeStore.get_value(iter,0)
+        genes_for_alignment.append(geneDict)
+    my_genes = genes_for_alignment
+    for gene in my_genes:
+        print my_genes
+        for key,value in gene.iteritems():
+          print value
+          for seq in value:
+            phage_name = str(phamerator_manage_db.get_phage_name_from_GeneID(self.c, value))
+            gene_name = str(phamerator_manage_db.get_gene_name_from_GeneID(self.c, value))
+            pham_name = str(phamerator_manage_db.get_pham_from_GeneID(self.c, value))
+            seq_out = str(phamerator_manage_db.get_translation_from_PhageID(self.c, value))
+            output = ('>' +phage_name + '|' + gene_name  + '|' + pham_name +'|' + '\n' + seq_out + '\n')
+          tempA.write(output)
+    tempA.close()
+
+  def draw_genome_canvas(self):
+    self.busy(True)
+    c = db_conf.db_conf(username=self.username,password=self.password,server=self.server,db=self.database).get_cursor()
+    phages, length = self.get_selected_PhageIDs()
+    zoomFactor = 20.0
+    self.canvas.hide()
+    self.canvasController.DNATextBuffer.set_text('click on a gene')
+    self.canvasController.ProteinTextBuffer.set_text('click on a gene')
+    self.root = self.canvasInterface.create_canvas_model(phages, length)
+    ###canvas###
+    #self.canvas = self.create_canvas(None,None,'genomeMap',None,None,None,None)
+    #self.canvasInterface = cartographer.CanvasInterface(self.c, self.canvas, phages, length)
+    self.canvasInterface.controller = self.canvasController
+    self.canvasController.interface = self.canvasInterface
+    self.canvas.set_root_item_model(self.root)
+    if length and phages:
+      x, y = 10000, 10000
+    else:
+      x, y = 500, 100
+    self.canvas.set_scale(1.0)
+    self.canvas.scroll_to(0,0)
+    self.canvas.update()
+    x1, y1, x2, y2 = self.canvas.get_bounds()
+    x, y = int(x2-x1), int(y2-y1)
+    self.canvas.set_size_request(x,y)
+    self.defaultCanvasSize = (x, y)
+    self.canvas.show()
+    self.busy(False)
+    self.canvas.update()
+
+  def get_sel(self):
+    tv = self.wTree.get_object('dataSourceTreeView')
+    s = tv.get_selection()
+    (model, iter) = s.get_selected()
+    sel = self.dataSourceTreeStore.get_value(iter, 0)
+    return sel
+
+  def populate_dataTreeView(self, sel=None):
+    self.dataTreeView.hide()
+    # default selection when program loads
+    self.window.set_title('Phamerator :: %s' % self.database)
+    self.targets = [('MY_TREE_MODEL_ROW', gtk.TARGET_SAME_WIDGET, 0),
+                    ('text/plain', 0, 1)]
+    if not sel:
+      tv = self.wTree.get_object('dataSourceTreeView')
+      s = tv.get_selection()
+      s.select_path(0)
+      self.on_dataSourceTreeView_cursor_changed(tv)
+      sel='Phages'
+    for column in self.dataTreeView.get_columns(): self.dataTreeView.remove_column(column)
+    if sel == 'Phages':
+      self.busy(True)
+      self.dataTreeStore = gtk.TreeStore(str, str, int, float, int, bool, str)
+      #self.dataTreeView.set_reorderable(True)
+      self.dataTreeView.enable_model_drag_source(gtk.gdk.BUTTON1_MASK, self.targets, gtk.gdk.ACTION_DEFAULT|
+                                                 gtk.gdk.ACTION_MOVE)
+      self.dataTreeView.enable_model_drag_dest(self.targets, gtk.gdk.ACTION_DEFAULT)
+      self.dataTreeView.connect("drag_data_get", self.drag_data_get_data)
+      self.dataTreeView.connect("drag-data-received", self.drag_data_received)
+      # create the TreeViewColumn to display the data
+      self.dataCols.append('PhageID')
+      self.tvcolumn = gtk.TreeViewColumn('PhageID')     # create the TreeViewColumn to display the data
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 0) # set the cell "text" attribute to column 0
+      self.tvcolumn.set_visible(False)
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn.set_sort_column_id(0)               # Allow sorting on the first column
+      self.dataCols.append('Name')
+      self.tvcolumn = gtk.TreeViewColumn('Name')        # create the TreeViewColumn to display the data
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 1) # set the cell "text" attribute to column 1
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn.set_sort_column_id(1)               # Allow sorting on the second column
+
+      ### Adding number of genes, genome length, and %GC to dataTreeView ###
+      self.tvcolumn = gtk.TreeViewColumn('Length (bp)')        # create the TreeViewColumn to display the data
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 2) # set the cell "text" attribute to column 2
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn.set_sort_column_id(2)               # Allow sorting on the second column
+      self.tvcolumn = gtk.TreeViewColumn('GC %')        # create the TreeViewColumn to display the data
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 3) # set the cell "text" attribute to column 3
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn.set_sort_column_id(3)               # Allow sorting on the second column
+      self.tvcolumn = gtk.TreeViewColumn('Number of Genes')        # create the TreeViewColumn to display the data
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 4) # set the cell "text" attribute to column 4
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn.set_sort_column_id(4)               # Allow sorting on the second column
+
+      self.tvcolumn = gtk.TreeViewColumn('Reverse')        # create the TreeViewColumn to display the data
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 5) # set the cell "text" attribute to column 4
+      self.tvcolumn.set_visible(False)
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn = gtk.TreeViewColumn('Cluster')        # create the TreeViewColumn to display the data
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 6) # set the cell "text" attribute to column 4
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn.set_sort_column_id(6)               # Allow sorting on the second column
+
+      self.dataTreeView.set_search_column(1)
+
+      #self.dataTreeView.set_reorderable(True)
+  
+      ###
+
+      phages = get_phages(self.c, PhageID='PhageID', name='name')
+      if len(phages) == 0:
+        print 'no phages to display'
+      for row in phages:
+        PhageID, name = row[0], row[1]
+        length = get_genome_length(self.c, PhageID)
+        numGenes = get_number_of_genes(self.c, PhageID)
+        gc = get_percent_GC(self.c, PhageID)
+        cluster = get_cluster_from_PhageID(self.c, PhageID)
+        if not cluster: cluster = "singleton"
+        self.dataTreeStore.append(None, [PhageID, name, length, gc, numGenes, False, cluster])
+      print 'treeview is reorderable? %s' % str(self.dataTreeView.get_reorderable())
+      self.busy(False)
+    elif sel == 'Phams':
+      self.dataTreeStore = gtk.TreeStore(int, int, str, int, float, str)
+      self.dataTreeView.set_reorderable(False)
+      ####self.dataTreeView.enable_model_drag_source(gtk.gdk.BUTTON1_MASK,[('text/plain', 0, 0)], gtk.gdk.ACTION_COPY)
+      self.dataTreeView.enable_model_drag_source(gtk.gdk.BUTTON1_MASK,self.targets, gtk.gdk.ACTION_COPY)
+      self.dataTreeView.connect("drag_data_get", self.drag_data_get_data)
+      self.dataCols.append('Phamily')
+      self.tvcolumn = gtk.TreeViewColumn('Phamily')
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 0) # set the cell "text" attribute to column 0
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn.set_sort_column_id(0)               # Allow sorting on the first (PhageID) column
+
+      self.dataCols.append('Number of Members')
+      self.tvcolumn = gtk.TreeViewColumn('Number of Members')
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 1) # set the cell "text" attribute to column 0
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn.set_sort_column_id(1)               # Allow sorting on the first (PhageID) column
+      self.dataTreeView.set_search_column(0)
+
+      self.dataCols.append('Clusters')
+      self.tvcolumn = gtk.TreeViewColumn('Clusters')
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 2) # set the cell "text" attribute to column 0
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn.set_sort_column_id(2)               # Allow sorting on the first (PhageID) column
+      self.dataTreeView.set_search_column(0)
+
+      self.dataCols.append('Number of Clusters')
+      self.tvcolumn = gtk.TreeViewColumn('Number of Clusters')
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 3) # set the cell "text" attribute to column 0
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn.set_sort_column_id(3)               # Allow sorting on the first (PhageID) column
+      self.dataTreeView.set_search_column(0)
+ 
+      self.dataCols.append('Mean Protein Length')
+      self.tvcolumn = gtk.TreeViewColumn('Mean Protein Length')
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.cell.set_property('xalign', 1.0)
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 4) # set the cell "text" attribute to column 0
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn.set_sort_column_id(4)               # Allow sorting on the first (PhageID) column
+      self.dataTreeView.set_search_column(0)
+
+      self.dataCols.append('Phages')
+      self.tvcolumn = gtk.TreeViewColumn('Phages')
+      self.dataTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+      self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+      self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+      self.tvcolumn.add_attribute(self.cell, 'text', 5) # set the cell "text" attribute to column 0
+                                                        # retrieve text from that column in dataSourceTreeStore
+      self.tvcolumn.set_sort_column_id(5)               # Allow sorting on the first (PhageID) column
+      self.dataTreeView.set_search_column(0)
+      
+      #self.tvcolumn.set_visible(False)
+
+
+      phams = False
+
+      class Shared:
+        def __init__(self):
+          self.phams = None
+          self.count = {}
+          self.iters = {}
+
+      shared = Shared()
+      evnt = threading.Event()
+      evnt.clear()
+
+      class phamsGetter(threading.Thread):
+        def __init__(self, c, shared, evnt):
+          threading.Thread.__init__(self)
+          self.c = c
+          self.evnt = evnt
+        def run(self):
+          shared.phams = get_phams(self.c)
+          for phamName, GeneID in shared.phams:
+            if phamName not in shared.iters.keys():
+              shared.count[phamName] = get_number_of_pham_members(self.c, phamName)
+          evnt.set()
+
+      getter = phamsGetter(self.c, shared, evnt)
+      self.busy(True)
+      getter.start()
+      while not evnt.isSet():
+        evnt.wait(1.0)
+        while gtk.events_pending():
+          gtk.main_iteration(False)
+      phams = shared.phams
+      if not phams: print 'there are no phams to display.  Try running phamBuilder.py'
+      iters = {}
+      meanTranslationTable = get_mean_translation_size_for_all_phams(self.c)
+      for phamName, GeneID in phams:
+        if phamName not in shared.iters.keys():
+          clusters, unclustered = get_clusters_from_pham(self.c, phamName)
+          allClusters = clusters + unclustered
+          phageNames = get_phage_name_from_pham(self.c, phamName)
+          shared.iters[phamName] = self.dataTreeStore.append(None, (int(phamName), shared.count[phamName], string.join(allClusters, ', '),len(allClusters), meanTranslationTable[int(phamName)], string.join(phageNames, ', ')))
+      self.busy(False)
+
+    elif sel == 'Genes':
+      self.busy(True)
+      self.dataTreeView.set_reorderable(False)
+      self.dataTreeStore = gtk.TreeStore(str, str, str, str, int, str, str)
+      cols = ['GeneID', 'Gene', 'Phage', 'Orientation', 'Phamily', 'Type', 'Description']
+      for n, col in enumerate(cols):
+        self.dataCols.append(col)
+        self.tvcolumn = gtk.TreeViewColumn(col)
+        self.tvcolumn.set_sort_column_id(n)
+        if col == 'GeneID':
+          self.tvcolumn.set_visible(False)
+
+        self.dataTreeView.append_column(self.tvcolumn)
+        self.cell = gtk.CellRendererText()
+        self.tvcolumn.pack_start(self.cell, True)
+        self.tvcolumn.add_attribute(self.cell, 'text', n)
+      rows = self.db.select('gene, pham, phage', 'gene.GeneID', 'gene.name', 'phage.Name', 'gene.Orientation', 'pham.name', 'gene.TypeID', 'gene.Notes', join = 'gene.GeneID:pham.GeneID gene.PhageID:phage.PhageID')
+      for row in rows:
+        GeneID, phageName, geneName, Orient, phamName, TypeID, Notes = str(row[0]), str(row[1]), str(row[2]), str(row[3]), int(row[4]), str(row[5]), str(row[6])
+      for row in rows: self.dataTreeStore.append(None, row)
+      self.dataTreeView.set_search_column(2)
+      self.busy(False)
+    elif sel == 'Domains':
+      self.busy(True)
+      self.dataTreeView.set_reorderable(False)
+      self.dataTreeStore = gtk.TreeStore(str, int, int, str, str, int, bool)
+
+      cols = ['Domain', 'Match Start', 'Match End', 'E-Value', 'Cluster', 'Pham']
+      for n, col in enumerate(cols):
+        self.dataCols.append(col)
+        self.cell = gtk.CellRendererText()
+        if n == 0:
+          self.cell.set_property('ellipsize', pango.ELLIPSIZE_END)
+          self.tvcolumn = gtk.TreeViewColumn(col, self.cell)
+          self.tvcolumn.set_expand(True)
+        else:
+          # the visible parameter is a bool that indicates whether the column is shown
+          self.tvcolumn = gtk.TreeViewColumn(col, self.cell, visible=6)
+        #self.tvcolumn.set_sort_column_id(n)
+
+        self.dataTreeView.append_column(self.tvcolumn)
+
+        #self.tvcolumn.pack_start(self.cell, True)
+        self.tvcolumn.add_attribute(self.cell, 'text', n)
+      
+      rows = self.db.select('domain', 'domain.hit_id', 'domain.DomainID', 'domain.Name', 'domain.description')
+      gene_rows = self.db.select('phage, gene, gene_domain, domain', 'phage.cluster', 'gene.GeneID', 'gene.name', 'phage.name', 'gene_domain.hit_id', 'gene_domain.query_start', 'gene_domain.query_end', 'gene_domain.expect', join='gene.PhageID:phage.PhageID gene.GeneID:gene_domain.GeneID gene_domain.hit_id:domain.hit_id')
+      for row in rows:
+        #domain_id, domain_description  = str(row[0]), str(row[1])
+        domain_text = "%s (%s)" % (row[1], row[3])
+        iter = self.dataTreeStore.append(None, [domain_text, -1, -1, None, None, -1, False])
+        for gene in gene_rows:
+          if gene[4] == row[0]:
+            cluster = gene[0]
+            if not cluster: cluster = 'singleton'
+            GeneID = gene[1]
+            phamName = int(get_pham_from_GeneID(self.c, GeneID))
+            geneName = gene[2]
+            phageName = gene[3]
+            exp = re.compile('(PBI)*[1-9]+\d*[.]*\d*$', re.IGNORECASE)
+            try:
+              geneName = exp.search(geneName).group().strip()
+            except: pass
+            pretty = '%s gp%s' % (phageName, geneName)
+            self.dataTreeStore.append(iter, [pretty, int(gene[5]), int(gene[6]), "%e" % float(gene[7]), cluster, phamName, True])
+      self.busy(False)
+
+    #if sel != 'Phages': self.wTree.get_object('exportGenomeMenuItem').set_sensitive(True)
+    else: self.wTree.get_object('exportGenomeMenuItem').set_sensitive(False)
+
+    self.modelfilter = self.dataTreeStore.filter_new()
+    sorter = gtk.TreeModelSort(self.modelfilter)
+    self.dataTreeView.set_model(sorter)
+    self.modelfilter.set_visible_func(self.visible_cb)
+    self.dataTreeView.columns_autosize()
+    self.dataTreeView.show()
+
+  def visible_cb(self, model, iter):
+    #print model.get_value(iter, 1)
+    text = self.wTree.get_object('searchEntry').get_text()
+    #print "%s in %s: %s" % (text, model.get_value(iter, 1), text in model.get_value(iter, 1))
+    if self.selectedSource == "Phages":
+      text = text.upper()
+      phages = model.get_value(iter, 1).upper()
+      clusters = model.get_value(iter, 6)
+      if clusters:
+        if clusters == 'singleton':
+          clusters = ''
+        else:
+          clusters = clusters.upper()
+      else:
+        clusters = ""
+      match = True
+      match = match & ((text in clusters) | (text in phages))
+      return match
+    elif self.selectedSource == "Phams":
+      text = text.replace(' ', ',').upper()
+      textList = text.split(',')
+      clusters = model.get_value(iter, 2).split(', ')
+      s = set(clusters)
+      for cluster in clusters:
+        if cluster[-1] in string.digits:
+          s.add(cluster[0])
+      clusters = list(s)
+      phages = model.get_value(iter, 5).upper()#.split(', ')
+      # if query looks like a phage name, search the 6th column
+      match = True
+      for i in textList:
+        if not i: continue
+        match = match & ((i in clusters) | (i in phages))
+        if match: print model.get_value(iter,2), model.get_value(iter,5)
+      return match
+    elif self.selectedSource == "Domains":
+      # if text matches domain name, show the parent and child
+      if text.upper() in model.get_value(iter, 0).upper() or model.get_value(iter, 6) == True:
+        return True
+      # else if row is a domain description row, hide the cluster, start, end, e value, and pham cells
+      elif model.get_value(iter, 6) == False:
+        # get the first child
+        child = model.iter_children(iter)
+        # if query matches pretty phage/gene name...
+        while child:
+          if text.upper() in model.get_value(child, 0).upper():
+            return True
+          child = model.iter_next(child)
+        return False
+
+  def on_mapToggleToolButton_toggled(self, data):
+    if data.get_active():
+      self.busy(True)
+      self.draw_genome_canvas()
+      self.mapWTree.get_object('mapWindow').show()
+    else:
+      self.mapWTree.get_object('mapWindow').hide()
+    self.busy(False)
+    self.canvas.update()
+
+  def on_gene_alignment_toggled(self, data):
+    print 'woot!'
+    if data.get_active():
+      self.busy(True)
+      self.get_selected_GeneIDs()
+      self.clustalw_align()
+      self.ClustalWDisplay()
+      self.web_logo()
+      self.WeblogosDisplay()
+    else:
+      self.busy(False)
+
+  def on_eValuesCheckBox_toggled(self, widget):
+    conf = config.PhameratorConfiguration()
+    conf.set_bool('/apps/phamerator/show_alignment_text', widget.get_active())
+
+  def on_blastAlignmentCheckBox_toggled(self, widget):
+    conf = config.PhameratorConfiguration()
+    conf.set_bool('/apps/phamerator/show_alignment', widget.get_active())
+    
+    checkBox = self.mapWTree.get_object('eValuesCheckBox')
+    
+    if widget.get_active():
+      checkBox.set_sensitive(True)
+      if checkBox.get_active():
+        conf.set_bool('/apps/phamerator/show_alignment_text', True)
+
+    else:
+      checkBox.set_sensitive(False)
+      conf.set_bool('/apps/phamerator/show_alignment_text', False)
+
+
+  def clustalw_align(self):
+    cline = ClustalwCommandline("clustalw", infile = '/tmp/gene_alignment_temp.fasta', seqnos='on')
+    return_code = subprocess.call(str(cline) , shell=(sys.platform!="win32"))
+      
+  def web_logo(self):
+    #from weblogolib import *
+    fin = open('/tmp/gene_alignment_temp.aln')
+    seqs = read_seq_data(fin)
+    data = LogoData.from_seqs(seqs)
+    options = LogoOptions()
+    options.title = "A Logo Title"
+    format = LogoFormat(data, options)
+    fout = open('/tmp/gene_alignment_temp.png', 'w')
+    png_formatter( data, format, fout)
+  
+  def on_phamCircleToggleToolButton_toggled(self, data):
+    if data.get_active():
+      self.busy(True)
+      self.draw_phamCircle_canvas()
+      self.phamCircleWTree.get_object('phamCircleWindow').show()
+    else:
+      self.phamCircleWTree.get_object('phamCircleWindow').hide()
+    self.busy(False)
+  
+  def on_GMapsToggleToolButton_toggled(self, data):
+    import webkit
+    self.GMapsweb_kit = webkit.WebView()
+    print 'wootwoot'
+    if data.get_active():
+      self.busy(True)
+      #self.GMapswTree = gtk.glade.XML(self.gladefile, root='GMapsWindow')
+      self.GMapswTree = gtk.Builder()
+      self.GMapswTree.add_objects_from_file(self.gladefile, ['GMapsWindow'])
+      colorbutton1 = self.GMapswTree.get_object("colorbutton1")
+      colorbutton1.set_data('name','selected')
+      colorbutton1.connect('color-set', self.GMaps_color_set_config)
+      colorbutton1.connect('color-set', self.GMaps_refresh)
+      colorbutton1.set_color(gtk.gdk.Color(self.GMaps_color_get_config('selected')))
+      colorbutton2 = self.GMapswTree.get_object('colorbutton2')
+      colorbutton2.set_data('name','unselected')
+      colorbutton2.connect('color-set', self.GMaps_color_set_config)
+      colorbutton2.connect('color-set', self.GMaps_refresh)
+      colorbutton2.set_color(gtk.gdk.Color(self.GMaps_color_get_config('unselected')))
+      dic={"on_GMapsWindow_delete_event":self.on_GMapsWindow_delete_event}
+      self.GMapswTree.connect_signals(dic) 
+      self.GMapswTree.get_object('GMapsWindow').show_all()
+      sw=self.GMapswTree.get_object('GMapsScrolledWindow')
+      sw.add(self.GMapsweb_kit)
+      self.GMapsweb_kit.show()
+      self.GMaps_refresh()
+    else:
+      self.GMapswTree.get_object('GMapsWindow').hide()
+    self.busy(False)
+
+  def GMaps_refresh(self, *args):
+    selected_PhageIDs_list = self.get_selected_PhageIDs()[0]
+    if not selected_PhageIDs_list:
+      selected_PhageIDs_list = []
+    #print selected_PhageIDs_list
+    selected_PhageIDs = []
+    unselected_PhageIDs = list(set(get_PhageIDs(self.c)) - set(selected_PhageIDs))
+
+    for phage_dict in selected_PhageIDs_list:
+      selected_PhageIDs.append(phage_dict['PhageID'])
+
+    selected_phage_names = [get_phage_name_from_PhageID(self.c, x) for x in selected_PhageIDs]
+    unselected_phage_names = [get_phage_name_from_PhageID(self.c, x) for x in unselected_PhageIDs]
+    
+    selected_phage_names = string.join(selected_phage_names,',')
+    unselected_phage_names = string.join(unselected_phage_names, ',')
+
+    to_remove = ('-DRAFT-INC','_DRAFT_INC','-DRAFT','_DRAFT')
+    for s in to_remove:
+      selected_phage_names = selected_phage_names.replace(s,'')
+      unselected_phage_names = unselected_phage_names.replace(s,'')
+
+    url_dict = {'selected_phage_names':selected_phage_names, 'unselected_phage_names':unselected_phage_names, 'selected_color':self.GMaps_color_get_config('selected'), 'unselected_color':self.GMaps_color_get_config('unselected')}
+    #print selected_PhageIDs
+    #unselected_PhageIDS_Dict =
+    url = urllib.urlencode(url_dict)
+    self.GMapsweb_kit.open('http://134.126.95.195/maps_test.html?'+url)
+
+  def GMaps_color_set_config(self, colorbutton):
+    import ConfigParser
+    cfg = ConfigParser.RawConfigParser()
+    cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))    
+    if colorbutton.get_data('name') == 'selected':
+      cfg.set('Phamerator', 'GMaps_selected_color', colorbutton.get_color())
+      #print 'set color: %s' % colorbutton.get_color()
+    elif colorbutton.get_data('name') == 'unselected':
+      cfg.set('Phamerator', 'GMaps_unselected_color', colorbutton.get_color())
+    cfg_file = open(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'), 'w')
+    cfg.write(cfg_file)
+    cfg_file.close()
+    
+  def GMaps_color_get_config(self,colorbutton):
+    import ConfigParser
+    cfg = ConfigParser.RawConfigParser()
+    cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
+    if colorbutton == 'selected':
+      try:
+        color = cfg.get('Phamerator','GMaps_selected_color')
+      except ConfigParser.NoOptionError:
+        color = '#ff0000'
+    elif colorbutton =='unselected':
+      try:
+        color = cfg.get('Phamerator','GMaps_unselected_color')
+      except ConfigParser.NoOptionError:
+        color = '#0000ff'      
+    print 'get color: %s' % color
+    return color  
+
+  def on_GMapsWindow_delete_event(self, widget, event, data=None):
+    print 'turty'
+    #self.wTree = gtk.glade.XML(self.gladefile, root='mainWindow')
+    self.wTree.get_object('GMapsToggleToolButton').set_active(False)
+    widget.hide()
+    return True
+
+  def on_phamCircleWindow_delete_event(self, widget, event, data=None):
+    self.wTree.get_object('phamCircleToggleToolButton').set_active(False)
+    widget.hide()
+    return True
+
+  def on_mapWindow_delete_event(self, widget, event, data=None):
+    self.wTree.get_object('mapToggleToolButton').set_active(False)
+    widget.hide()
+    return True
+
+  def on_closeMapWindowMenuItem_activate(self, widget):
+    self.wTree.get_object('mapToggleToolButton').set_active(False)
+    return True
+
+  def on_phamCircleCloseMenuItem_activate(self, widget):
+    self.wTree.get_object('phamCircleToggleToolButton').set_active(False)
+    return True
+
+  def on_mapWindow_event(self, widget):
+    pass
+
+  def on_dataSourceTreeView_cursor_changed(self, widget):
+    # inactivate menu items since no phages, phams, or genes are selected
+    print 'setting treeview insensitive'
+    self.wTree.get_object('dataSourceTreeView').set_sensitive(False)
+    inactivate = ['exportFastaMenuItem', 'exportFastaNucleotideMenuItem','exportGenomeMenuItem']
+    for widget in inactivate:
+      w = self.wTree.get_object(widget)
+      w.set_sensitive(False)
+
+    self.wTree.get_object('searchEntry').set_text('')
+
+    treeSelection = self.dataSourceTreeView.get_selection()
+    (model, iter) = treeSelection.get_selected()
+    sel = self.dataSourceTreeStore.get_value(iter, 0)
+    self.selectedSource = sel
+    mapToggleToolButton = self.wTree.get_object('mapToggleToolButton')
+    phamCircleToggleToolButton = self.wTree.get_object('phamCircleToggleToolButton')
+    alignmentToggleToolButton = self.wTree.get_object('alignmentToggleToolButton')
+
+    self.rowsTreeView.set_model(None)
+    self.rowsTreeView.hide()
+    dataTreeView = self.wTree.get_object('dataTreeView')
+    selection = dataTreeView.get_selection()
+
+    if sel != 'Phages':
+      mapToggleToolButton.set_sensitive(False)
+      #self.rowsTreeView.set_model(None)
+      #self.rowsTreeView.hide()
+      #dataTreeView = self.wTree.get_object('dataTreeView')
+      #selection = dataTreeView.get_selection()
+      #selection.set_mode(gtk.SELECTION_MULTIPLE)
+
+      sw = self.wTree.get_object('webKitScrolledWindow')
+      sw.hide_all()
+      self.wTree.get_object('rowsTreeViewScrolledWindow').show_all()
+
+    else:
+      #self.rowsTreeView.set_model(None)
+      #self.rowsTreeView.hide()
+      mapToggleToolButton.set_sensitive(True)
+      #dataTreeView = self.wTree.get_object('dataTreeView')
+      #selection = dataTreeView.get_selection()
+      selection.set_mode(gtk.SELECTION_MULTIPLE)
+
+    self.populate_dataTreeView(sel)
+
+    if sel == 'Phams':
+      phamCircleToggleToolButton.set_sensitive(True)
+      selection.set_mode(gtk.SELECTION_MULTIPLE)
+    else:
+      phamCircleToggleToolButton.set_sensitive(False)
+      
+    if sel == 'Domains':
+      selection.set_mode(gtk.SELECTION_SINGLE)
+
+
+    #if sel != 'Genes': alignmentToggleToolButton.set_sensitive(False)
+    #else: alignmentToggleToolButton.set_sensitive(True)
+    self.wTree.get_object('dataSourceTreeView').set_sensitive(True)
+
+  def on_selection_changed(self, treeSelection, *args):
+    self.wTree.get_object('dataSourceTreeView').set_sensitive(False)
+
+    menuItems = ['exportFastaMenuItem', 'exportFastaNucleotideMenuItem','exportGenomeMenuItem', 'batchSaveMenuItem']
+    if treeSelection.get_mode() == gtk.SELECTION_SINGLE:
+      (model,iter) = treeSelection.get_selected()
+      s = iter
+    elif treeSelection.get_mode() == gtk.SELECTION_MULTIPLE:
+      (model,pathlist) = treeSelection.get_selected_rows()
+      s = len(pathlist)
+    # no phages, phams, genes, or domains are selected, so inactivate everything.
+    if not s:
+      for widget in menuItems:
+        w = self.wTree.get_object(widget)
+        w.set_sensitive(False)
+    else:
+      # genome export option is appropriate only for phages
+      if self.get_sel() != 'Phages':
+        menuItems.remove('exportGenomeMenuItem')
+      if self.get_sel() != 'Phams':
+        menuItems.remove('batchSaveMenuItem')
+      if self.get_sel() == 'Genes':
+        #my_genes = self.get_selected_GeneIDs(self)
+        menuItems = []
+      if self.get_sel() == 'Domains':      
+        menuItems = []
+ 
+      for widget in menuItems:
+        w = self.wTree.get_object(widget)
+        w.set_sensitive(True)
+    self.wTree.get_object('dataSourceTreeView').set_sensitive(True)
+
+  def on_dataTreeView_cursor_changed(self, widget):
+    #'''load the pham or phage data'''
+    self.dataTreeView.set_model(widget.get_model())
+    treeSelection = self.dataTreeView.get_selection()
+    print treeSelection.get_mode()
+    if treeSelection.get_mode() == gtk.SELECTION_SINGLE:
+      (model,iter) = treeSelection.get_selected()
+    elif treeSelection.get_mode() == gtk.SELECTION_MULTIPLE:
+      (model,pathlist) = treeSelection.get_selected_rows()
+    cols = self.dataTreeView.get_columns()
+    if cols[0].get_title() != 'Phamily':
+      self.rowsTreeView.set_model(None)
+      self.rowsTreeView.hide()
+
+    if cols[0].get_title() == 'PhageID': 
+      # user clicked on a phage
+      type = 'phage'
+      if self.wTree.get_object('mapToggleToolButton').get_active():
+        #self.busy(True)
+        watch = gtk.gdk.Cursor(gtk.gdk.WATCH)
+        self.window.window.set_cursor(watch)
+        gobject.idle_add(self.draw_genome_canvas)
+
+      phages, length = self.get_selected_PhageIDs()
+      PhageIDs = []
+      if phages:
+        for phage in phages: PhageIDs.append(phage['PhageID'])
+        if len(PhageIDs) == 1:
+          PhageID = PhageIDs[0]
+          phageNames = [get_name_from_PhageID(self.c, PhageID)]
+          phage_name = phageNames[0]
+          print 'showing webpage'
+          sw = self.wTree.get_object('webKitScrolledWindow')
+          sw.show_all()
+          self.web_kit.open("http://phagesdb.org/phages/%s" % phage_name.replace('-DRAFT', ''))
+          self.wTree.get_object('rowsTreeViewScrolledWindow').hide_all()
+        else:
+          print 'hiding webpage'
+          self.wTree.get_object('rowsTreeViewScrolledWindow').show_all()
+          sw = self.wTree.get_object('webKitScrolledWindow')
+          sw.hide()
+          #self.web_kit.hide()
+        
+    elif cols[0].get_title() == 'Phamily':
+      type = 'pham' 
+      self.rowsTreeView.show()
+
+      if len(pathlist) > 1:
+        print "cannot display multiple cicles at once.  Displaying only one"
+      path = pathlist[0]
+      iter = model.get_iter(path)
+      sel = model.get_value(iter,0)
+
+      GeneIDs = get_members_of_pham(self.c, sel)
+      self.populate_rowsTreeView(type, sel)
+      if self.wTree.get_object('phamCircleToggleToolButton').get_active():
+        watch = gtk.gdk.Cursor(gtk.gdk.WATCH)
+        self.window.window.set_cursor(watch)
+        gobject.idle_add(self.draw_phamCircle_canvas)
+    elif cols[0].get_title() == 'Gene':
+      type = 'gene'
+      iters = []
+      for path in pathlist:
+        #try: iter = self.dataTreeStore.get_iter(path)
+        try: iter = model.get_iter(path)
+        except ValueError: return # still loading phams, so you can't click one yet. Just relax.
+        iters.append(iter)
+      iter = iters[0]
+      sel = model.get_value(iter, 0)
+      
+      #(model, iter) = treeSelection.get_selected()
+      #sel = self.dataTreeStore.get_value(iter, 0)
+    elif cols[0].get_title() == 'Domain':
+      type = 'domain'
+    #  sel = model.get_value(iter, 0)
+    #  # print 'sel: %s' % sel
+    return 0
+
+  def on_dataTreeView_button_press_event(self, treeview, event):
+    if event.button == 1:
+      # enable drag and drop for fasta protein file for a whole genome
+      if event.state == gtk.gdk.MOD2_MASK|gtk.gdk.MOD4_MASK or event.state == gtk.gdk.MOD4_MASK:
+        t = self.targets + [('text/plain', 0, 29)]
+        self.dataTreeView.enable_model_drag_source(gtk.gdk.BUTTON1_MASK,t, gtk.gdk.ACTION_COPY)
+      else:
+        t = self.targets + [('text/plain', 0, 27)]
+        self.dataTreeView.enable_model_drag_source(gtk.gdk.BUTTON1_MASK,t, gtk.gdk.ACTION_COPY)
+    elif event.button == 2:
+      # enable drag and drop for fasta nucleotide file for a whole genome
+      t = self.targets + [('text/plain', 0, 28)]
+      self.dataTreeView.enable_model_drag_source(gtk.gdk.BUTTON2_MASK,t, gtk.gdk.ACTION_COPY)
+    elif event.button == 3:
+      popup = self.phageMenuWTree.get_object("phageMenu")
+      x = int(event.x)
+      y = int(event.y)
+      time = event.time
+      pthinfo = treeview.get_path_at_pos(x, y)
+      if pthinfo is not None:
+        path, col, cellx, celly = pthinfo
+        treeview.grab_focus()
+        treeview.set_cursor( path, col, 0)
+        checkBox = self.phageMenuWTree.get_object("flipMeCheckButton")
+        if self.dataTreeStore[path][5]:
+          checkBox.set_active(True)
+        else:
+          checkBox.set_active(False)
+        popup.popup( None, None, None, event.button, time)
+      return 1
+
+  def on_flipMeCheckButton_activate(self, widget):
+    treeSelection = self.dataTreeView.get_selection()
+    (model, pathlist) = treeSelection.get_selected_rows()
+    for path in pathlist:
+      iter = self.dataTreeStore.get_iter(path)
+      sel = str(self.dataTreeStore.get_value(iter,0))
+      self.dataTreeStore[path][5] = widget.get_active()
+
+  def on_rowsTreeView_cursor_changed(self, widget):
+    '''update the scores in the rowsTreeView to reflect those for the current row'''
+    self.busy(True)
+    self.clustalwCache = {}
+    self.blastCache = {}
+
+    def update_clustalw(c, sel, store, cache):
+      treeiter = store.get_iter_first()
+      while treeiter:
+        subject = store.get_value(treeiter, 0)
+        if sel == subject:
+          store.set_value(treeiter, 4, -1)
+          treeiter = store.iter_next(treeiter)
+          continue
+        clustalwScore, blastScore = get_scores(c, query=sel, subject=subject)
+        if not clustalwScore:
+          try:
+            clustalwScore = cache[sel][subject]
+          except KeyError:
+            clustalwScore = do_pairwise_alignment(c, sel, subject)
+            if not cache.has_key(sel): cache[sel] = {}
+            cache[sel][subject] = clustalwScore
+        clustalwScore = clustalwScore * 100.0
+        if store.get_value(treeiter, 4) != clustalwScore:
+          print 'trying to set value -- sel: %s -- subject: %s -- score: %s' % (sel, subject, clustalwScore)
+          store.set_value(treeiter, 4, clustalwScore)
+        treeiter = store.iter_next(treeiter)
+
+    def update_blast(c, sel, store, cache):
+      print 'cache size:', len(cache)
+      treeiter = store.get_iter_first()
+      while treeiter:
+        subject = store.get_value(treeiter, 0)
+        if sel == subject:
+          store.set_value(treeiter, 5, -1)
+          treeiter = store.iter_next(treeiter)
+          continue
+        clustalwScore, blastScore = get_scores(c, query=sel, subject=subject)
+        if blastScore is None:
+          print 'no blast score for %s:%s...' % (sel, subject)
+          try:
+            print 'looking for it in the cache...'
+            blastScore = cache[sel][subject]
+          except (TypeError, KeyError):
+            if not cache.has_key(sel):
+              print 'not there...running blast...'
+              blastDict = do_blast_search(c, sel)
+              cache[sel] = blastDict
+            #print 'blast has been run with query %s but there is no score for %s' % (sel, subject)
+            try:
+              blastScore = cache[sel][subject]
+            except (TypeError, KeyError):
+              print 'still not there.  E-val is worse than threshold for do_blast_search'
+              blastScore = -1
+        if blastScore is None or blastScore == -1:
+          if not blastDict:
+            # show dialog warning that BLAST isn't working
+            blastWarning = BLASTWarningDialog()
+            blastWarning.run()
+            blastScore = -1
+          #else:
+          #  blastScore = cache[sel][subject]
+
+        if store.get_value(treeiter, 5) != blastScore:
+          store.set_value(treeiter, 5, blastScore) ###
+          #treeiter = store.get_iter_first()
+          #continue
+
+        else:
+          pass
+          #print 'skipping this row update because query = subject'
+        treeiter = store.iter_next(treeiter)
+ 
+
+    treeSelection = self.rowsTreeView.get_selection()
+    (model, iter) = treeSelection.get_selected()
+    sel = self.rowsTreeStore.get_value(iter, 0)
+
+    update_clustalw(self.c, sel, self.rowsTreeStore, self.clustalwCache)
+    update_blast(self.c, sel, self.rowsTreeStore, self.blastCache)
+
+    self.busy(False)
+
+  def populate_rowsTreeView(self, type, sel):
+    '''add rows to the rowsTreeView based on the type and selected row of dataTreeView'''
+    if type == 'pham':
+      def pham_sorter(self, model, iter1, iter2, data):
+        name1 = int(model.get_value(iter1, 0))
+        name2 = int(model.get_value(iter2, 0))
+        if name1 < name2: return -1
+        elif name1 > name2: return 1
+        else: return 0
+ 
+      self.rowsTreeStore = gtk.TreeStore(str, str, str, str, float, float)
+      self.rowsTreeStore.set_sort_func(9000, pham_sorter)
+      self.rowsTreeView.set_model(self.rowsTreeStore)
+      cols = ['GeneID', 'Gene', 'Phage', 'Cluster']
+      for n, col in enumerate(cols):
+        if col not in self.rowsCols:
+          self.rowsCols.append(col)
+          self.tvcolumn = gtk.TreeViewColumn(col)
+          if n == 0: self.tvcolumn.set_visible(False)
+          self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+          self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+          self.tvcolumn.add_attribute(self.cell, 'text', n) # set the cell "text" attribute to column 0
+          self.rowsTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+          self.dataTreeView.set_search_column(n)
+        self.tvcolumn.set_sort_column_id(n)               # Allow sorting on each of these columns
+                                                          # retrieve text from that column in dataSourceTreeStore
+      if 'Clustalw score' not in self.rowsCols:
+        def format_clustalw(tvcolumn, cell, model, iter, user_data=None):
+          '''formats the text to display for clustalw scores so that -1 is hidden'''
+          clustalwScore = model.get_value(iter, 4)
+          cell.set_property('text', "%.1f" % clustalwScore)
+          if clustalwScore < 32.5:
+            cell.set_property('foreground', "red")
+            cell.set_property('background', "gray")
+          else:
+            cell.set_property('foreground', "black")
+            cell.set_property('background', "white")
+          if int(clustalwScore) == -1:
+            cell.set_property('visible', False)
+          else:
+            cell.set_property('visible', True)
+          return
+
+        self.rowsCols.append('Clustalw score')
+        self.tvcolumn = gtk.TreeViewColumn('Global % Identity')
+        self.rowsTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+        self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+        self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+        self.tvcolumn.add_attribute(self.cell, 'text', 4) # set the cell "text" attribute to column 0
+        #self.tvcolumn.add_attribute(self.cell, 'foreground', 4)
+                                                          # retrieve text from that column in dataSourceTreeStore
+        self.tvcolumn.set_cell_data_func(self.cell, format_clustalw, data=None)
+        self.tvcolumn.set_sort_column_id(4)               # Allow sorting on the first (PhageID) column
+
+      if 'BLAST score' not in self.rowsCols:
+        def format_blast(tvcolumn, cell, model, iter, user_data=None):
+          '''formats the text to display for BLAST scores so that it isn't rounded and -1 is hidden'''
+          blastScore = model.get_value(iter, 5)
+          cell.set_property('text', "%e" % blastScore)
+          if blastScore > 1e-50:
+            cell.set_property('foreground', "red")
+            cell.set_property('background', "gray")
+          else:
+            cell.set_property('foreground', "black")
+            cell.set_property('background', "white")
+ 
+          if int(blastScore) == -1:
+            cell.set_property('visible', False)
+          else:
+            cell.set_property('visible', True)
+          return
+
+        self.rowsCols.append('BLAST score')
+        self.cell = gtk.CellRendererText()                # create a CellRendererText to render the data
+        self.tvcolumn = gtk.TreeViewColumn('BLAST E-Value')
+        self.rowsTreeView.append_column(self.tvcolumn)    # add tvcolumn to dataTreeView
+        self.tvcolumn.pack_start(self.cell, True)         # add the cell to the tvcolumn and allow it to expand
+        self.tvcolumn.add_attribute(self.cell, 'text', 5) # set the cell "text" attribute to column 0
+                                                          # retrieve text from that column in dataSourceTreeStore
+        self.tvcolumn.set_cell_data_func(self.cell, format_blast, data=None)
+
+        self.tvcolumn.set_sort_column_id(5)               # Allow sorting on the first (PhageID) column
+
+      GeneIDs = get_members_of_pham(self.c, sel)
+      for GeneID in GeneIDs:
+        phageName = get_phage_name_from_GeneID(self.c, GeneID)
+        geneName = get_gene_name_from_GeneID(self.c, GeneID)
+        clusterName = get_cluster_from_PhageID(self.c, get_PhageID_from_GeneID(self.c, GeneID))
+        self.rowsTreeStore.append(None, (GeneID, geneName, phageName, clusterName, -1, -1))
+
+  def on_open_GenBank_file_clicked(self, widget):
+    """Called when the user clicks the open button or open menu item"""
+    self.logger.log('on_open_GenBank_file_clicked')
+    evnt = threading.Event()
+    progressQueue = Queue.Queue(maxsize=1)
+    OpenGenBankFileDlg = OpenGenBankFileDialog()
+    result = OpenGenBankFileDlg.run()
+    if result == gtk.RESPONSE_OK:
+      fname = OpenGenBankFileDlg.dlg.get_filename()
+      self.logger.log("parsing '" + fname + "' and adding phage to the database")
+      context_id = self.statusbar.get_context_id('add phage')
+      self.statusbar.push(context_id, 'Adding phage from ' + fname)
+      opener = phageOpener(evnt, fname, progressQueue, self.c)
+      insensitive = ['menubar1', 'toolbar1']
+      for widget in insensitive: self.wTree.get_object(widget).set_sensitive(False)
+      while gtk.events_pending():
+        gtk.main_iteration(False)
+      self.busy(True)
+      self.logger.log('done creating phageOpener')
+      opener.start()
+      self.logger.log('done starting phageOpener')
+      self.logger.log('waiting...')
+      progress = self.wTree.get_object('progressbar1')
+      progress.show()
+
+      while not evnt.isSet():
+        evnt.wait(1.0)
+        try: progress.set_fraction(progressQueue.get(block=False))
+        except Queue.Empty: pass
+        while gtk.events_pending():
+          gtk.main_iteration(False)
+      progress.hide()
+      self.logger.log('done waiting')
+      
+      self.logger.log('reload treeView')
+      self.populate_dataTreeView()
+      self.statusbar.pop(context_id)
+      for widget in insensitive: self.wTree.get_object(widget).set_sensitive(True)
+      self.busy(False)
+   
+  def on_add_phage_clicked(self, widget):
+    """Called when the user clicks the add button or add phage menu item"""
+    self.logger.log('on_add_phage_clicked called')
+    #Create the dialog, show it, and store the results
+    evnt = threading.Event()
+    progressQueue = Queue.Queue(maxsize=1)
+    resultQueue = Queue.Queue(maxsize=1)
+    AddPhageDlg = AddPhageDialog()
+    r = AddPhageDlg.run()
+    if not r: return
+    result, newPhage, allowRefSeqs = r
+
+    if (result == gtk.RESPONSE_OK):
+      """The user clicked Ok, so let's add this
+      phage to the phage list"""
+      self.logger.log("add phage '" + newPhage.name + "' to the database")
+      context_id = self.statusbar.get_context_id('add phage')
+      self.statusbar.push(context_id, 'Adding phage ' + newPhage.name)
+
+    self.logger.log("creating phageSearcher")
+    phageSearcher = phageSearch(newPhage.name, allowRefSeqs, evnt, progressQueue, resultQueue, self.c)
+    self.logger.log("starting search")
+    searchResults = phageSearcher.start()
+    progress = self.wTree.get_object('progressbar1')
+    progress.show()
+
+    while not evnt.isSet():
+      evnt.wait(1.0)
+      try:
+        p = progressQueue.get(block=False)
+        if p: progress.set_fraction(p)
+      except Queue.Empty: pass
+      while gtk.events_pending():
+        gtk.main_iteration(False)
+    progress.hide()
+    progress.set_fraction(0.0)
+    searchResults = phageSearcher.resultQueue.get()
+    self.logger.log('done waiting')
+    self.logger.log('reload treeView')
+    self.logger.log("done searching")
+
+    if len(searchResults) > 1:
+      # load window for choosing a phage from the results
+      phageChooser = PhageChooserDialog(searchResults)
+      chooserResult = phageChooser.run()
+      result = chooserResult
+      print 'RESULT: %s' % result
+    elif len(searchResults) == 1:
+      #feature_parser = GenBank.FeatureParser()
+      #ncbi_dict = GenBank.NCBIDictionary('nucleotide', 'genbank', parser = feature_parser)
+      #result = ncbi_dict[searchResults[0]]
+      result = searchResults
+      from Bio import Entrez, SeqIO
+      handle = Entrez.efetch(db='nucleotide', id=result, rettype='gb')
+      result = SeqIO.read(handle, 'genbank')
+      print 'RESULT: %s' % result
+    else:
+      sys.exit()
+    evnt = threading.Event()
+
+    adder = phageAdder(result, evnt, progressQueue, self.c)
+    insensitive = ['menubar1', 'toolbar1', 'dataSourceTreeView']
+    for widget in insensitive: self.wTree.get_object(widget).set_sensitive(False)
+    while gtk.events_pending():
+      gtk.main_iteration(False)
+    self.busy(True)
+    self.logger.log('done creating phageAdder')
+    adder.start()
+    self.logger.log('done starting phageAdder')
+    self.logger.log('waiting...')
+    progress = self.wTree.get_object('progressbar1')
+    progress.show()
+
+    while not evnt.isSet():
+      evnt.wait(1.0)
+      try: progress.set_fraction(progressQueue.get(block=False))
+      except Queue.Empty: pass
+      while gtk.events_pending():
+        gtk.main_iteration(False)
+    progress.hide()
+    progress.set_fraction(0.0)
+    self.logger.log('done waiting')
+    self.logger.log('reload treeView')
+    self.c.execute('COMMIT')
+    self.populate_dataTreeView(sel='Phages')
+    try:
+      self.statusbar.pop(context_id)
+      for widget in insensitive: self.wTree.get_object(widget).set_sensitive(True)
+      self.busy(False)
+    except:
+      self.logger.log('error resetting status bar')
+
+  def on_remove_phage_clicked(self, widget):
+    """Called when the user wants to remove a phage"""
+    self.logger.log('remove_phage called')
+    context_id = self.statusbar.get_context_id('remove phage')
+    (model, pathlist) = self.treeselection.get_selected_rows()
+    pathlist.sort()
+    pathlist.reverse()
+    iters = []
+    for path in pathlist:
+      iter = self.dataTreeStore.get_iter(path)
+      iters.append(iter)
+    for iter in iters:
+      path = self.dataTreeStore.get_path(iter)
+      PhageID = self.dataTreeStore.get_value(iter, 0)
+      name = get_name_from_PhageID(self.c, PhageID)
+      self.statusbar.push(context_id, 'Removing phage ' + name)
+      while gtk.events_pending():
+        gtk.main_iteration(False)
+      try:
+        remove_phage_from_db(PhageID, self.c)
+        self.dataTreeStore.remove(iter)
+      except:
+        print 'error removing phage from database'
+      self.statusbar.pop(context_id)
+
+  def busy(self, state):
+    if state:
+      watch = gtk.gdk.Cursor(gtk.gdk.WATCH)
+      self.window.window.set_cursor(watch)
+    else:
+      self.window.window.set_cursor(None)
+    while gtk.events_pending():
+      gtk.main_iteration(False)
+
+  def show_about_dialog(self, widget):
+    self.logger.log('show about dialog')
+    AboutDlg = AboutDialog()
+    AboutDlg.run()
+
+  def show_whatsNew_dialog(self, widget):
+    self.logger.log("show what's new dialog")
+    whatsNewDlg = WhatsNewDialog()
+    whatsNewDlg.run()
+
+  def show_dbStats_dialog(self, widget):
+    self.logger.log("show DbStats dialog")
+    dbStatsDlg = DbStatsDialog(self.c)
+    dbStatsDlg.run()
+ 
+def main():
+
+  conf = config.PhameratorConfiguration()
+  app = phageManager()
+  gtk.main()
+
+if __name__ == "__main__":
+  main()

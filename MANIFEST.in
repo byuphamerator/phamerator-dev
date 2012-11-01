@@ -1,0 +1,2 @@
+recursive-include phamerator *.svg
+recursive-include phamerator *.glade

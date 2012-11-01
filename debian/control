@@ -1,0 +1,19 @@
+Source: phamerator
+Section: python
+XS-Python-Version: all
+Priority: optional
+Maintainer: Steve Cresawn <cresawsg@jmu.edu>
+Build-Depends-Indep: debhelper (>= 4.2.28), python-central (>= 0.4.7)
+Standards-Version: 3.6.2
+
+Package: python-phamerator
+Architecture: all
+Depends: pyro (>=3.4), python-biopython (>=1.42), clustalw, python-pygoocanvas, python-mysqldb, curl
+XB-Python-Version: all
+Description: Phamerator
+ Phamerator is a set of computer programs for genomic
+ analysis of bacteriophage genomes. It coordinates the alignment of
+ every protein sequence in the database to every other protein sequence
+ in the database. The results are used to group proteins 
+ into 'phamilies'. These phamilies can be displayed on genome maps or
+ in 'phamily circle' diagrams.
