@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>phamerator.phamCluster</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="phamerator-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="phamerator-module.html">Package&nbsp;phamerator</a> ::
+        Module&nbsp;phamCluster
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="phamerator.phamCluster-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="phamerator.phamCluster-module.html">Module phamerator.phamCluster</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-comment">#!/usr/bin/env python</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module phamerator.distance=phamerator.distance-module.html"><a title="phamerator.distance" class="py-name" href="#" onclick="return doclink('link-0', 'distance', 'link-0');">distance</a></tt><tt class="py-op">,</tt> <tt class="py-name">time</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Module phamerator.cluster=phamerator.cluster-module.html,Method phamerator.cluster.HierarchicalClustering.cluster()=phamerator.cluster.HierarchicalClustering-class.html#cluster"><a title="phamerator.cluster
+phamerator.cluster.HierarchicalClustering.cluster" class="py-name" href="#" onclick="return doclink('link-1', 'cluster', 'link-1');">cluster</a></tt> <tt class="py-keyword">import</tt> <tt id="link-2" class="py-name" targets="Class phamerator.cluster.HierarchicalClustering=phamerator.cluster.HierarchicalClustering-class.html"><a title="phamerator.cluster.HierarchicalClustering" class="py-name" href="#" onclick="return doclink('link-2', 'HierarchicalClustering', 'link-2');">HierarchicalClustering</a></tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">scipy</tt> <tt class="py-keyword">import</tt> <tt class="py-name">array</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
+<a name="PhamCluster"></a><div id="PhamCluster-def"><a name="L7"></a><tt class="py-lineno"> 7</tt> <a class="py-toggle" href="#" id="PhamCluster-toggle" onclick="return toggle('PhamCluster');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="phamerator.phamCluster.PhamCluster-class.html">PhamCluster</a><tt class="py-op">:</tt> </tt>
+</div><div id="PhamCluster-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="PhamCluster-expanded"><a name="PhamCluster.__init__"></a><div id="PhamCluster.__init__-def"><a name="L8"></a><tt class="py-lineno"> 8</tt> <a class="py-toggle" href="#" id="PhamCluster.__init__-toggle" onclick="return toggle('PhamCluster.__init__');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.phamCluster.PhamCluster-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="PhamCluster.__init__-collapsed" style="display:none;" pad="++" indent="++++++"></div><div id="PhamCluster.__init__-expanded"><a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">distancesComputed</tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
+</div><a name="PhamCluster.initialize_matrix"></a><div id="PhamCluster.initialize_matrix-def"><a name="L10"></a><tt class="py-lineno">10</tt> <a class="py-toggle" href="#" id="PhamCluster.initialize_matrix-toggle" onclick="return toggle('PhamCluster.initialize_matrix');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.phamCluster.PhamCluster-class.html#initialize_matrix">initialize_matrix</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="PhamCluster.initialize_matrix-collapsed" style="display:none;" pad="++" indent="++++++"></div><div id="PhamCluster.initialize_matrix-expanded"><a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">    <tt class="py-docstring">'''creates an array to be used for holding the distances'''</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">scoreMatrix</tt> <tt class="py-op">=</tt> <tt id="link-3" class="py-name"><a title="phamerator.distance" class="py-name" href="#" onclick="return doclink('link-3', 'distance', 'link-0');">distance</a></tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Function phamerator.distance.create_score_matrix()=phamerator.distance-module.html#create_score_matrix"><a title="phamerator.distance.create_score_matrix" class="py-name" href="#" onclick="return doclink('link-4', 'create_score_matrix', 'link-4');">create_score_matrix</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">    <tt class="py-comment">#self.scoreMatrix = [[1,0,0],[2, 0,1],[3,110,1],[4, 1, 1],[5,0,0]]</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">    <tt class="py-comment">#self.scoreMatrix = [(0), (1), (5)]</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">    <tt class="py-comment">#self.scorelabels = ['U2', 'L5', 'D29']</tt> </tt>
+<a name="PhamCluster.get_distance"></a><div id="PhamCluster.get_distance-def"><a name="L16"></a><tt class="py-lineno">16</tt> <a class="py-toggle" href="#" id="PhamCluster.get_distance-toggle" onclick="return toggle('PhamCluster.get_distance');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.phamCluster.PhamCluster-class.html#get_distance">get_distance</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">x</tt><tt class="py-op">,</tt> <tt class="py-param">y</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="PhamCluster.get_distance-collapsed" style="display:none;" pad="++" indent="++++++"></div><div id="PhamCluster.get_distance-expanded"><a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">    <tt class="py-docstring">'''returns a distance looked up in the matrix array'''</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">    <tt class="py-comment">#self.distancesComputed += 1</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">    <tt class="py-comment">#print self.distancesComputed</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">    <tt class="py-comment">#print 'getting distance for', x, y</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">    <tt class="py-comment">#print 'x:', x, '\ny:', y</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">    <tt id="link-5" class="py-name" targets="Variable phamerator.plugins.compare_dbs.d=phamerator.plugins.compare_dbs-module.html#d"><a title="phamerator.plugins.compare_dbs.d" class="py-name" href="#" onclick="return doclink('link-5', 'd', 'link-5');">d</a></tt> <tt class="py-op">=</tt> <tt id="link-6" class="py-name"><a title="phamerator.distance" class="py-name" href="#" onclick="return doclink('link-6', 'distance', 'link-0');">distance</a></tt><tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Function phamerator.distance.calcDistanceMatrixFastEuclidean3()=phamerator.distance-module.html#calcDistanceMatrixFastEuclidean3"><a title="phamerator.distance.calcDistanceMatrixFastEuclidean3" class="py-name" href="#" onclick="return doclink('link-7', 'calcDistanceMatrixFastEuclidean3', 'link-7');">calcDistanceMatrixFastEuclidean3</a></tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-name">x</tt><tt class="py-op">,</tt> <tt class="py-name">y</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">    <tt class="py-comment">#d = distance.calcDistanceMatrixFastEuclidean3(array(x, y))</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">    <tt class="py-comment">#d = distance.calcDistanceMatrixFastEuclidean2(array(x, y))</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">    <tt class="py-comment">#print 'd:', d</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt id="link-8" class="py-name"><a title="phamerator.plugins.compare_dbs.d" class="py-name" href="#" onclick="return doclink('link-8', 'd', 'link-5');">d</a></tt> </tt>
+</div><a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">    <tt class="py-comment">#a = self.scoreMatrix.index(x)</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">    <tt class="py-comment">#b = self.scoreMatrix.index(y)</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">    <tt class="py-comment">#print 'a:', a, '\nb:', b</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">    <tt class="py-comment">#print self.distMatrix[a][b]</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">    <tt class="py-comment">#time.sleep(5)</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">    <tt class="py-comment">#return self.distMatrix[a][b]</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">    <tt class="py-comment">#except: print 'x:', x, 'y:', y</tt> </tt>
+<a name="PhamCluster.calculate_distances"></a><div id="PhamCluster.calculate_distances-def"><a name="L34"></a><tt class="py-lineno">34</tt> <a class="py-toggle" href="#" id="PhamCluster.calculate_distances-toggle" onclick="return toggle('PhamCluster.calculate_distances');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.phamCluster.PhamCluster-class.html#calculate_distances">calculate_distances</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="PhamCluster.calculate_distances-collapsed" style="display:none;" pad="++" indent="++++++"></div><div id="PhamCluster.calculate_distances-expanded"><a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">    <tt class="py-docstring">'''calculate the distances for all items in the array'''</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">distMatrix</tt> <tt class="py-op">=</tt> <tt id="link-9" class="py-name"><a title="phamerator.distance" class="py-name" href="#" onclick="return doclink('link-9', 'distance', 'link-0');">distance</a></tt><tt class="py-op">.</tt><tt id="link-10" class="py-name"><a title="phamerator.distance.calcDistanceMatrixFastEuclidean3" class="py-name" href="#" onclick="return doclink('link-10', 'calcDistanceMatrixFastEuclidean3', 'link-7');">calcDistanceMatrixFastEuclidean3</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">scoreMatrix</tt><tt class="py-op">)</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt class="py-string">'distMatrix is a(n)'</tt><tt class="py-op">,</tt> <tt class="py-name">type</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">distMatrix</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line"> </tt>
+<a name="main"></a><div id="main-def"><a name="L39"></a><tt class="py-lineno">39</tt> <a class="py-toggle" href="#" id="main-toggle" onclick="return toggle('main');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.phamCluster-module.html#main">main</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="main-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="main-expanded"><a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">  <tt id="link-11" class="py-name" targets="Variable phamerator.phamBuilder2.pC=phamerator.phamBuilder2-module.html#pC,Variable phamerator.phamBuilderComparator.pC=phamerator.phamBuilderComparator-module.html#pC"><a title="phamerator.phamBuilder2.pC
+phamerator.phamBuilderComparator.pC" class="py-name" href="#" onclick="return doclink('link-11', 'pC', 'link-11');">pC</a></tt> <tt class="py-op">=</tt> <tt id="link-12" class="py-name" targets="Class phamerator.phamCluster.PhamCluster=phamerator.phamCluster.PhamCluster-class.html"><a title="phamerator.phamCluster.PhamCluster" class="py-name" href="#" onclick="return doclink('link-12', 'PhamCluster', 'link-12');">PhamCluster</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">  <tt id="link-13" class="py-name"><a title="phamerator.phamBuilder2.pC
+phamerator.phamBuilderComparator.pC" class="py-name" href="#" onclick="return doclink('link-13', 'pC', 'link-11');">pC</a></tt><tt class="py-op">.</tt><tt id="link-14" class="py-name" targets="Method phamerator.phamCluster.PhamCluster.initialize_matrix()=phamerator.phamCluster.PhamCluster-class.html#initialize_matrix"><a title="phamerator.phamCluster.PhamCluster.initialize_matrix" class="py-name" href="#" onclick="return doclink('link-14', 'initialize_matrix', 'link-14');">initialize_matrix</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">  <tt class="py-comment">#pC.calculate_distances()</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line"> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">  <tt class="py-comment">#print 'scoreMatrix:', pC.scoreMatrix</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">  <tt class="py-comment">#print 'distMatrix:', pC.distMatrix</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">  <tt class="py-name">cl</tt> <tt class="py-op">=</tt> <tt id="link-15" class="py-name"><a title="phamerator.cluster.HierarchicalClustering" class="py-name" href="#" onclick="return doclink('link-15', 'HierarchicalClustering', 'link-2');">HierarchicalClustering</a></tt><tt class="py-op">(</tt><tt id="link-16" class="py-name"><a title="phamerator.phamBuilder2.pC
+phamerator.phamBuilderComparator.pC" class="py-name" href="#" onclick="return doclink('link-16', 'pC', 'link-11');">pC</a></tt><tt class="py-op">.</tt><tt class="py-name">scoreMatrix</tt><tt class="py-op">,</tt> <tt class="py-keyword">lambda</tt> <tt class="py-name">x</tt><tt class="py-op">,</tt><tt class="py-name">y</tt><tt class="py-op">:</tt> <tt id="link-17" class="py-name"><a title="phamerator.phamBuilder2.pC
+phamerator.phamBuilderComparator.pC" class="py-name" href="#" onclick="return doclink('link-17', 'pC', 'link-11');">pC</a></tt><tt class="py-op">.</tt><tt id="link-18" class="py-name" targets="Method phamerator.phamCluster.PhamCluster.get_distance()=phamerator.phamCluster.PhamCluster-class.html#get_distance"><a title="phamerator.phamCluster.PhamCluster.get_distance" class="py-name" href="#" onclick="return doclink('link-18', 'get_distance', 'link-18');">get_distance</a></tt><tt class="py-op">(</tt><tt class="py-name">x</tt><tt class="py-op">,</tt><tt class="py-name">y</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">  <tt class="py-comment">#cutoff = raw_input('specify cutoff level:')</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">  <tt class="py-name">cutoff</tt> <tt class="py-op">=</tt> <tt class="py-number">1</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">'using cutoff of 1'</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">  <tt class="py-name">clusters</tt> <tt class="py-op">=</tt> <tt class="py-name">cl</tt><tt class="py-op">.</tt><tt id="link-19" class="py-name" targets="Method phamerator.cluster.Cluster.getlevel()=phamerator.cluster.Cluster-class.html#getlevel,Method phamerator.cluster.HierarchicalClustering.getlevel()=phamerator.cluster.HierarchicalClustering-class.html#getlevel"><a title="phamerator.cluster.Cluster.getlevel
+phamerator.cluster.HierarchicalClustering.getlevel" class="py-name" href="#" onclick="return doclink('link-19', 'getlevel', 'link-19');">getlevel</a></tt><tt class="py-op">(</tt><tt class="py-name">float</tt><tt class="py-op">(</tt><tt class="py-name">cutoff</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">'there are'</tt><tt class="py-op">,</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">clusters</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-string">'clusters'</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-name">clusters</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">'there are'</tt><tt class="py-op">,</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">clusters</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-string">'clusters'</tt> </tt>
+</div><a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line"> </tt>
+<a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line"><tt class="py-keyword">if</tt> <tt class="py-name">__name__</tt> <tt class="py-op">==</tt> <tt class="py-string">'__main__'</tt><tt class="py-op">:</tt> </tt>
+<a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">  <tt id="link-20" class="py-name" targets="Function phamerator.PhamDisplay.main()=phamerator.PhamDisplay-module.html#main,Function phamerator.blastServer_InnoDB.main()=phamerator.blastServer_InnoDB-module.html#main,Function phamerator.blast_genbank.main()=phamerator.blast_genbank-module.html#main,Function phamerator.blastclient.main()=phamerator.blastclient-module.html#main,Function phamerator.blastclient_remote_access.main()=phamerator.blastclient_remote_access-module.html#main,Function phamerator.blastclient_xml.main()=phamerator.blastclient_xml-module.html#main,Function phamerator.cartographer.main()=phamerator.cartographer-module.html#main,Function phamerator.distance.main()=phamerator.distance-module.html#main,Function phamerator.distance2.main()=phamerator.distance2-module.html#main,Function phamerator.fix_svg.main()=phamerator.fix_svg-module.html#main,Function phamerator.phamBuilder.main()=phamerator.phamBuilder-module.html#main,Function phamerator.phamBuilder3.main()=phamerator.phamBuilder3-module.html#main,Function phamerator.phamBuilder4.main()=phamerator.phamBuilder4-module.html#main,Function phamerator.phamCluster.main()=phamerator.phamCluster-module.html#main,Function phamerator.phamServer_InnoDB.main()=phamerator.phamServer_InnoDB-module.html#main,Function phamerator.phamServer__InnoDB.main()=phamerator.phamServer__InnoDB-module.html#main,Function phamerator.phamServer_progress.main()=phamerator.phamServer_progress-module.html#main,Function phamerator.phamServer_python.main()=phamerator.phamServer_python-module.html#main,Function phamerator.phamServer_remote_access.main()=phamerator.phamServer_remote_access-module.html#main,Function phamerator.phamerator_manage_db.main()=phamerator.phamerator_manage_db-module.html#main,Function phamerator.plugins.phamchecker.main()=phamerator.plugins.phamchecker-module.html#main,Function phamerator.plugins.remove_drafts.main()=phamerator.plugins.remove_drafts-module.html#main,Function phamerator.plugins.update_cluster.main()=phamerator.plugins.update_cluster-module.html#main"><a title="phamerator.PhamDisplay.main
+phamerator.blastServer_InnoDB.main
+phamerator.blast_genbank.main
+phamerator.blastclient.main
+phamerator.blastclient_remote_access.main
+phamerator.blastclient_xml.main
+phamerator.cartographer.main
+phamerator.distance.main
+phamerator.distance2.main
+phamerator.fix_svg.main
+phamerator.phamBuilder.main
+phamerator.phamBuilder3.main
+phamerator.phamBuilder4.main
+phamerator.phamCluster.main
+phamerator.phamServer_InnoDB.main
+phamerator.phamServer__InnoDB.main
+phamerator.phamServer_progress.main
+phamerator.phamServer_python.main
+phamerator.phamServer_remote_access.main
+phamerator.phamerator_manage_db.main
+phamerator.plugins.phamchecker.main
+phamerator.plugins.remove_drafts.main
+phamerator.plugins.update_cluster.main" class="py-name" href="#" onclick="return doclink('link-20', 'main', 'link-20');">main</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="phamerator-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Nov  1 08:13:42 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

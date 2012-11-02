@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>phamerator.pham_comparator</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="phamerator-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="phamerator-module.html">Package&nbsp;phamerator</a> ::
+        Module&nbsp;pham_comparator
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="phamerator.pham_comparator-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="phamerator.pham_comparator-module.html">Module phamerator.pham_comparator</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">MySQLdb</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">time</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">random</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-comment">#import threading</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module phamerator.db_conf=phamerator.db_conf-module.html,Class phamerator.db_conf.db_conf=phamerator.db_conf.db_conf-class.html"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-0', 'db_conf', 'link-0');">db_conf</a></tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">sys</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"> </tt>
+<a name="pham_comparator"></a><div id="pham_comparator-def"><a name="L8"></a><tt class="py-lineno"> 8</tt> <a class="py-toggle" href="#" id="pham_comparator-toggle" onclick="return toggle('pham_comparator');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="phamerator.pham_comparator.pham_comparator-class.html">pham_comparator</a><tt class="py-op">:</tt> </tt>
+</div><div id="pham_comparator-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="pham_comparator-expanded"><a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">     </tt>
+<a name="pham_comparator.compare_B_to_C"></a><div id="pham_comparator.compare_B_to_C-def"><a name="L10"></a><tt class="py-lineno">10</tt> <a class="py-toggle" href="#" id="pham_comparator.compare_B_to_C-toggle" onclick="return toggle('pham_comparator.compare_B_to_C');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.pham_comparator.pham_comparator-class.html#compare_B_to_C">compare_B_to_C</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">pB</tt><tt class="py-op">,</tt> <tt class="py-param">pC</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="pham_comparator.compare_B_to_C-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="pham_comparator.compare_B_to_C-expanded"><a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">         </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">              </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">b_pham</tt> <tt class="py-keyword">in</tt> <tt id="link-1" class="py-name" targets="Variable phamerator.phamBuilder2.pB=phamerator.phamBuilder2-module.html#pB,Variable phamerator.phamBuilderComparator.pB=phamerator.phamBuilderComparator-module.html#pB"><a title="phamerator.phamBuilder2.pB
+phamerator.phamBuilderComparator.pB" class="py-name" href="#" onclick="return doclink('link-1', 'pB', 'link-1');">pB</a></tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Variable phamerator.asm_poster.phams=phamerator.asm_poster-module.html#phams"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-2', 'phams', 'link-2');">phams</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">                      </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">c_pham</tt> <tt class="py-keyword">in</tt> <tt id="link-3" class="py-name" targets="Variable phamerator.phamBuilder2.pC=phamerator.phamBuilder2-module.html#pC,Variable phamerator.phamBuilderComparator.pC=phamerator.phamBuilderComparator-module.html#pC"><a title="phamerator.phamBuilder2.pC
+phamerator.phamBuilderComparator.pC" class="py-name" href="#" onclick="return doclink('link-3', 'pC', 'link-3');">pC</a></tt><tt class="py-op">.</tt><tt id="link-4" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-4', 'phams', 'link-2');">phams</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">                <tt class="py-name">match</tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt>                             </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">                <tt class="py-keyword">for</tt> <tt class="py-name">b_gene</tt> <tt class="py-keyword">in</tt> <tt id="link-5" class="py-name"><a title="phamerator.phamBuilder2.pB
+phamerator.phamBuilderComparator.pB" class="py-name" href="#" onclick="return doclink('link-5', 'pB', 'link-1');">pB</a></tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-6', 'phams', 'link-2');">phams</a></tt><tt class="py-op">[</tt><tt class="py-name">b_pham</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">                     </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">                    <tt class="py-keyword">for</tt> <tt class="py-name">c_gene</tt> <tt class="py-keyword">in</tt> <tt id="link-7" class="py-name"><a title="phamerator.phamBuilder2.pC
+phamerator.phamBuilderComparator.pC" class="py-name" href="#" onclick="return doclink('link-7', 'pC', 'link-3');">pC</a></tt><tt class="py-op">.</tt><tt id="link-8" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-8', 'phams', 'link-2');">phams</a></tt><tt class="py-op">[</tt><tt class="py-name">c_pham</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">                         </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">                        <tt class="py-keyword">if</tt> <tt class="py-name">c_gene</tt> <tt class="py-op">==</tt> <tt class="py-name">b_gene</tt><tt class="py-op">:</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">                             </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">                            <tt class="py-name">match</tt> <tt class="py-op">+=</tt> <tt class="py-number">1</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">                             </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">                            <tt class="py-comment">#print 'The gene ' + c_gene + ' is present in both phams'</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">                <tt class="py-name">percentage</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-name">match</tt><tt class="py-op">/</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt id="link-9" class="py-name"><a title="phamerator.phamBuilder2.pC
+phamerator.phamBuilderComparator.pC" class="py-name" href="#" onclick="return doclink('link-9', 'pC', 'link-3');">pC</a></tt><tt class="py-op">.</tt><tt id="link-10" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-10', 'phams', 'link-2');">phams</a></tt><tt class="py-op">[</tt><tt class="py-name">c_pham</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">*</tt><tt class="py-number">100</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">percentage</tt> <tt class="py-op">!=</tt> <tt class="py-number">0</tt> <tt class="py-keyword">and</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt id="link-11" class="py-name"><a title="phamerator.phamBuilder2.pC
+phamerator.phamBuilderComparator.pC" class="py-name" href="#" onclick="return doclink('link-11', 'pC', 'link-3');">pC</a></tt><tt class="py-op">.</tt><tt id="link-12" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-12', 'phams', 'link-2');">phams</a></tt><tt class="py-op">[</tt><tt class="py-name">c_pham</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;</tt> <tt class="py-number">1</tt> <tt class="py-keyword">and</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt id="link-13" class="py-name"><a title="phamerator.phamBuilder2.pB
+phamerator.phamBuilderComparator.pB" class="py-name" href="#" onclick="return doclink('link-13', 'pB', 'link-1');">pB</a></tt><tt class="py-op">.</tt><tt id="link-14" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-14', 'phams', 'link-2');">phams</a></tt><tt class="py-op">[</tt><tt class="py-name">b_pham</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> <tt class="py-keyword">print</tt> <tt class="py-string">'Blast pham '</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">b_pham</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">' is '</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">percentage</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt><tt class="py-string">'% similar to Clustal pham '</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">c_pham</tt><tt class="py-op">)</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">percentage</tt> <tt class="py-op">&gt;</tt> <tt class="py-number">100</tt><tt class="py-op">:</tt> <tt class="py-keyword">print</tt> <tt id="link-15" class="py-name"><a title="phamerator.phamBuilder2.pB
+phamerator.phamBuilderComparator.pB" class="py-name" href="#" onclick="return doclink('link-15', 'pB', 'link-1');">pB</a></tt><tt class="py-op">.</tt><tt id="link-16" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-16', 'phams', 'link-2');">phams</a></tt><tt class="py-op">[</tt><tt class="py-name">b_pham</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-string">'\n'</tt><tt class="py-op">,</tt> <tt id="link-17" class="py-name"><a title="phamerator.phamBuilder2.pC
+phamerator.phamBuilderComparator.pC" class="py-name" href="#" onclick="return doclink('link-17', 'pC', 'link-3');">pC</a></tt><tt class="py-op">.</tt><tt id="link-18" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-18', 'phams', 'link-2');">phams</a></tt><tt class="py-op">[</tt><tt class="py-name">c_pham</tt><tt class="py-op">]</tt> </tt>
+</div><a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">                 </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">     </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">     </tt>
+<a name="pham_comparator.compare_C_to_B"></a><div id="pham_comparator.compare_C_to_B-def"><a name="L34"></a><tt class="py-lineno">34</tt> <a class="py-toggle" href="#" id="pham_comparator.compare_C_to_B-toggle" onclick="return toggle('pham_comparator.compare_C_to_B');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.pham_comparator.pham_comparator-class.html#compare_C_to_B">compare_C_to_B</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">pB</tt><tt class="py-op">,</tt> <tt class="py-param">pC</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="pham_comparator.compare_C_to_B-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="pham_comparator.compare_C_to_B-expanded"><a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">         </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">              </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">c_pham</tt> <tt class="py-keyword">in</tt> <tt id="link-19" class="py-name"><a title="phamerator.phamBuilder2.pC
+phamerator.phamBuilderComparator.pC" class="py-name" href="#" onclick="return doclink('link-19', 'pC', 'link-3');">pC</a></tt><tt class="py-op">.</tt><tt id="link-20" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-20', 'phams', 'link-2');">phams</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">                      </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">b_pham</tt> <tt class="py-keyword">in</tt> <tt id="link-21" class="py-name"><a title="phamerator.phamBuilder2.pB
+phamerator.phamBuilderComparator.pB" class="py-name" href="#" onclick="return doclink('link-21', 'pB', 'link-1');">pB</a></tt><tt class="py-op">.</tt><tt id="link-22" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-22', 'phams', 'link-2');">phams</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line"> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">                <tt class="py-name">match</tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt>                             </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line"> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">                <tt class="py-keyword">for</tt> <tt class="py-name">c_gene</tt> <tt class="py-keyword">in</tt> <tt id="link-23" class="py-name"><a title="phamerator.phamBuilder2.pC
+phamerator.phamBuilderComparator.pC" class="py-name" href="#" onclick="return doclink('link-23', 'pC', 'link-3');">pC</a></tt><tt class="py-op">.</tt><tt id="link-24" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-24', 'phams', 'link-2');">phams</a></tt><tt class="py-op">[</tt><tt class="py-name">c_pham</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">                     </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">                    <tt class="py-keyword">for</tt> <tt class="py-name">b_gene</tt> <tt class="py-keyword">in</tt> <tt id="link-25" class="py-name"><a title="phamerator.phamBuilder2.pB
+phamerator.phamBuilderComparator.pB" class="py-name" href="#" onclick="return doclink('link-25', 'pB', 'link-1');">pB</a></tt><tt class="py-op">.</tt><tt id="link-26" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-26', 'phams', 'link-2');">phams</a></tt><tt class="py-op">[</tt><tt class="py-name">b_pham</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">                         </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">                        <tt class="py-keyword">if</tt> <tt class="py-name">b_gene</tt> <tt class="py-op">==</tt> <tt class="py-name">c_gene</tt><tt class="py-op">:</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">                             </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">                            <tt class="py-name">match</tt> <tt class="py-op">+=</tt> <tt class="py-number">1</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">                             </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">                            <tt class="py-comment">#print 'The gene ' + c_gene + ' is present in both phams'</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line">                <tt class="py-name">percentage</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-name">match</tt><tt class="py-op">/</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt id="link-27" class="py-name"><a title="phamerator.phamBuilder2.pB
+phamerator.phamBuilderComparator.pB" class="py-name" href="#" onclick="return doclink('link-27', 'pB', 'link-1');">pB</a></tt><tt class="py-op">.</tt><tt id="link-28" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-28', 'phams', 'link-2');">phams</a></tt><tt class="py-op">[</tt><tt class="py-name">b_pham</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">*</tt><tt class="py-number">100</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">percentage</tt> <tt class="py-op">!=</tt> <tt class="py-number">0</tt> <tt class="py-keyword">and</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt id="link-29" class="py-name"><a title="phamerator.phamBuilder2.pC
+phamerator.phamBuilderComparator.pC" class="py-name" href="#" onclick="return doclink('link-29', 'pC', 'link-3');">pC</a></tt><tt class="py-op">.</tt><tt id="link-30" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-30', 'phams', 'link-2');">phams</a></tt><tt class="py-op">[</tt><tt class="py-name">c_pham</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;</tt> <tt class="py-number">1</tt> <tt class="py-keyword">and</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt id="link-31" class="py-name"><a title="phamerator.phamBuilder2.pB
+phamerator.phamBuilderComparator.pB" class="py-name" href="#" onclick="return doclink('link-31', 'pB', 'link-1');">pB</a></tt><tt class="py-op">.</tt><tt id="link-32" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-32', 'phams', 'link-2');">phams</a></tt><tt class="py-op">[</tt><tt class="py-name">b_pham</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> <tt class="py-keyword">print</tt> <tt class="py-string">'Clustal pham '</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">c_pham</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">' is '</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">percentage</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt><tt class="py-string">'% similar to Blast pham '</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">b_pham</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="phamerator-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Nov  1 08:13:42 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>phamerator.blast_genbank</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="phamerator-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="phamerator-module.html">Package&nbsp;phamerator</a> ::
+        Module&nbsp;blast_genbank
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="phamerator.blast_genbank-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="phamerator.blast_genbank-module.html">Module phamerator.blast_genbank</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-comment">#!/usr/bin/env python2.5</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-comment"># This program is free software; you can redistribute it and/or modify</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-comment"># it under the terms of the GNU General Public License as published by</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-comment"># the Free Software Foundation; either version 2 of the License, or</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-comment"># (at your option) any later version.</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-comment"># This program is distributed in the hope that it will be useful,</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-comment"># but WITHOUT ANY WARRANTY; without even the implied warranty of</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-comment"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-comment"># GNU General Public License for more details.</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-comment"># You should have received a copy of the GNU General Public License</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-comment"># along with this program; if not, write to the Free Software</tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"><tt class="py-comment"># Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt class="py-comment"># Copyright Steve Cresawn, 2006-2009</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module phamerator.db_conf=phamerator.db_conf-module.html,Class phamerator.db_conf.db_conf=phamerator.db_conf.db_conf-class.html"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-0', 'db_conf', 'link-0');">db_conf</a></tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">sys</tt><tt class="py-op">,</tt> <tt class="py-name">getopt</tt><tt class="py-op">,</tt> <tt class="py-name">getpass</tt><tt class="py-op">,</tt> <tt class="py-name">Bio</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">Bio</tt> <tt class="py-keyword">import</tt> <tt class="py-name">GenBank</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"> </tt>
+<a name="BlastDatabase"></a><div id="BlastDatabase-def"><a name="L24"></a><tt class="py-lineno"> 24</tt> <a class="py-toggle" href="#" id="BlastDatabase-toggle" onclick="return toggle('BlastDatabase');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="phamerator.blast_genbank.BlastDatabase-class.html">BlastDatabase</a><tt class="py-op">:</tt> </tt>
+</div><div id="BlastDatabase-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="BlastDatabase-expanded"><a name="BlastDatabase.__init__"></a><div id="BlastDatabase.__init__-def"><a name="L25"></a><tt class="py-lineno"> 25</tt> <a class="py-toggle" href="#" id="BlastDatabase.__init__-toggle" onclick="return toggle('BlastDatabase.__init__');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.blast_genbank.BlastDatabase-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="BlastDatabase.__init__-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="BlastDatabase.__init__-expanded"><a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">blast_db</tt> <tt class="py-op">=</tt> <tt class="py-string">"./Databases/nr/nr"</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">blast_file</tt> <tt class="py-op">=</tt> <tt class="py-string">"./Databases/test/query.fasta"</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">blast_exe</tt> <tt class="py-op">=</tt> <tt class="py-string">"/home/steve/Applications/BLAST/bin/blastall"</tt> </tt>
+</div><a name="BlastDatabase.update_database"></a><div id="BlastDatabase.update_database-def"><a name="L29"></a><tt class="py-lineno"> 29</tt> <a class="py-toggle" href="#" id="BlastDatabase.update_database-toggle" onclick="return toggle('BlastDatabase.update_database');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.blast_genbank.BlastDatabase-class.html#update_database">update_database</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="BlastDatabase.update_database-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="BlastDatabase.update_database-expanded"><a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line">    <tt class="py-docstring">'''check to see if the specified database is available, and if so, whether</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"><tt class="py-docstring">    it is up to date'''</tt> </tt>
+</div><a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line">    <tt class="py-comment"># run update_blastdb.pl</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"> </tt>
+<a name="BlastDatabase.do_blast_search"></a><div id="BlastDatabase.do_blast_search-def"><a name="L34"></a><tt class="py-lineno"> 34</tt> <a class="py-toggle" href="#" id="BlastDatabase.do_blast_search-toggle" onclick="return toggle('BlastDatabase.do_blast_search');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.blast_genbank.BlastDatabase-class.html#do_blast_search">do_blast_search</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="BlastDatabase.do_blast_search-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="BlastDatabase.do_blast_search-expanded"><a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">    <tt class="py-keyword">from</tt> <tt class="py-name">Bio</tt><tt class="py-op">.</tt><tt class="py-name">Blast</tt> <tt class="py-keyword">import</tt> <tt class="py-name">NCBIStandalone</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">result_handle</tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">error_handle</tt> <tt class="py-op">=</tt> <tt class="py-name">NCBIStandalone</tt><tt class="py-op">.</tt><tt class="py-name">blastall</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">blast_exe</tt><tt class="py-op">,</tt> <tt class="py-string">"blastp"</tt><tt class="py-op">,</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">                                                      <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">blast_db</tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">blast_file</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line"> </tt>
+<a name="BlastDatabase.parse_results"></a><div id="BlastDatabase.parse_results-def"><a name="L39"></a><tt class="py-lineno"> 39</tt> <a class="py-toggle" href="#" id="BlastDatabase.parse_results-toggle" onclick="return toggle('BlastDatabase.parse_results');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.blast_genbank.BlastDatabase-class.html#parse_results">parse_results</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="BlastDatabase.parse_results-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="BlastDatabase.parse_results-expanded"><a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">    <tt class="py-keyword">from</tt> <tt class="py-name">Bio</tt><tt class="py-op">.</tt><tt class="py-name">Blast</tt> <tt class="py-keyword">import</tt> <tt class="py-name">NCBIXML</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">blast_records</tt> <tt class="py-op">=</tt> <tt class="py-name">NCBIXML</tt><tt class="py-op">.</tt><tt class="py-name">parse</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">result_handle</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line"> </tt>
+<a name="BlastResults"></a><div id="BlastResults-def"><a name="L43"></a><tt class="py-lineno"> 43</tt> <a class="py-toggle" href="#" id="BlastResults-toggle" onclick="return toggle('BlastResults');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="phamerator.blast_genbank.BlastResults-class.html">BlastResults</a><tt class="py-op">:</tt> </tt>
+</div><div id="BlastResults-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="BlastResults-expanded"><a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">  <tt class="py-docstring">'''contains records from a blast search and methods to process them'''</tt> </tt>
+<a name="BlastResults.__init__"></a><div id="BlastResults.__init__-def"><a name="L45"></a><tt class="py-lineno"> 45</tt> <a class="py-toggle" href="#" id="BlastResults.__init__-toggle" onclick="return toggle('BlastResults.__init__');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.blast_genbank.BlastResults-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">blast_records</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="BlastResults.__init__-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="BlastResults.__init__-expanded"><a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">blast_records</tt> <tt class="py-op">=</tt> <tt class="py-name">blast_records</tt> </tt>
+</div><a name="BlastResults.process_records"></a><div id="BlastResults.process_records-def"><a name="L47"></a><tt class="py-lineno"> 47</tt> <a class="py-toggle" href="#" id="BlastResults.process_records-toggle" onclick="return toggle('BlastResults.process_records');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.blast_genbank.BlastResults-class.html#process_records">process_records</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="BlastResults.process_records-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="BlastResults.process_records-expanded"><a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">    <tt class="py-keyword">while</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">      <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">        <tt class="py-name">blast_record</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">blast_records</tt><tt class="py-op">.</tt><tt class="py-name">next</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">      <tt class="py-keyword">except</tt> <tt class="py-name">StopIteration</tt><tt class="py-op">:</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">        <tt class="py-keyword">break</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">      <tt class="py-name">E_VALUE_THRESH</tt> <tt class="py-op">=</tt> <tt class="py-number">1e-4</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">      <tt class="py-keyword">print</tt> <tt class="py-string">'query: %s'</tt> <tt class="py-op">%</tt> <tt class="py-name">blast_record</tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Module phamerator.query=phamerator.query-module.html,Class phamerator.query.query=phamerator.query.query-class.html"><a title="phamerator.query
+phamerator.query.query" class="py-name" href="#" onclick="return doclink('link-1', 'query', 'link-1');">query</a></tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">      <tt class="py-keyword">for</tt> <tt class="py-name">alignment</tt> <tt class="py-keyword">in</tt> <tt class="py-name">blast_record</tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Class phamerator.phamServer_python.alignments=phamerator.phamServer_python.alignments-class.html"><a title="phamerator.phamServer_python.alignments" class="py-name" href="#" onclick="return doclink('link-2', 'alignments', 'link-2');">alignments</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">hsp</tt> <tt class="py-keyword">in</tt> <tt class="py-name">alignment</tt><tt class="py-op">.</tt><tt class="py-name">hsps</tt><tt class="py-op">:</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">hsp</tt><tt class="py-op">.</tt><tt class="py-name">expect</tt> <tt class="py-op">&lt;</tt> <tt class="py-name">E_VALUE_THRESH</tt><tt class="py-op">:</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">                <tt class="py-comment">#print '****Alignment****'</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">                <tt class="py-keyword">print</tt> <tt class="py-string">'sequence:'</tt><tt class="py-op">,</tt> <tt class="py-name">alignment</tt><tt class="py-op">.</tt><tt class="py-name">title</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">                <tt class="py-keyword">print</tt> <tt class="py-string">'length:'</tt><tt class="py-op">,</tt> <tt class="py-name">alignment</tt><tt class="py-op">.</tt><tt class="py-name">length</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">                <tt class="py-keyword">print</tt> <tt class="py-string">'e value:'</tt><tt class="py-op">,</tt> <tt class="py-name">hsp</tt><tt class="py-op">.</tt><tt class="py-name">expect</tt> </tt>
+</div></div><a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">                <tt class="py-comment">#print hsp.query[0:75] + '...'</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">                <tt class="py-comment">#print hsp.match[0:75] + '...'</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">                <tt class="py-comment">#print hsp.sbjct[0:75] + '...'</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line"> </tt>
+<a name="usage"></a><div id="usage-def"><a name="L66"></a><tt class="py-lineno"> 66</tt> <a class="py-toggle" href="#" id="usage-toggle" onclick="return toggle('usage');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.blast_genbank-module.html#usage">usage</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="usage-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="usage-expanded"><a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">  <tt class="py-docstring">'''Prints program usage information'''</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">"""blast_genbank.py [OPTION] [ARGUMENT]</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line"><tt class="py-string">           -h, --help: print this usage information</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line"><tt class="py-string">           -u, --username: database username</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line"><tt class="py-string">           -p, --password: prompt for a database password</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line"><tt class="py-string">           -s, --server: address of the database server</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line"><tt class="py-string">           -d, --database: name of the database on the server"""</tt> </tt>
+</div><a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line"> </tt>
+<a name="parse_opts"></a><div id="parse_opts-def"><a name="L75"></a><tt class="py-lineno"> 75</tt> <a class="py-toggle" href="#" id="parse_opts-toggle" onclick="return toggle('parse_opts');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.blast_genbank-module.html#parse_opts">parse_opts</a><tt class="py-op">(</tt><tt class="py-param">argv</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="parse_opts-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="parse_opts-expanded"><a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">  <tt class="py-keyword">try</tt><tt class="py-op">:</tt>                                 </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">    <tt id="link-3" class="py-name" targets="Variable phamerator.phamClient.opts=phamerator.phamClient-module.html#opts,Variable phamerator.phamClient_remote_access.opts=phamerator.phamClient_remote_access-module.html#opts"><a title="phamerator.phamClient.opts
+phamerator.phamClient_remote_access.opts" class="py-name" href="#" onclick="return doclink('link-3', 'opts', 'link-3');">opts</a></tt><tt class="py-op">,</tt> <tt class="py-name">args</tt> <tt class="py-op">=</tt> <tt class="py-name">getopt</tt><tt class="py-op">.</tt><tt class="py-name">getopt</tt><tt class="py-op">(</tt><tt class="py-name">argv</tt><tt class="py-op">,</tt> <tt class="py-string">"hpu:s:d:"</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-string">"help"</tt><tt class="py-op">,</tt> <tt class="py-string">"password"</tt><tt class="py-op">,</tt> <tt class="py-string">"username="</tt><tt class="py-op">,</tt> <tt class="py-string">"server="</tt><tt class="py-op">,</tt> <tt class="py-string">"database="</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">    <tt id="link-4" class="py-name" targets="Variable phamerator.asm_poster.username=phamerator.asm_poster-module.html#username"><a title="phamerator.asm_poster.username" class="py-name" href="#" onclick="return doclink('link-4', 'username', 'link-4');">username</a></tt> <tt class="py-op">=</tt> <tt id="link-5" class="py-name" targets="Variable phamerator.asm_poster.password=phamerator.asm_poster-module.html#password,Variable phamerator.create_fasta_for_formatdb.password=phamerator.create_fasta_for_formatdb-module.html#password,Variable phamerator.distance.password=phamerator.distance-module.html#password,Variable phamerator.get_genome_info.password=phamerator.get_genome_info-module.html#password,Variable phamerator.look_for_split_genes.password=phamerator.look_for_split_genes-module.html#password,Variable phamerator.plugins.get_relatives.password=phamerator.plugins.get_relatives-module.html#password"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-5', 'password', 'link-5');">password</a></tt> <tt class="py-op">=</tt> <tt id="link-6" class="py-name" targets="Variable phamerator.SOAPserver.server=phamerator.SOAPserver-module.html#server,Variable phamerator.asm_poster.server=phamerator.asm_poster-module.html#server,Variable phamerator.blastclient_xml.server=phamerator.blastclient_xml-module.html#server,Variable phamerator.phageSOAP.server=phamerator.phageSOAP-module.html#server"><a title="phamerator.SOAPserver.server
+phamerator.asm_poster.server
+phamerator.blastclient_xml.server
+phamerator.phageSOAP.server" class="py-name" href="#" onclick="return doclink('link-6', 'server', 'link-6');">server</a></tt> <tt class="py-op">=</tt> <tt class="py-name">database</tt> <tt class="py-op">=</tt> <tt class="py-string">""</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">  <tt class="py-keyword">except</tt> <tt class="py-name">getopt</tt><tt class="py-op">.</tt><tt class="py-name">GetoptError</tt><tt class="py-op">:</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt class="py-string">'Error parsing options'</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">    <tt id="link-7" class="py-name" targets="Function phamerator.blast_genbank.usage()=phamerator.blast_genbank-module.html#usage,Method phamerator.blastclient.options.usage()=phamerator.blastclient.options-class.html#usage,Method phamerator.blastclient_remote_access.options.usage()=phamerator.blastclient_remote_access.options-class.html#usage,Function phamerator.phamBuilder4.usage()=phamerator.phamBuilder4-module.html#usage,Method phamerator.phamClient.options.usage()=phamerator.phamClient.options-class.html#usage,Method phamerator.phamClient_remote_access.options.usage()=phamerator.phamClient_remote_access.options-class.html#usage,Method phamerator.phamServer_InnoDB.options.usage()=phamerator.phamServer_InnoDB.options-class.html#usage,Method phamerator.phamServer_progress.options.usage()=phamerator.phamServer_progress.options-class.html#usage,Method phamerator.phamServer_remote_access.options.usage()=phamerator.phamServer_remote_access.options-class.html#usage,Function phamerator.phamerator_manage_db.usage()=phamerator.phamerator_manage_db-module.html#usage,Function phamerator.plugins.update_cluster.usage()=phamerator.plugins.update_cluster-module.html#usage,Function phamerator.rename_phages.usage()=phamerator.rename_phages-module.html#usage"><a title="phamerator.blast_genbank.usage
+phamerator.blastclient.options.usage
+phamerator.blastclient_remote_access.options.usage
+phamerator.phamBuilder4.usage
+phamerator.phamClient.options.usage
+phamerator.phamClient_remote_access.options.usage
+phamerator.phamServer_InnoDB.options.usage
+phamerator.phamServer_progress.options.usage
+phamerator.phamServer_remote_access.options.usage
+phamerator.phamerator_manage_db.usage
+phamerator.plugins.update_cluster.usage
+phamerator.rename_phages.usage" class="py-name" href="#" onclick="return doclink('link-7', 'usage', 'link-7');">usage</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">    <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">exit</tt><tt class="py-op">(</tt><tt class="py-number">2</tt><tt class="py-op">)</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">  <tt class="py-keyword">if</tt> <tt class="py-string">'server'</tt> <tt class="py-keyword">not</tt> <tt class="py-keyword">in</tt> <tt id="link-8" class="py-name"><a title="phamerator.phamClient.opts
+phamerator.phamClient_remote_access.opts" class="py-name" href="#" onclick="return doclink('link-8', 'opts', 'link-3');">opts</a></tt><tt class="py-op">:</tt> <tt id="link-9" class="py-name"><a title="phamerator.SOAPserver.server
+phamerator.asm_poster.server
+phamerator.blastclient_xml.server
+phamerator.phageSOAP.server" class="py-name" href="#" onclick="return doclink('link-9', 'server', 'link-6');">server</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'localhost'</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">  <tt class="py-keyword">for</tt> <tt class="py-name">opt</tt><tt class="py-op">,</tt> <tt class="py-name">arg</tt> <tt class="py-keyword">in</tt> <tt id="link-10" class="py-name"><a title="phamerator.phamClient.opts
+phamerator.phamClient_remote_access.opts" class="py-name" href="#" onclick="return doclink('link-10', 'opts', 'link-3');">opts</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">opt</tt> <tt class="py-keyword">in</tt> <tt class="py-op">(</tt><tt class="py-string">"-h"</tt><tt class="py-op">,</tt> <tt class="py-string">"--help"</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line">      <tt id="link-11" class="py-name"><a title="phamerator.blast_genbank.usage
+phamerator.blastclient.options.usage
+phamerator.blastclient_remote_access.options.usage
+phamerator.phamBuilder4.usage
+phamerator.phamClient.options.usage
+phamerator.phamClient_remote_access.options.usage
+phamerator.phamServer_InnoDB.options.usage
+phamerator.phamServer_progress.options.usage
+phamerator.phamServer_remote_access.options.usage
+phamerator.phamerator_manage_db.usage
+phamerator.plugins.update_cluster.usage
+phamerator.rename_phages.usage" class="py-name" href="#" onclick="return doclink('link-11', 'usage', 'link-7');">usage</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">      <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">exit</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">    <tt class="py-keyword">elif</tt> <tt class="py-name">opt</tt> <tt class="py-keyword">in</tt> <tt class="py-op">(</tt><tt class="py-string">"-p"</tt><tt class="py-op">,</tt> <tt class="py-string">"--password"</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line">      <tt id="link-12" class="py-name"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-12', 'password', 'link-5');">password</a></tt> <tt class="py-op">=</tt> <tt class="py-name">getpass</tt><tt class="py-op">.</tt><tt class="py-name">getpass</tt><tt class="py-op">(</tt><tt class="py-string">"Password: "</tt><tt class="py-op">)</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">    <tt class="py-keyword">elif</tt> <tt class="py-name">opt</tt> <tt class="py-keyword">in</tt> <tt class="py-op">(</tt><tt class="py-string">"-u"</tt><tt class="py-op">,</tt> <tt class="py-string">"--username"</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">      <tt id="link-13" class="py-name"><a title="phamerator.asm_poster.username" class="py-name" href="#" onclick="return doclink('link-13', 'username', 'link-4');">username</a></tt> <tt class="py-op">=</tt> <tt class="py-name">arg</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">    <tt class="py-keyword">elif</tt> <tt class="py-name">opt</tt> <tt class="py-keyword">in</tt> <tt class="py-op">(</tt><tt class="py-string">"-s"</tt><tt class="py-op">,</tt> <tt class="py-string">"--server"</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">      <tt id="link-14" class="py-name"><a title="phamerator.SOAPserver.server
+phamerator.asm_poster.server
+phamerator.blastclient_xml.server
+phamerator.phageSOAP.server" class="py-name" href="#" onclick="return doclink('link-14', 'server', 'link-6');">server</a></tt> <tt class="py-op">=</tt> <tt class="py-name">arg</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">    <tt class="py-keyword">elif</tt> <tt class="py-name">opt</tt> <tt class="py-keyword">in</tt> <tt class="py-op">(</tt><tt class="py-string">"-d"</tt><tt class="py-op">,</tt> <tt class="py-string">"--database"</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">      <tt class="py-name">database</tt> <tt class="py-op">=</tt> <tt class="py-name">arg</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">  <tt class="py-name">optDict</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">  <tt class="py-keyword">if</tt> <tt class="py-name">None</tt> <tt class="py-keyword">in</tt> <tt class="py-op">[</tt><tt id="link-15" class="py-name"><a title="phamerator.asm_poster.username" class="py-name" href="#" onclick="return doclink('link-15', 'username', 'link-4');">username</a></tt><tt class="py-op">,</tt> <tt id="link-16" class="py-name"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-16', 'password', 'link-5');">password</a></tt><tt class="py-op">,</tt> <tt id="link-17" class="py-name"><a title="phamerator.SOAPserver.server
+phamerator.asm_poster.server
+phamerator.blastclient_xml.server
+phamerator.phageSOAP.server" class="py-name" href="#" onclick="return doclink('link-17', 'server', 'link-6');">server</a></tt><tt class="py-op">,</tt> <tt class="py-name">database</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">    <tt id="link-18" class="py-name"><a title="phamerator.blast_genbank.usage
+phamerator.blastclient.options.usage
+phamerator.blastclient_remote_access.options.usage
+phamerator.phamBuilder4.usage
+phamerator.phamClient.options.usage
+phamerator.phamClient_remote_access.options.usage
+phamerator.phamServer_InnoDB.options.usage
+phamerator.phamServer_progress.options.usage
+phamerator.phamServer_remote_access.options.usage
+phamerator.phamerator_manage_db.usage
+phamerator.plugins.update_cluster.usage
+phamerator.rename_phages.usage" class="py-name" href="#" onclick="return doclink('link-18', 'usage', 'link-7');">usage</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">    <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">exit</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">  <tt class="py-name">optDict</tt><tt class="py-op">[</tt><tt class="py-string">'username'</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">optDict</tt><tt class="py-op">[</tt><tt class="py-string">'password'</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">optDict</tt><tt class="py-op">[</tt><tt class="py-string">'server'</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">optDict</tt><tt class="py-op">[</tt><tt class="py-string">'database'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> \ </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">          <tt id="link-19" class="py-name"><a title="phamerator.asm_poster.username" class="py-name" href="#" onclick="return doclink('link-19', 'username', 'link-4');">username</a></tt><tt class="py-op">,</tt> <tt id="link-20" class="py-name"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-20', 'password', 'link-5');">password</a></tt><tt class="py-op">,</tt> <tt id="link-21" class="py-name"><a title="phamerator.SOAPserver.server
+phamerator.asm_poster.server
+phamerator.blastclient_xml.server
+phamerator.phageSOAP.server" class="py-name" href="#" onclick="return doclink('link-21', 'server', 'link-6');">server</a></tt><tt class="py-op">,</tt> <tt class="py-name">database</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">  <tt class="py-keyword">return</tt> <tt class="py-name">optDict</tt> </tt>
+</div><a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line"> </tt>
+<a name="create_cursor"></a><div id="create_cursor-def"><a name="L104"></a><tt class="py-lineno">104</tt> <a class="py-toggle" href="#" id="create_cursor-toggle" onclick="return toggle('create_cursor');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.blast_genbank-module.html#create_cursor">create_cursor</a><tt class="py-op">(</tt><tt class="py-param">optDict</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="create_cursor-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="create_cursor-expanded"><a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">  <tt id="link-22" class="py-name" targets="Variable phamerator.asm_poster.c=phamerator.asm_poster-module.html#c,Variable phamerator.create_blast_scores_table.c=phamerator.create_blast_scores_table-module.html#c,Variable phamerator.create_fasta_for_formatdb.c=phamerator.create_fasta_for_formatdb-module.html#c,Variable phamerator.create_scores_table.c=phamerator.create_scores_table-module.html#c,Variable phamerator.distance.c=phamerator.distance-module.html#c,Variable phamerator.get_genome_info.c=phamerator.get_genome_info-module.html#c,Variable phamerator.get_relatives.c=phamerator.get_relatives-module.html#c,Variable phamerator.look_for_split_genes.c=phamerator.look_for_split_genes-module.html#c,Variable phamerator.notify_progress.c=phamerator.notify_progress-module.html#c,Variable phamerator.phamBuilderComparator.c=phamerator.phamBuilderComparator-module.html#c,Variable phamerator.plugins.get_relatives.c=phamerator.plugins.get_relatives-module.html#c,Variable phamerator.rename_phages.c=phamerator.rename_phages-module.html#c"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-22', 'c', 'link-22');">c</a></tt> <tt class="py-op">=</tt> <tt id="link-23" class="py-name"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-23', 'db_conf', 'link-0');">db_conf</a></tt><tt class="py-op">.</tt><tt id="link-24" class="py-name"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-24', 'db_conf', 'link-0');">db_conf</a></tt><tt class="py-op">(</tt><tt id="link-25" class="py-name"><a title="phamerator.asm_poster.username" class="py-name" href="#" onclick="return doclink('link-25', 'username', 'link-4');">username</a></tt><tt class="py-op">=</tt><tt class="py-name">optDict</tt><tt class="py-op">[</tt><tt class="py-string">'username'</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt id="link-26" class="py-name"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-26', 'password', 'link-5');">password</a></tt><tt class="py-op">=</tt><tt class="py-name">optDict</tt><tt class="py-op">[</tt><tt class="py-string">'password'</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">      <tt id="link-27" class="py-name"><a title="phamerator.SOAPserver.server
+phamerator.asm_poster.server
+phamerator.blastclient_xml.server
+phamerator.phageSOAP.server" class="py-name" href="#" onclick="return doclink('link-27', 'server', 'link-6');">server</a></tt><tt class="py-op">=</tt><tt class="py-name">optDict</tt><tt class="py-op">[</tt><tt class="py-string">'server'</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt id="link-28" class="py-name" targets="Variable phamerator.asm_poster.db=phamerator.asm_poster-module.html#db,Variable phamerator.create_fasta_for_formatdb.db=phamerator.create_fasta_for_formatdb-module.html#db,Class phamerator.pham.db=phamerator.pham.db-class.html,Variable phamerator.plugins.compare_dbs.db=phamerator.plugins.compare_dbs-module.html#db,Variable phamerator.plugins.get_relatives.db=phamerator.plugins.get_relatives-module.html#db"><a title="phamerator.asm_poster.db
+phamerator.create_fasta_for_formatdb.db
+phamerator.pham.db
+phamerator.plugins.compare_dbs.db
+phamerator.plugins.get_relatives.db" class="py-name" href="#" onclick="return doclink('link-28', 'db', 'link-28');">db</a></tt><tt class="py-op">=</tt><tt class="py-name">optDict</tt><tt class="py-op">[</tt><tt class="py-string">'database'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-29" class="py-name" targets="Method phamerator.db_conf.db_conf.get_cursor()=phamerator.db_conf.db_conf-class.html#get_cursor"><a title="phamerator.db_conf.db_conf.get_cursor" class="py-name" href="#" onclick="return doclink('link-29', 'get_cursor', 'link-29');">get_cursor</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">  <tt class="py-keyword">return</tt> <tt id="link-30" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-30', 'c', 'link-22');">c</a></tt> </tt>
+</div><a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line"> </tt>
+<a name="main"></a><div id="main-def"><a name="L109"></a><tt class="py-lineno">109</tt> <a class="py-toggle" href="#" id="main-toggle" onclick="return toggle('main');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.blast_genbank-module.html#main">main</a><tt class="py-op">(</tt><tt class="py-param">argv</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="main-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="main-expanded"><a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">  <tt class="py-name">optDict</tt> <tt class="py-op">=</tt> <tt id="link-31" class="py-name" targets="Function phamerator.blast_genbank.parse_opts()=phamerator.blast_genbank-module.html#parse_opts"><a title="phamerator.blast_genbank.parse_opts" class="py-name" href="#" onclick="return doclink('link-31', 'parse_opts', 'link-31');">parse_opts</a></tt><tt class="py-op">(</tt><tt class="py-name">argv</tt><tt class="py-op">)</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">  <tt id="link-32" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-32', 'c', 'link-22');">c</a></tt> <tt class="py-op">=</tt> <tt id="link-33" class="py-name" targets="Function phamerator.blast_genbank.create_cursor()=phamerator.blast_genbank-module.html#create_cursor"><a title="phamerator.blast_genbank.create_cursor" class="py-name" href="#" onclick="return doclink('link-33', 'create_cursor', 'link-33');">create_cursor</a></tt><tt class="py-op">(</tt><tt class="py-name">optDict</tt><tt class="py-op">)</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">  <tt class="py-name">bdb</tt> <tt class="py-op">=</tt> <tt id="link-34" class="py-name" targets="Class phamerator.blast_genbank.BlastDatabase=phamerator.blast_genbank.BlastDatabase-class.html"><a title="phamerator.blast_genbank.BlastDatabase" class="py-name" href="#" onclick="return doclink('link-34', 'BlastDatabase', 'link-34');">BlastDatabase</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">  <tt class="py-name">bdb</tt><tt class="py-op">.</tt><tt id="link-35" class="py-name" targets="Method phamerator.blast_genbank.BlastDatabase.do_blast_search()=phamerator.blast_genbank.BlastDatabase-class.html#do_blast_search,Function phamerator.phamerator_manage_db.do_blast_search()=phamerator.phamerator_manage_db-module.html#do_blast_search"><a title="phamerator.blast_genbank.BlastDatabase.do_blast_search
+phamerator.phamerator_manage_db.do_blast_search" class="py-name" href="#" onclick="return doclink('link-35', 'do_blast_search', 'link-35');">do_blast_search</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">  <tt class="py-name">bdb</tt><tt class="py-op">.</tt><tt id="link-36" class="py-name" targets="Method phamerator.blast_genbank.BlastDatabase.parse_results()=phamerator.blast_genbank.BlastDatabase-class.html#parse_results"><a title="phamerator.blast_genbank.BlastDatabase.parse_results" class="py-name" href="#" onclick="return doclink('link-36', 'parse_results', 'link-36');">parse_results</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line">  <tt class="py-name">br</tt> <tt class="py-op">=</tt> <tt id="link-37" class="py-name" targets="Class phamerator.blast_genbank.BlastResults=phamerator.blast_genbank.BlastResults-class.html"><a title="phamerator.blast_genbank.BlastResults" class="py-name" href="#" onclick="return doclink('link-37', 'BlastResults', 'link-37');">BlastResults</a></tt><tt class="py-op">(</tt><tt class="py-name">bdb</tt><tt class="py-op">.</tt><tt class="py-name">blast_records</tt><tt class="py-op">)</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">  <tt class="py-name">br</tt><tt class="py-op">.</tt><tt id="link-38" class="py-name" targets="Method phamerator.blast_genbank.BlastResults.process_records()=phamerator.blast_genbank.BlastResults-class.html#process_records"><a title="phamerator.blast_genbank.BlastResults.process_records" class="py-name" href="#" onclick="return doclink('link-38', 'process_records', 'link-38');">process_records</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line">   </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line"><tt class="py-keyword">if</tt> <tt class="py-name">__name__</tt> <tt class="py-op">==</tt> <tt class="py-string">'__main__'</tt><tt class="py-op">:</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line">  <tt id="link-39" class="py-name" targets="Function phamerator.PhamDisplay.main()=phamerator.PhamDisplay-module.html#main,Function phamerator.blastServer_InnoDB.main()=phamerator.blastServer_InnoDB-module.html#main,Function phamerator.blast_genbank.main()=phamerator.blast_genbank-module.html#main,Function phamerator.blastclient.main()=phamerator.blastclient-module.html#main,Function phamerator.blastclient_remote_access.main()=phamerator.blastclient_remote_access-module.html#main,Function phamerator.blastclient_xml.main()=phamerator.blastclient_xml-module.html#main,Function phamerator.cartographer.main()=phamerator.cartographer-module.html#main,Function phamerator.distance.main()=phamerator.distance-module.html#main,Function phamerator.distance2.main()=phamerator.distance2-module.html#main,Function phamerator.fix_svg.main()=phamerator.fix_svg-module.html#main,Function phamerator.phamBuilder.main()=phamerator.phamBuilder-module.html#main,Function phamerator.phamBuilder3.main()=phamerator.phamBuilder3-module.html#main,Function phamerator.phamBuilder4.main()=phamerator.phamBuilder4-module.html#main,Function phamerator.phamCluster.main()=phamerator.phamCluster-module.html#main,Function phamerator.phamServer_InnoDB.main()=phamerator.phamServer_InnoDB-module.html#main,Function phamerator.phamServer__InnoDB.main()=phamerator.phamServer__InnoDB-module.html#main,Function phamerator.phamServer_progress.main()=phamerator.phamServer_progress-module.html#main,Function phamerator.phamServer_python.main()=phamerator.phamServer_python-module.html#main,Function phamerator.phamServer_remote_access.main()=phamerator.phamServer_remote_access-module.html#main,Function phamerator.phamerator_manage_db.main()=phamerator.phamerator_manage_db-module.html#main,Function phamerator.plugins.phamchecker.main()=phamerator.plugins.phamchecker-module.html#main,Function phamerator.plugins.remove_drafts.main()=phamerator.plugins.remove_drafts-module.html#main,Function phamerator.plugins.update_cluster.main()=phamerator.plugins.update_cluster-module.html#main"><a title="phamerator.PhamDisplay.main
+phamerator.blastServer_InnoDB.main
+phamerator.blast_genbank.main
+phamerator.blastclient.main
+phamerator.blastclient_remote_access.main
+phamerator.blastclient_xml.main
+phamerator.cartographer.main
+phamerator.distance.main
+phamerator.distance2.main
+phamerator.fix_svg.main
+phamerator.phamBuilder.main
+phamerator.phamBuilder3.main
+phamerator.phamBuilder4.main
+phamerator.phamCluster.main
+phamerator.phamServer_InnoDB.main
+phamerator.phamServer__InnoDB.main
+phamerator.phamServer_progress.main
+phamerator.phamServer_python.main
+phamerator.phamServer_remote_access.main
+phamerator.phamerator_manage_db.main
+phamerator.plugins.phamchecker.main
+phamerator.plugins.remove_drafts.main
+phamerator.plugins.update_cluster.main" class="py-name" href="#" onclick="return doclink('link-39', 'main', 'link-39');">main</a></tt><tt class="py-op">(</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">:</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="phamerator-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Nov  1 08:13:41 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

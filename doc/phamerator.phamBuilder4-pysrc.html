@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>phamerator.phamBuilder4</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="phamerator-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="phamerator-module.html">Package&nbsp;phamerator</a> ::
+        Module&nbsp;phamBuilder4
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="phamerator.phamBuilder4-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="phamerator.phamBuilder4-module.html">Module phamerator.phamBuilder4</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-comment">#!/usr/bin/env python</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">getopt</tt><tt class="py-op">,</tt> <tt class="py-name">getpass</tt><tt class="py-op">,</tt> <tt class="py-name">sys</tt><tt class="py-op">,</tt> <tt class="py-name">string</tt><tt class="py-op">,</tt> <tt class="py-name">time</tt><tt class="py-op">,</tt> <tt id="link-0" class="py-name" targets="Module phamerator.pham=phamerator.pham-module.html,Class phamerator.phamBuilder3.pham=phamerator.phamBuilder3.pham-class.html"><a title="phamerator.pham
+phamerator.phamBuilder3.pham" class="py-name" href="#" onclick="return doclink('link-0', 'pham', 'link-0');">pham</a></tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Module phamerator.phamerator_manage_db=phamerator.phamerator_manage_db-module.html"><a title="phamerator.phamerator_manage_db" class="py-name" href="#" onclick="return doclink('link-1', 'phamerator_manage_db', 'link-1');">phamerator_manage_db</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-2" class="py-name" targets="Package phamerator.plugins=phamerator.plugins-module.html"><a title="phamerator.plugins" class="py-name" href="#" onclick="return doclink('link-2', 'plugins', 'link-2');">plugins</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Module phamerator.plugins.phamchecker=phamerator.plugins.phamchecker-module.html"><a title="phamerator.plugins.phamchecker" class="py-name" href="#" onclick="return doclink('link-3', 'phamchecker', 'link-3');">phamchecker</a></tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-4" class="py-name"><a title="phamerator.plugins" class="py-name" href="#" onclick="return doclink('link-4', 'plugins', 'link-2');">plugins</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name"><a title="phamerator.plugins.phamchecker" class="py-name" href="#" onclick="return doclink('link-5', 'phamchecker', 'link-3');">phamchecker</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-6" class="py-name" targets="Module phamerator.db_conf=phamerator.db_conf-module.html,Class phamerator.db_conf.db_conf=phamerator.db_conf.db_conf-class.html"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-6', 'db_conf', 'link-6');">db_conf</a></tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"> </tt>
+<a name="usage"></a><div id="usage-def"><a name="L9"></a><tt class="py-lineno">  9</tt> <a class="py-toggle" href="#" id="usage-toggle" onclick="return toggle('usage');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.phamBuilder4-module.html#usage">usage</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="usage-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="usage-expanded"><a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line">  <tt class="py-docstring">'''Prints program usage information'''</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">"""phamBuilder4.py [OPTION] [ARGUMENT]</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-string">           -h, --help: print this usage information</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-string">           -s, --server=&lt;server name&gt;: specify the address of the server where the database is located</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-string">           -d, --database=&lt;database name&gt;: specify the name of the database to access</tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"><tt class="py-string">           -c, --clustalw_threshold=&lt;threshold value (0-1)&gt;: specify a % identity as a number 0-1</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-string">           -b, --blast_threshold=&lt;BLAST E-value&gt;: specify an E-value such as 1e-4"""</tt> </tt>
+</div><a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"> </tt>
+<a name="get_options"></a><div id="get_options-def"><a name="L18"></a><tt class="py-lineno"> 18</tt> <a class="py-toggle" href="#" id="get_options-toggle" onclick="return toggle('get_options');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.phamBuilder4-module.html#get_options">get_options</a><tt class="py-op">(</tt><tt class="py-param">argv</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="get_options-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="get_options-expanded"><a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line">  <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line">    <tt id="link-7" class="py-name" targets="Variable phamerator.phamClient.opts=phamerator.phamClient-module.html#opts,Variable phamerator.phamClient_remote_access.opts=phamerator.phamClient_remote_access-module.html#opts"><a title="phamerator.phamClient.opts
+phamerator.phamClient_remote_access.opts" class="py-name" href="#" onclick="return doclink('link-7', 'opts', 'link-7');">opts</a></tt><tt class="py-op">,</tt> <tt class="py-name">args</tt> <tt class="py-op">=</tt> <tt class="py-name">getopt</tt><tt class="py-op">.</tt><tt class="py-name">getopt</tt><tt class="py-op">(</tt><tt class="py-name">argv</tt><tt class="py-op">,</tt> <tt class="py-string">"hs:d:c:b:"</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-string">"help"</tt><tt class="py-op">,</tt> <tt class="py-string">"server="</tt><tt class="py-op">,</tt> <tt class="py-string">"database="</tt><tt class="py-op">,</tt> <tt class="py-string">"clustalw_threshold="</tt><tt class="py-op">,</tt> <tt class="py-string">"blast_threshold="</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line">  <tt class="py-keyword">except</tt> <tt class="py-name">getopt</tt><tt class="py-op">.</tt><tt class="py-name">GetoptError</tt><tt class="py-op">:</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line">    <tt id="link-8" class="py-name" targets="Function phamerator.blast_genbank.usage()=phamerator.blast_genbank-module.html#usage,Method phamerator.blastclient.options.usage()=phamerator.blastclient.options-class.html#usage,Method phamerator.blastclient_remote_access.options.usage()=phamerator.blastclient_remote_access.options-class.html#usage,Function phamerator.phamBuilder4.usage()=phamerator.phamBuilder4-module.html#usage,Method phamerator.phamClient.options.usage()=phamerator.phamClient.options-class.html#usage,Method phamerator.phamClient_remote_access.options.usage()=phamerator.phamClient_remote_access.options-class.html#usage,Method phamerator.phamServer_InnoDB.options.usage()=phamerator.phamServer_InnoDB.options-class.html#usage,Method phamerator.phamServer_progress.options.usage()=phamerator.phamServer_progress.options-class.html#usage,Method phamerator.phamServer_remote_access.options.usage()=phamerator.phamServer_remote_access.options-class.html#usage,Function phamerator.phamerator_manage_db.usage()=phamerator.phamerator_manage_db-module.html#usage,Function phamerator.plugins.update_cluster.usage()=phamerator.plugins.update_cluster-module.html#usage,Function phamerator.rename_phages.usage()=phamerator.rename_phages-module.html#usage"><a title="phamerator.blast_genbank.usage
+phamerator.blastclient.options.usage
+phamerator.blastclient_remote_access.options.usage
+phamerator.phamBuilder4.usage
+phamerator.phamClient.options.usage
+phamerator.phamClient_remote_access.options.usage
+phamerator.phamServer_InnoDB.options.usage
+phamerator.phamServer_progress.options.usage
+phamerator.phamServer_remote_access.options.usage
+phamerator.phamerator_manage_db.usage
+phamerator.plugins.update_cluster.usage
+phamerator.rename_phages.usage" class="py-name" href="#" onclick="return doclink('link-8', 'usage', 'link-8');">usage</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line">  <tt id="link-9" class="py-name" targets="Variable phamerator.rename_phages.argDict=phamerator.rename_phages-module.html#argDict"><a title="phamerator.rename_phages.argDict" class="py-name" href="#" onclick="return doclink('link-9', 'argDict', 'link-9');">argDict</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line">  <tt class="py-keyword">for</tt> <tt class="py-name">opt</tt><tt class="py-op">,</tt> <tt class="py-name">arg</tt> <tt class="py-keyword">in</tt> <tt id="link-10" class="py-name"><a title="phamerator.phamClient.opts
+phamerator.phamClient_remote_access.opts" class="py-name" href="#" onclick="return doclink('link-10', 'opts', 'link-7');">opts</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">opt</tt> <tt class="py-keyword">in</tt> <tt class="py-op">(</tt><tt class="py-string">"-h"</tt><tt class="py-op">,</tt> <tt class="py-string">"--help"</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">      <tt id="link-11" class="py-name"><a title="phamerator.blast_genbank.usage
+phamerator.blastclient.options.usage
+phamerator.blastclient_remote_access.options.usage
+phamerator.phamBuilder4.usage
+phamerator.phamClient.options.usage
+phamerator.phamClient_remote_access.options.usage
+phamerator.phamServer_InnoDB.options.usage
+phamerator.phamServer_progress.options.usage
+phamerator.phamServer_remote_access.options.usage
+phamerator.phamerator_manage_db.usage
+phamerator.plugins.update_cluster.usage
+phamerator.rename_phages.usage" class="py-name" href="#" onclick="return doclink('link-11', 'usage', 'link-8');">usage</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line">      <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">exit</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">    <tt class="py-keyword">elif</tt> <tt class="py-name">opt</tt> <tt class="py-keyword">in</tt> <tt class="py-op">(</tt><tt class="py-string">"-s"</tt><tt class="py-op">,</tt> <tt class="py-string">"--server"</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line">      <tt id="link-12" class="py-name"><a title="phamerator.rename_phages.argDict" class="py-name" href="#" onclick="return doclink('link-12', 'argDict', 'link-9');">argDict</a></tt><tt class="py-op">[</tt><tt class="py-string">'server'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">arg</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line">    <tt class="py-keyword">elif</tt> <tt class="py-name">opt</tt> <tt class="py-keyword">in</tt> <tt class="py-op">(</tt><tt class="py-string">"-d"</tt><tt class="py-op">,</tt> <tt class="py-string">"--database"</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">      <tt id="link-13" class="py-name"><a title="phamerator.rename_phages.argDict" class="py-name" href="#" onclick="return doclink('link-13', 'argDict', 'link-9');">argDict</a></tt><tt class="py-op">[</tt><tt class="py-string">'database'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">arg</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line">    <tt class="py-keyword">elif</tt> <tt class="py-name">opt</tt> <tt class="py-keyword">in</tt> <tt class="py-op">(</tt><tt class="py-string">"-c"</tt><tt class="py-op">,</tt> <tt class="py-string">"--clustalw_threshold"</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line">      <tt id="link-14" class="py-name"><a title="phamerator.rename_phages.argDict" class="py-name" href="#" onclick="return doclink('link-14', 'argDict', 'link-9');">argDict</a></tt><tt class="py-op">[</tt><tt class="py-string">'clustalw_threshold'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">float</tt><tt class="py-op">(</tt><tt class="py-name">arg</tt><tt class="py-op">)</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">    <tt class="py-keyword">elif</tt> <tt class="py-name">opt</tt> <tt class="py-keyword">in</tt> <tt class="py-op">(</tt><tt class="py-string">"-b"</tt><tt class="py-op">,</tt> <tt class="py-string">"--blast_threshold"</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">      <tt id="link-15" class="py-name"><a title="phamerator.rename_phages.argDict" class="py-name" href="#" onclick="return doclink('link-15', 'argDict', 'link-9');">argDict</a></tt><tt class="py-op">[</tt><tt class="py-string">'blast_threshold'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">float</tt><tt class="py-op">(</tt><tt class="py-name">arg</tt><tt class="py-op">)</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">  <tt class="py-keyword">return</tt> <tt id="link-16" class="py-name"><a title="phamerator.rename_phages.argDict" class="py-name" href="#" onclick="return doclink('link-16', 'argDict', 'link-9');">argDict</a></tt> </tt>
+</div><a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line"> </tt>
+<a name="main"></a><div id="main-def"><a name="L38"></a><tt class="py-lineno"> 38</tt> <a class="py-toggle" href="#" id="main-toggle" onclick="return toggle('main');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.phamBuilder4-module.html#main">main</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="main-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="main-expanded"><a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">  <tt class="py-name">cfg</tt> <tt class="py-op">=</tt> <tt class="py-name">ConfigParser</tt><tt class="py-op">.</tt><tt class="py-name">RawConfigParser</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">  <tt class="py-name">cfg</tt><tt class="py-op">.</tt><tt class="py-name">read</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">environ</tt><tt class="py-op">[</tt><tt class="py-string">'HOME'</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-string">'.my.cnf'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">  <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">    <tt id="link-17" class="py-name" targets="Variable phamerator.asm_poster.username=phamerator.asm_poster-module.html#username"><a title="phamerator.asm_poster.username" class="py-name" href="#" onclick="return doclink('link-17', 'username', 'link-17');">username</a></tt> <tt class="py-op">=</tt> <tt class="py-name">cfg</tt><tt class="py-op">.</tt><tt id="link-18" class="py-name" targets="Method phamerator.config.PhameratorConfiguration.get()=phamerator.config.PhameratorConfiguration-class.html#get"><a title="phamerator.config.PhameratorConfiguration.get" class="py-name" href="#" onclick="return doclink('link-18', 'get', 'link-18');">get</a></tt><tt class="py-op">(</tt><tt class="py-string">'client'</tt><tt class="py-op">,</tt><tt class="py-string">'user'</tt><tt class="py-op">)</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">  <tt class="py-keyword">except</tt> <tt class="py-name">ConfigParser</tt><tt class="py-op">.</tt><tt class="py-name">NoOptionError</tt><tt class="py-op">:</tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">    <tt id="link-19" class="py-name"><a title="phamerator.asm_poster.username" class="py-name" href="#" onclick="return doclink('link-19', 'username', 'link-17');">username</a></tt> <tt class="py-op">=</tt> <tt class="py-name">raw_input</tt><tt class="py-op">(</tt><tt class="py-string">'database username: '</tt><tt class="py-op">)</tt> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line">  <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line">    <tt id="link-20" class="py-name" targets="Variable phamerator.asm_poster.password=phamerator.asm_poster-module.html#password,Variable phamerator.create_fasta_for_formatdb.password=phamerator.create_fasta_for_formatdb-module.html#password,Variable phamerator.distance.password=phamerator.distance-module.html#password,Variable phamerator.get_genome_info.password=phamerator.get_genome_info-module.html#password,Variable phamerator.look_for_split_genes.password=phamerator.look_for_split_genes-module.html#password,Variable phamerator.plugins.get_relatives.password=phamerator.plugins.get_relatives-module.html#password"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-20', 'password', 'link-20');">password</a></tt> <tt class="py-op">=</tt> <tt class="py-name">cfg</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name"><a title="phamerator.config.PhameratorConfiguration.get" class="py-name" href="#" onclick="return doclink('link-21', 'get', 'link-18');">get</a></tt><tt class="py-op">(</tt><tt class="py-string">'client'</tt><tt class="py-op">,</tt><tt class="py-string">'password'</tt><tt class="py-op">)</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">  <tt class="py-keyword">except</tt> <tt class="py-name">ConfigParser</tt><tt class="py-op">.</tt><tt class="py-name">NoOptionError</tt><tt class="py-op">:</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">    <tt id="link-22" class="py-name"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-22', 'password', 'link-20');">password</a></tt> <tt class="py-op">=</tt> <tt class="py-name">getpass</tt><tt class="py-op">.</tt><tt class="py-name">getpass</tt><tt class="py-op">(</tt><tt class="py-string">'database password: '</tt><tt class="py-op">)</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line"> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">  <tt id="link-23" class="py-name"><a title="phamerator.rename_phages.argDict" class="py-name" href="#" onclick="return doclink('link-23', 'argDict', 'link-9');">argDict</a></tt> <tt class="py-op">=</tt> <tt id="link-24" class="py-name" targets="Function phamerator.phamBuilder4.get_options()=phamerator.phamBuilder4-module.html#get_options,Function phamerator.rename_phages.get_options()=phamerator.rename_phages-module.html#get_options"><a title="phamerator.phamBuilder4.get_options
+phamerator.rename_phages.get_options" class="py-name" href="#" onclick="return doclink('link-24', 'get_options', 'link-24');">get_options</a></tt><tt class="py-op">(</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">:</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">  <tt class="py-name">database</tt> <tt class="py-op">=</tt> <tt id="link-25" class="py-name"><a title="phamerator.rename_phages.argDict" class="py-name" href="#" onclick="return doclink('link-25', 'argDict', 'link-9');">argDict</a></tt><tt class="py-op">[</tt><tt class="py-string">'database'</tt><tt class="py-op">]</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">  <tt id="link-26" class="py-name" targets="Variable phamerator.SOAPserver.server=phamerator.SOAPserver-module.html#server,Variable phamerator.asm_poster.server=phamerator.asm_poster-module.html#server,Variable phamerator.blastclient_xml.server=phamerator.blastclient_xml-module.html#server,Variable phamerator.phageSOAP.server=phamerator.phageSOAP-module.html#server"><a title="phamerator.SOAPserver.server
+phamerator.asm_poster.server
+phamerator.blastclient_xml.server
+phamerator.phageSOAP.server" class="py-name" href="#" onclick="return doclink('link-26', 'server', 'link-26');">server</a></tt> <tt class="py-op">=</tt> <tt id="link-27" class="py-name"><a title="phamerator.rename_phages.argDict" class="py-name" href="#" onclick="return doclink('link-27', 'argDict', 'link-9');">argDict</a></tt><tt class="py-op">[</tt><tt class="py-string">'server'</tt><tt class="py-op">]</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">  <tt class="py-name">cthreshold</tt> <tt class="py-op">=</tt> <tt id="link-28" class="py-name"><a title="phamerator.rename_phages.argDict" class="py-name" href="#" onclick="return doclink('link-28', 'argDict', 'link-9');">argDict</a></tt><tt class="py-op">[</tt><tt class="py-string">'clustalw_threshold'</tt><tt class="py-op">]</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">  <tt class="py-name">bthreshold</tt> <tt class="py-op">=</tt> <tt id="link-29" class="py-name"><a title="phamerator.rename_phages.argDict" class="py-name" href="#" onclick="return doclink('link-29', 'argDict', 'link-9');">argDict</a></tt><tt class="py-op">[</tt><tt class="py-string">'blast_threshold'</tt><tt class="py-op">]</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">  <tt id="link-30" class="py-name" targets="Variable phamerator.asm_poster.c=phamerator.asm_poster-module.html#c,Variable phamerator.create_blast_scores_table.c=phamerator.create_blast_scores_table-module.html#c,Variable phamerator.create_fasta_for_formatdb.c=phamerator.create_fasta_for_formatdb-module.html#c,Variable phamerator.create_scores_table.c=phamerator.create_scores_table-module.html#c,Variable phamerator.distance.c=phamerator.distance-module.html#c,Variable phamerator.get_genome_info.c=phamerator.get_genome_info-module.html#c,Variable phamerator.get_relatives.c=phamerator.get_relatives-module.html#c,Variable phamerator.look_for_split_genes.c=phamerator.look_for_split_genes-module.html#c,Variable phamerator.notify_progress.c=phamerator.notify_progress-module.html#c,Variable phamerator.phamBuilderComparator.c=phamerator.phamBuilderComparator-module.html#c,Variable phamerator.plugins.get_relatives.c=phamerator.plugins.get_relatives-module.html#c,Variable phamerator.rename_phages.c=phamerator.rename_phages-module.html#c"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-30', 'c', 'link-30');">c</a></tt> <tt class="py-op">=</tt> <tt id="link-31" class="py-name"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-31', 'db_conf', 'link-6');">db_conf</a></tt><tt class="py-op">.</tt><tt id="link-32" class="py-name"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-32', 'db_conf', 'link-6');">db_conf</a></tt><tt class="py-op">(</tt><tt id="link-33" class="py-name"><a title="phamerator.asm_poster.username" class="py-name" href="#" onclick="return doclink('link-33', 'username', 'link-17');">username</a></tt><tt class="py-op">=</tt><tt id="link-34" class="py-name"><a title="phamerator.asm_poster.username" class="py-name" href="#" onclick="return doclink('link-34', 'username', 'link-17');">username</a></tt><tt class="py-op">,</tt> <tt id="link-35" class="py-name"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-35', 'password', 'link-20');">password</a></tt><tt class="py-op">=</tt><tt id="link-36" class="py-name"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-36', 'password', 'link-20');">password</a></tt><tt class="py-op">,</tt> <tt id="link-37" class="py-name"><a title="phamerator.SOAPserver.server
+phamerator.asm_poster.server
+phamerator.blastclient_xml.server
+phamerator.phageSOAP.server" class="py-name" href="#" onclick="return doclink('link-37', 'server', 'link-26');">server</a></tt><tt class="py-op">=</tt><tt id="link-38" class="py-name"><a title="phamerator.SOAPserver.server
+phamerator.asm_poster.server
+phamerator.blastclient_xml.server
+phamerator.phageSOAP.server" class="py-name" href="#" onclick="return doclink('link-38', 'server', 'link-26');">server</a></tt><tt class="py-op">,</tt> <tt id="link-39" class="py-name" targets="Variable phamerator.asm_poster.db=phamerator.asm_poster-module.html#db,Variable phamerator.create_fasta_for_formatdb.db=phamerator.create_fasta_for_formatdb-module.html#db,Class phamerator.pham.db=phamerator.pham.db-class.html,Variable phamerator.plugins.compare_dbs.db=phamerator.plugins.compare_dbs-module.html#db,Variable phamerator.plugins.get_relatives.db=phamerator.plugins.get_relatives-module.html#db"><a title="phamerator.asm_poster.db
+phamerator.create_fasta_for_formatdb.db
+phamerator.pham.db
+phamerator.plugins.compare_dbs.db
+phamerator.plugins.get_relatives.db" class="py-name" href="#" onclick="return doclink('link-39', 'db', 'link-39');">db</a></tt><tt class="py-op">=</tt><tt class="py-name">database</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-40" class="py-name" targets="Method phamerator.db_conf.db_conf.get_cursor()=phamerator.db_conf.db_conf-class.html#get_cursor"><a title="phamerator.db_conf.db_conf.get_cursor" class="py-name" href="#" onclick="return doclink('link-40', 'get_cursor', 'link-40');">get_cursor</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">  <tt id="link-41" class="py-name"><a title="phamerator.asm_poster.db
+phamerator.create_fasta_for_formatdb.db
+phamerator.pham.db
+phamerator.plugins.compare_dbs.db
+phamerator.plugins.get_relatives.db" class="py-name" href="#" onclick="return doclink('link-41', 'db', 'link-39');">db</a></tt> <tt class="py-op">=</tt> <tt id="link-42" class="py-name"><a title="phamerator.pham
+phamerator.phamBuilder3.pham" class="py-name" href="#" onclick="return doclink('link-42', 'pham', 'link-0');">pham</a></tt><tt class="py-op">.</tt><tt id="link-43" class="py-name"><a title="phamerator.asm_poster.db
+phamerator.create_fasta_for_formatdb.db
+phamerator.pham.db
+phamerator.plugins.compare_dbs.db
+phamerator.plugins.get_relatives.db" class="py-name" href="#" onclick="return doclink('link-43', 'db', 'link-39');">db</a></tt><tt class="py-op">(</tt><tt id="link-44" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-44', 'c', 'link-30');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">  <tt class="py-name">GeneIDs</tt> <tt class="py-op">=</tt> <tt id="link-45" class="py-name" targets="Method phamerator.phageSOAP.phageSOAP.get_GeneIDs()=phamerator.phageSOAP.phageSOAP-class.html#get_GeneIDs,Function phamerator.phamerator_manage_db.get_GeneIDs()=phamerator.phamerator_manage_db-module.html#get_GeneIDs"><a title="phamerator.phageSOAP.phageSOAP.get_GeneIDs
+phamerator.phamerator_manage_db.get_GeneIDs" class="py-name" href="#" onclick="return doclink('link-45', 'get_GeneIDs', 'link-45');">get_GeneIDs</a></tt><tt class="py-op">(</tt><tt id="link-46" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-46', 'c', 'link-30');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line"> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">  <tt class="py-comment"># get all the phams that are in the database</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">  <tt class="py-name">oldController</tt> <tt class="py-op">=</tt> <tt id="link-47" class="py-name"><a title="phamerator.pham
+phamerator.phamBuilder3.pham" class="py-name" href="#" onclick="return doclink('link-47', 'pham', 'link-0');">pham</a></tt><tt class="py-op">.</tt><tt id="link-48" class="py-name" targets="Class phamerator.pham.PhamController=phamerator.pham.PhamController-class.html"><a title="phamerator.pham.PhamController" class="py-name" href="#" onclick="return doclink('link-48', 'PhamController', 'link-48');">PhamController</a></tt><tt class="py-op">(</tt><tt id="link-49" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-49', 'c', 'link-30');">c</a></tt><tt class="py-op">,</tt> <tt class="py-name">source</tt><tt class="py-op">=</tt><tt class="py-string">'db'</tt><tt class="py-op">)</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line"> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">  <tt class="py-comment"># create an empty PhamController object that will be populated with phams for pre-existing genes only</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">  <tt class="py-comment"># this checks to make sure these phams are still valid based on new BLAST scores</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">  <tt class="py-name">currentController</tt> <tt class="py-op">=</tt> <tt id="link-50" class="py-name"><a title="phamerator.pham
+phamerator.phamBuilder3.pham" class="py-name" href="#" onclick="return doclink('link-50', 'pham', 'link-0');">pham</a></tt><tt class="py-op">.</tt><tt id="link-51" class="py-name"><a title="phamerator.pham.PhamController" class="py-name" href="#" onclick="return doclink('link-51', 'PhamController', 'link-48');">PhamController</a></tt><tt class="py-op">(</tt><tt id="link-52" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-52', 'c', 'link-30');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">  <tt class="py-name">new_genes</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">  <tt class="py-keyword">for</tt> <tt id="link-53" class="py-name" targets="Variable phamerator.get_relatives.GeneID=phamerator.get_relatives-module.html#GeneID,Variable phamerator.plugins.get_relatives.GeneID=phamerator.plugins.get_relatives-module.html#GeneID"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-53', 'GeneID', 'link-53');">GeneID</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">GeneIDs</tt><tt class="py-op">:</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">oldController</tt><tt class="py-op">.</tt><tt id="link-54" class="py-name" targets="Method phamerator.pham.PhamController.find_phams_with_gene()=phamerator.pham.PhamController-class.html#find_phams_with_gene"><a title="phamerator.pham.PhamController.find_phams_with_gene" class="py-name" href="#" onclick="return doclink('link-54', 'find_phams_with_gene', 'link-54');">find_phams_with_gene</a></tt><tt class="py-op">(</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt id="link-55" class="py-name"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-55', 'GeneID', 'link-53');">GeneID</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">      <tt class="py-comment">#print '%s is not in a pham' % str(GeneID)</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">      <tt class="py-name">new_genes</tt><tt class="py-op">.</tt><tt id="link-56" class="py-name" targets="Method phamerator.cluster.Cluster.append()=phamerator.cluster.Cluster-class.html#append"><a title="phamerator.cluster.Cluster.append" class="py-name" href="#" onclick="return doclink('link-56', 'append', 'link-56');">append</a></tt><tt class="py-op">(</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt id="link-57" class="py-name"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-57', 'GeneID', 'link-53');">GeneID</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line"> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">'there are %s genes that are not assigned to a pham'</tt> <tt class="py-op">%</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">new_genes</tt><tt class="py-op">)</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">'ignoring these and verifying the old phams...'</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line"> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">  <tt class="py-comment"># Make sure that the existing phams in the database are still valid based on the </tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">  <tt class="py-comment"># current alignment scores</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line"> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">  <tt class="py-keyword">for</tt> <tt id="link-58" class="py-name"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-58', 'GeneID', 'link-53');">GeneID</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">GeneIDs</tt><tt class="py-op">:</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt id="link-59" class="py-name"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-59', 'GeneID', 'link-53');">GeneID</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">new_genes</tt><tt class="py-op">:</tt> <tt class="py-keyword">continue</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">    <tt id="link-60" class="py-name" targets="Variable phamerator.get_relatives.relatives=phamerator.get_relatives-module.html#relatives"><a title="phamerator.get_relatives.relatives" class="py-name" href="#" onclick="return doclink('link-60', 'relatives', 'link-60');">relatives</a></tt> <tt class="py-op">=</tt> <tt id="link-61" class="py-name" targets="Function phamerator.plugins.phamchecker.follow_rel_chain2()=phamerator.plugins.phamchecker-module.html#follow_rel_chain2"><a title="phamerator.plugins.phamchecker.follow_rel_chain2" class="py-name" href="#" onclick="return doclink('link-61', 'follow_rel_chain2', 'link-61');">follow_rel_chain2</a></tt><tt class="py-op">(</tt><tt id="link-62" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-62', 'c', 'link-30');">c</a></tt><tt class="py-op">,</tt> <tt id="link-63" class="py-name"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-63', 'GeneID', 'link-53');">GeneID</a></tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">ignore</tt><tt class="py-op">=</tt><tt class="py-name">new_genes</tt><tt class="py-op">,</tt> <tt class="py-name">cthreshold</tt><tt class="py-op">=</tt><tt class="py-name">cthreshold</tt><tt class="py-op">,</tt> <tt class="py-name">bthreshold</tt><tt class="py-op">=</tt><tt class="py-name">bthreshold</tt><tt class="py-op">)</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">    <tt class="py-name">p</tt> <tt class="py-op">=</tt> <tt id="link-64" class="py-name"><a title="phamerator.pham
+phamerator.phamBuilder3.pham" class="py-name" href="#" onclick="return doclink('link-64', 'pham', 'link-0');">pham</a></tt><tt class="py-op">.</tt><tt id="link-65" class="py-name" targets="Class phamerator.pham.Pham=phamerator.pham.Pham-class.html"><a title="phamerator.pham.Pham" class="py-name" href="#" onclick="return doclink('link-65', 'Pham', 'link-65');">Pham</a></tt><tt class="py-op">(</tt><tt class="py-name">name</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-name">members</tt><tt class="py-op">=</tt><tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">children</tt><tt class="py-op">=</tt><tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">    <tt class="py-name">p</tt><tt class="py-op">.</tt><tt id="link-66" class="py-name" targets="Method phamerator.pham.Pham.add_members()=phamerator.pham.Pham-class.html#add_members"><a title="phamerator.pham.Pham.add_members" class="py-name" href="#" onclick="return doclink('link-66', 'add_members', 'link-66');">add_members</a></tt><tt class="py-op">(</tt><tt class="py-op">(</tt><tt id="link-67" class="py-name"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-67', 'GeneID', 'link-53');">GeneID</a></tt><tt class="py-op">,</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">    <tt class="py-name">p</tt><tt class="py-op">.</tt><tt id="link-68" class="py-name"><a title="phamerator.pham.Pham.add_members" class="py-name" href="#" onclick="return doclink('link-68', 'add_members', 'link-66');">add_members</a></tt><tt class="py-op">(</tt><tt id="link-69" class="py-name"><a title="phamerator.get_relatives.relatives" class="py-name" href="#" onclick="return doclink('link-69', 'relatives', 'link-60');">relatives</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt class="py-string">'created pham'</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">      <tt class="py-comment">#print 'creating a new pham and adding it to the currentController:', p</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line">      <tt class="py-name">currentController</tt><tt class="py-op">.</tt><tt id="link-70" class="py-name" targets="Method phamerator.pham.PhamController.add_pham()=phamerator.pham.PhamController-class.html#add_pham"><a title="phamerator.pham.PhamController.add_pham" class="py-name" href="#" onclick="return doclink('link-70', 'add_pham', 'link-70');">add_pham</a></tt><tt class="py-op">(</tt><tt class="py-name">p</tt><tt class="py-op">)</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt> <tt id="link-71" class="py-name"><a title="phamerator.pham
+phamerator.phamBuilder3.pham" class="py-name" href="#" onclick="return doclink('link-71', 'pham', 'link-0');">pham</a></tt><tt class="py-op">.</tt><tt id="link-72" class="py-name" targets="Class phamerator.pham.DuplicatePhamError=phamerator.pham.DuplicatePhamError-class.html"><a title="phamerator.pham.DuplicatePhamError" class="py-name" href="#" onclick="return doclink('link-72', 'DuplicatePhamError', 'link-72');">DuplicatePhamError</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">      <tt class="py-keyword">pass</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line">      <tt class="py-comment">#print 'pham %s is already in the current controller:' % p</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line"> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">  <tt class="py-comment"># Look for phams that should be joined because they each contain the same gene.</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">  <tt class="py-comment"># Join any that are found.</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line"> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">  <tt class="py-keyword">for</tt> <tt id="link-73" class="py-name"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-73', 'GeneID', 'link-53');">GeneID</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">GeneIDs</tt><tt class="py-op">:</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">    <tt class="py-name">pwg</tt> <tt class="py-op">=</tt> <tt class="py-name">currentController</tt><tt class="py-op">.</tt><tt id="link-74" class="py-name"><a title="phamerator.pham.PhamController.find_phams_with_gene" class="py-name" href="#" onclick="return doclink('link-74', 'find_phams_with_gene', 'link-54');">find_phams_with_gene</a></tt><tt class="py-op">(</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt id="link-75" class="py-name"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-75', 'GeneID', 'link-53');">GeneID</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-comment">#pwg = phams with gene</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">    <tt class="py-comment">#print 'GeneID: %s, pwg: %s' % (GeneID, pwg)</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">pwg</tt><tt class="py-op">:</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">      <tt class="py-comment"># one (and only one) pham already contains this gene, don't do anything</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">      <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">pwg</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">        <tt class="py-name">p</tt> <tt class="py-op">=</tt> <tt class="py-name">pwg</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt>  </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line"> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">      <tt class="py-comment"># if this gene is already in more than one pham, join those phams</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">      <tt class="py-keyword">elif</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">pwg</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt>  </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">        <tt class="py-name">p</tt> <tt class="py-op">=</tt> <tt class="py-name">currentController</tt><tt class="py-op">.</tt><tt id="link-76" class="py-name" targets="Method phamerator.pham.PhamController.join_phams()=phamerator.pham.PhamController-class.html#join_phams"><a title="phamerator.pham.PhamController.join_phams" class="py-name" href="#" onclick="return doclink('link-76', 'join_phams', 'link-76');">join_phams</a></tt><tt class="py-op">(</tt><tt class="py-name">pwg</tt><tt class="py-op">)</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line"> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">"there are %s total phams when ignoring new genes"</tt> <tt class="py-op">%</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">currentController</tt><tt class="py-op">.</tt><tt id="link-77" class="py-name" targets="Variable phamerator.asm_poster.phams=phamerator.asm_poster-module.html#phams"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-77', 'phams', 'link-77');">phams</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">  <tt class="py-name">currentController</tt> <tt class="py-op">=</tt> <tt class="py-name">currentController</tt> <tt class="py-op">-</tt> <tt class="py-name">oldController</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">"there are %s split phams that need to be phixed"</tt> <tt class="py-op">%</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">currentController</tt><tt class="py-op">.</tt><tt id="link-78" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-78', 'phams', 'link-77');">phams</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">  <tt class="py-name">currentController</tt><tt class="py-op">.</tt><tt id="link-79" class="py-name" targets="Method phamerator.pham.PhamController.save()=phamerator.pham.PhamController-class.html#save"><a title="phamerator.pham.PhamController.save" class="py-name" href="#" onclick="return doclink('link-79', 'save', 'link-79');">save</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line"> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">  <tt class="py-comment"># create an empty PhamController object that will be populated with phams for new and pre-existing genes</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">  <tt class="py-comment"># the pre-existing phams will be subtracted out of this object's pham list</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">  <tt class="py-name">newController</tt> <tt class="py-op">=</tt> <tt id="link-80" class="py-name"><a title="phamerator.pham
+phamerator.phamBuilder3.pham" class="py-name" href="#" onclick="return doclink('link-80', 'pham', 'link-0');">pham</a></tt><tt class="py-op">.</tt><tt id="link-81" class="py-name"><a title="phamerator.pham.PhamController" class="py-name" href="#" onclick="return doclink('link-81', 'PhamController', 'link-48');">PhamController</a></tt><tt class="py-op">(</tt><tt id="link-82" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-82', 'c', 'link-30');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">  <tt class="py-name">oldController</tt> <tt class="py-op">=</tt> <tt id="link-83" class="py-name"><a title="phamerator.pham
+phamerator.phamBuilder3.pham" class="py-name" href="#" onclick="return doclink('link-83', 'pham', 'link-0');">pham</a></tt><tt class="py-op">.</tt><tt id="link-84" class="py-name"><a title="phamerator.pham.PhamController" class="py-name" href="#" onclick="return doclink('link-84', 'PhamController', 'link-48');">PhamController</a></tt><tt class="py-op">(</tt><tt id="link-85" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-85', 'c', 'link-30');">c</a></tt><tt class="py-op">,</tt> <tt class="py-name">source</tt><tt class="py-op">=</tt><tt class="py-string">'db'</tt><tt class="py-op">)</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line"> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">  <tt class="py-comment"># for every gene in the database, figure out if it is already in a pham</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line">  <tt class="py-keyword">for</tt> <tt id="link-86" class="py-name"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-86', 'GeneID', 'link-53');">GeneID</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">GeneIDs</tt><tt class="py-op">:</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line">    <tt id="link-87" class="py-name"><a title="phamerator.cluster.Cluster.append" class="py-name" href="#" onclick="return doclink('link-87', 'append', 'link-56');">append</a></tt><tt class="py-op">=</tt><tt class="py-name">True</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line">    <tt id="link-88" class="py-name"><a title="phamerator.get_relatives.relatives" class="py-name" href="#" onclick="return doclink('link-88', 'relatives', 'link-60');">relatives</a></tt> <tt class="py-op">=</tt> <tt id="link-89" class="py-name"><a title="phamerator.plugins.phamchecker.follow_rel_chain2" class="py-name" href="#" onclick="return doclink('link-89', 'follow_rel_chain2', 'link-61');">follow_rel_chain2</a></tt><tt class="py-op">(</tt><tt id="link-90" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-90', 'c', 'link-30');">c</a></tt><tt class="py-op">,</tt> <tt id="link-91" class="py-name"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-91', 'GeneID', 'link-53');">GeneID</a></tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">cthreshold</tt><tt class="py-op">=</tt><tt class="py-name">cthreshold</tt><tt class="py-op">,</tt> <tt class="py-name">bthreshold</tt><tt class="py-op">=</tt><tt class="py-name">bthreshold</tt><tt class="py-op">)</tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line">    <tt class="py-name">pwg</tt> <tt class="py-op">=</tt> <tt class="py-name">newController</tt><tt class="py-op">.</tt><tt id="link-92" class="py-name"><a title="phamerator.pham.PhamController.find_phams_with_gene" class="py-name" href="#" onclick="return doclink('link-92', 'find_phams_with_gene', 'link-54');">find_phams_with_gene</a></tt><tt class="py-op">(</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt id="link-93" class="py-name"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-93', 'GeneID', 'link-53');">GeneID</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-comment">#pwg = phams with gene</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">    <tt class="py-comment">#print 'GeneID: %s, pwg: %s' % (GeneID, pwg)</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">pwg</tt><tt class="py-op">:</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">      <tt class="py-comment"># one (and only one) pham already contains this gene, don't do anything</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line">      <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">pwg</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line">        <tt class="py-name">p</tt> <tt class="py-op">=</tt> <tt class="py-name">pwg</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt>  </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line"> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line">      <tt class="py-comment"># if this gene is already in more than one pham, join those phams</tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line">      <tt class="py-keyword">elif</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">pwg</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt>  </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line">        <tt class="py-comment">###print 'joining phams...'</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line">        <tt class="py-comment">#for item in pwg: print item.members</tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line">        <tt class="py-name">p</tt> <tt class="py-op">=</tt> <tt class="py-name">newController</tt><tt class="py-op">.</tt><tt id="link-94" class="py-name"><a title="phamerator.pham.PhamController.join_phams" class="py-name" href="#" onclick="return doclink('link-94', 'join_phams', 'link-76');">join_phams</a></tt><tt class="py-op">(</tt><tt class="py-name">pwg</tt><tt class="py-op">)</tt> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line"> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">    <tt class="py-comment"># if this gene isn't in a pham already, create a new pham</tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line">      <tt class="py-name">p</tt> <tt class="py-op">=</tt> <tt id="link-95" class="py-name"><a title="phamerator.pham
+phamerator.phamBuilder3.pham" class="py-name" href="#" onclick="return doclink('link-95', 'pham', 'link-0');">pham</a></tt><tt class="py-op">.</tt><tt id="link-96" class="py-name"><a title="phamerator.pham.Pham" class="py-name" href="#" onclick="return doclink('link-96', 'Pham', 'link-65');">Pham</a></tt><tt class="py-op">(</tt><tt class="py-name">name</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-name">members</tt><tt class="py-op">=</tt><tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">children</tt><tt class="py-op">=</tt><tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">      <tt class="py-name">p</tt><tt class="py-op">.</tt><tt id="link-97" class="py-name"><a title="phamerator.pham.Pham.add_members" class="py-name" href="#" onclick="return doclink('link-97', 'add_members', 'link-66');">add_members</a></tt><tt class="py-op">(</tt><tt class="py-op">(</tt><tt id="link-98" class="py-name"><a title="phamerator.get_relatives.GeneID
+phamerator.plugins.get_relatives.GeneID" class="py-name" href="#" onclick="return doclink('link-98', 'GeneID', 'link-53');">GeneID</a></tt><tt class="py-op">,</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line"> </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">    <tt class="py-comment"># add any genes related to this gene to the pham that it's in</tt> </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line">    <tt class="py-name">p</tt><tt class="py-op">.</tt><tt id="link-99" class="py-name"><a title="phamerator.pham.Pham.add_members" class="py-name" href="#" onclick="return doclink('link-99', 'add_members', 'link-66');">add_members</a></tt><tt class="py-op">(</tt><tt id="link-100" class="py-name"><a title="phamerator.get_relatives.relatives" class="py-name" href="#" onclick="return doclink('link-100', 'relatives', 'link-60');">relatives</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line"> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">    <tt class="py-name">toJoin</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-name">p</tt><tt class="py-op">]</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt id="link-101" class="py-name" targets="Module phamerator.gene=phamerator.gene-module.html,Class phamerator.gene.gene=phamerator.gene.gene-class.html"><a title="phamerator.gene
+phamerator.gene.gene" class="py-name" href="#" onclick="return doclink('link-101', 'gene', 'link-101');">gene</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">p</tt><tt class="py-op">.</tt><tt class="py-name">members</tt><tt class="py-op">:</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line">      <tt class="py-keyword">for</tt> <tt class="py-name">result</tt> <tt class="py-keyword">in</tt> <tt class="py-name">newController</tt><tt class="py-op">.</tt><tt id="link-102" class="py-name"><a title="phamerator.pham.PhamController.find_phams_with_gene" class="py-name" href="#" onclick="return doclink('link-102', 'find_phams_with_gene', 'link-54');">find_phams_with_gene</a></tt><tt class="py-op">(</tt><tt id="link-103" class="py-name"><a title="phamerator.gene
+phamerator.gene.gene" class="py-name" href="#" onclick="return doclink('link-103', 'gene', 'link-101');">gene</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">result</tt> <tt class="py-keyword">not</tt> <tt class="py-keyword">in</tt> <tt class="py-name">toJoin</tt><tt class="py-op">:</tt> <tt class="py-name">toJoin</tt><tt class="py-op">.</tt><tt id="link-104" class="py-name"><a title="phamerator.cluster.Cluster.append" class="py-name" href="#" onclick="return doclink('link-104', 'append', 'link-56');">append</a></tt><tt class="py-op">(</tt><tt class="py-name">result</tt><tt class="py-op">)</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">toJoin</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line">      <tt class="py-comment">#print 'joining phams with these members:'</tt> </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line">      <tt class="py-comment">#for j in toJoin: print j, j.name, j.members</tt> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line">      <tt class="py-name">p</tt> <tt class="py-op">=</tt> <tt class="py-name">newController</tt><tt class="py-op">.</tt><tt id="link-105" class="py-name"><a title="phamerator.pham.PhamController.join_phams" class="py-name" href="#" onclick="return doclink('link-105', 'join_phams', 'link-76');">join_phams</a></tt><tt class="py-op">(</tt><tt class="py-name">toJoin</tt><tt class="py-op">)</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line"> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt id="link-106" class="py-name"><a title="phamerator.cluster.Cluster.append" class="py-name" href="#" onclick="return doclink('link-106', 'append', 'link-56');">append</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line">      <tt class="py-comment">###print 'adding pham', p, 'with members:', p.members</tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line">      <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt class="py-name">newController</tt><tt class="py-op">.</tt><tt id="link-107" class="py-name"><a title="phamerator.pham.PhamController.add_pham" class="py-name" href="#" onclick="return doclink('link-107', 'add_pham', 'link-70');">add_pham</a></tt><tt class="py-op">(</tt><tt class="py-name">p</tt><tt class="py-op">)</tt> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line">      <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt id="link-108" class="py-name"><a title="phamerator.pham
+phamerator.phamBuilder3.pham" class="py-name" href="#" onclick="return doclink('link-108', 'pham', 'link-0');">pham</a></tt><tt class="py-op">.</tt><tt id="link-109" class="py-name"><a title="phamerator.pham.DuplicatePhamError" class="py-name" href="#" onclick="return doclink('link-109', 'DuplicatePhamError', 'link-72');">DuplicatePhamError</a></tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line">  <tt class="py-name">newController</tt> <tt class="py-op">=</tt> <tt class="py-name">newController</tt> <tt class="py-op">-</tt> <tt class="py-name">oldController</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">"there are"</tt><tt class="py-op">,</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">newController</tt><tt class="py-op">.</tt><tt id="link-110" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-110', 'phams', 'link-77');">phams</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-string">"new phams."</tt> </tt>
+<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line">  <tt class="py-keyword">for</tt> <tt class="py-name">newPham</tt> <tt class="py-keyword">in</tt> <tt class="py-name">newController</tt><tt class="py-op">.</tt><tt id="link-111" class="py-name"><a title="phamerator.asm_poster.phams" class="py-name" href="#" onclick="return doclink('link-111', 'phams', 'link-77');">phams</a></tt><tt class="py-op">:</tt> <tt class="py-keyword">print</tt> <tt class="py-name">newPham</tt> </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">"Saving..."</tt> </tt>
+<a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line">  <tt class="py-name">newController</tt><tt class="py-op">.</tt><tt id="link-112" class="py-name"><a title="phamerator.pham.PhamController.save" class="py-name" href="#" onclick="return doclink('link-112', 'save', 'link-79');">save</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line"><tt class="py-keyword">if</tt> <tt class="py-name">__name__</tt> <tt class="py-op">==</tt> <tt class="py-string">'__main__'</tt><tt class="py-op">:</tt> </tt>
+<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line">  <tt id="link-113" class="py-name" targets="Function phamerator.PhamDisplay.main()=phamerator.PhamDisplay-module.html#main,Function phamerator.blastServer_InnoDB.main()=phamerator.blastServer_InnoDB-module.html#main,Function phamerator.blast_genbank.main()=phamerator.blast_genbank-module.html#main,Function phamerator.blastclient.main()=phamerator.blastclient-module.html#main,Function phamerator.blastclient_remote_access.main()=phamerator.blastclient_remote_access-module.html#main,Function phamerator.blastclient_xml.main()=phamerator.blastclient_xml-module.html#main,Function phamerator.cartographer.main()=phamerator.cartographer-module.html#main,Function phamerator.distance.main()=phamerator.distance-module.html#main,Function phamerator.distance2.main()=phamerator.distance2-module.html#main,Function phamerator.fix_svg.main()=phamerator.fix_svg-module.html#main,Function phamerator.phamBuilder.main()=phamerator.phamBuilder-module.html#main,Function phamerator.phamBuilder3.main()=phamerator.phamBuilder3-module.html#main,Function phamerator.phamBuilder4.main()=phamerator.phamBuilder4-module.html#main,Function phamerator.phamCluster.main()=phamerator.phamCluster-module.html#main,Function phamerator.phamServer_InnoDB.main()=phamerator.phamServer_InnoDB-module.html#main,Function phamerator.phamServer__InnoDB.main()=phamerator.phamServer__InnoDB-module.html#main,Function phamerator.phamServer_progress.main()=phamerator.phamServer_progress-module.html#main,Function phamerator.phamServer_python.main()=phamerator.phamServer_python-module.html#main,Function phamerator.phamServer_remote_access.main()=phamerator.phamServer_remote_access-module.html#main,Function phamerator.phamerator_manage_db.main()=phamerator.phamerator_manage_db-module.html#main,Function phamerator.plugins.phamchecker.main()=phamerator.plugins.phamchecker-module.html#main,Function phamerator.plugins.remove_drafts.main()=phamerator.plugins.remove_drafts-module.html#main,Function phamerator.plugins.update_cluster.main()=phamerator.plugins.update_cluster-module.html#main"><a title="phamerator.PhamDisplay.main
+phamerator.blastServer_InnoDB.main
+phamerator.blast_genbank.main
+phamerator.blastclient.main
+phamerator.blastclient_remote_access.main
+phamerator.blastclient_xml.main
+phamerator.cartographer.main
+phamerator.distance.main
+phamerator.distance2.main
+phamerator.fix_svg.main
+phamerator.phamBuilder.main
+phamerator.phamBuilder3.main
+phamerator.phamBuilder4.main
+phamerator.phamCluster.main
+phamerator.phamServer_InnoDB.main
+phamerator.phamServer__InnoDB.main
+phamerator.phamServer_progress.main
+phamerator.phamServer_python.main
+phamerator.phamServer_remote_access.main
+phamerator.phamerator_manage_db.main
+phamerator.plugins.phamchecker.main
+phamerator.plugins.remove_drafts.main
+phamerator.plugins.update_cluster.main" class="py-name" href="#" onclick="return doclink('link-113', 'main', 'link-113');">main</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="phamerator-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Nov  1 08:13:43 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

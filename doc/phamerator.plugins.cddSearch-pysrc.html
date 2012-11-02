@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>phamerator.plugins.cddSearch</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="phamerator-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="phamerator-module.html">Package&nbsp;phamerator</a> ::
+        <a href="phamerator.plugins-module.html">Package&nbsp;plugins</a> ::
+        Module&nbsp;cddSearch
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="phamerator.plugins.cddSearch-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="phamerator.plugins.cddSearch-module.html">Module phamerator.plugins.cddSearch</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-comment">#!/usr/bin/env python</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">urllib2</tt><tt class="py-op">,</tt> <tt class="py-name">os</tt><tt class="py-op">,</tt> <tt class="py-name">sys</tt><tt class="py-op">,</tt> <tt class="py-name">threading</tt><tt class="py-op">,</tt> <tt class="py-name">os</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">MySQLdb</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">getpass</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line">  <tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Package phamerator=phamerator-module.html"><a title="phamerator" class="py-name" href="#" onclick="return doclink('link-0', 'phamerator', 'link-0');">phamerator</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line">  <tt class="py-keyword">from</tt> <tt id="link-1" class="py-name"><a title="phamerator" class="py-name" href="#" onclick="return doclink('link-1', 'phamerator', 'link-0');">phamerator</a></tt> <tt class="py-keyword">import</tt> <tt id="link-2" class="py-name" targets="Module phamerator.phamerator_manage_db=phamerator.phamerator_manage_db-module.html"><a title="phamerator.phamerator_manage_db" class="py-name" href="#" onclick="return doclink('link-2', 'phamerator_manage_db', 'link-2');">phamerator_manage_db</a></tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line">  <tt class="py-keyword">from</tt> <tt id="link-3" class="py-name"><a title="phamerator" class="py-name" href="#" onclick="return doclink('link-3', 'phamerator', 'link-0');">phamerator</a></tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Module phamerator.db_conf=phamerator.db_conf-module.html,Class phamerator.db_conf.db_conf=phamerator.db_conf.db_conf-class.html"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-4', 'db_conf', 'link-4');">db_conf</a></tt> <tt class="py-keyword">import</tt> <tt id="link-5" class="py-name"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-5', 'db_conf', 'link-4');">db_conf</a></tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-keyword">except</tt><tt class="py-op">:</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line">  <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Method phamerator.cluster.Cluster.append()=phamerator.cluster.Cluster-class.html#append"><a title="phamerator.cluster.Cluster.append" class="py-name" href="#" onclick="return doclink('link-6', 'append', 'link-6');">append</a></tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">dirname</tt><tt class="py-op">(</tt><tt class="py-name">__file__</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-string">'..'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line">  <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt id="link-7" class="py-name"><a title="phamerator.cluster.Cluster.append" class="py-name" href="#" onclick="return doclink('link-7', 'append', 'link-6');">append</a></tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">dirname</tt><tt class="py-op">(</tt><tt class="py-name">__file__</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-string">'../..'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line">  <tt class="py-keyword">from</tt> <tt id="link-8" class="py-name"><a title="phamerator" class="py-name" href="#" onclick="return doclink('link-8', 'phamerator', 'link-0');">phamerator</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line">  <tt class="py-keyword">from</tt> <tt id="link-9" class="py-name"><a title="phamerator" class="py-name" href="#" onclick="return doclink('link-9', 'phamerator', 'link-0');">phamerator</a></tt> <tt class="py-keyword">import</tt> <tt id="link-10" class="py-name"><a title="phamerator.phamerator_manage_db" class="py-name" href="#" onclick="return doclink('link-10', 'phamerator_manage_db', 'link-2');">phamerator_manage_db</a></tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line">  <tt class="py-keyword">from</tt> <tt id="link-11" class="py-name"><a title="phamerator" class="py-name" href="#" onclick="return doclink('link-11', 'phamerator', 'link-0');">phamerator</a></tt> <tt class="py-keyword">import</tt> <tt id="link-12" class="py-name" targets="Module phamerator.pham=phamerator.pham-module.html,Class phamerator.phamBuilder3.pham=phamerator.phamBuilder3.pham-class.html"><a title="phamerator.pham
+phamerator.phamBuilder3.pham" class="py-name" href="#" onclick="return doclink('link-12', 'pham', 'link-12');">pham</a></tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line">  <tt class="py-keyword">from</tt> <tt id="link-13" class="py-name"><a title="phamerator" class="py-name" href="#" onclick="return doclink('link-13', 'phamerator', 'link-0');">phamerator</a></tt><tt class="py-op">.</tt><tt id="link-14" class="py-name"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-14', 'db_conf', 'link-4');">db_conf</a></tt> <tt class="py-keyword">import</tt> <tt id="link-15" class="py-name"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-15', 'db_conf', 'link-4');">db_conf</a></tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"> </tt>
+<a name="cddSearch"></a><div id="cddSearch-def"><a name="L19"></a><tt class="py-lineno"> 19</tt> <a class="py-toggle" href="#" id="cddSearch-toggle" onclick="return toggle('cddSearch');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="phamerator.plugins.cddSearch.cddSearch-class.html">cddSearch</a><tt class="py-op">:</tt> </tt>
+</div><div id="cddSearch-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="cddSearch-expanded"><a name="cddSearch.__init__"></a><div id="cddSearch.__init__-def"><a name="L20"></a><tt class="py-lineno"> 20</tt> <a class="py-toggle" href="#" id="cddSearch.__init__-toggle" onclick="return toggle('cddSearch.__init__');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.plugins.cddSearch.cddSearch-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">db</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt><tt class="py-param">tempfilepath</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt><tt class="py-param">pathtoblast</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt><tt class="py-param">pathtocddDatabase</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt><tt class="py-param">PhageIDs</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="cddSearch.__init__-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="cddSearch.__init__-expanded"><a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line">    <tt id="link-16" class="py-name" targets="Variable phamerator.asm_poster.password=phamerator.asm_poster-module.html#password,Variable phamerator.create_fasta_for_formatdb.password=phamerator.create_fasta_for_formatdb-module.html#password,Variable phamerator.distance.password=phamerator.distance-module.html#password,Variable phamerator.get_genome_info.password=phamerator.get_genome_info-module.html#password,Variable phamerator.look_for_split_genes.password=phamerator.look_for_split_genes-module.html#password,Variable phamerator.plugins.get_relatives.password=phamerator.plugins.get_relatives-module.html#password"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-16', 'password', 'link-16');">password</a></tt> <tt class="py-op">=</tt> <tt class="py-name">getpass</tt><tt class="py-op">.</tt><tt class="py-name">getpass</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-17" class="py-name" targets="Variable phamerator.asm_poster.username=phamerator.asm_poster-module.html#username"><a title="phamerator.asm_poster.username" class="py-name" href="#" onclick="return doclink('link-17', 'username', 'link-17');">username</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"root"</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-18" class="py-name"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-18', 'password', 'link-16');">password</a></tt> <tt class="py-op">=</tt> <tt id="link-19" class="py-name"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-19', 'password', 'link-16');">password</a></tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-20" class="py-name" targets="Variable phamerator.SOAPserver.server=phamerator.SOAPserver-module.html#server,Variable phamerator.asm_poster.server=phamerator.asm_poster-module.html#server,Variable phamerator.blastclient_xml.server=phamerator.blastclient_xml-module.html#server,Variable phamerator.phageSOAP.server=phamerator.phageSOAP-module.html#server"><a title="phamerator.SOAPserver.server
+phamerator.asm_poster.server
+phamerator.blastclient_xml.server
+phamerator.phageSOAP.server" class="py-name" href="#" onclick="return doclink('link-20', 'server', 'link-20');">server</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"localhost"</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">database</tt> <tt class="py-op">=</tt> <tt id="link-21" class="py-name" targets="Variable phamerator.asm_poster.db=phamerator.asm_poster-module.html#db,Variable phamerator.create_fasta_for_formatdb.db=phamerator.create_fasta_for_formatdb-module.html#db,Class phamerator.pham.db=phamerator.pham.db-class.html,Variable phamerator.plugins.compare_dbs.db=phamerator.plugins.compare_dbs-module.html#db,Variable phamerator.plugins.get_relatives.db=phamerator.plugins.get_relatives-module.html#db"><a title="phamerator.asm_poster.db
+phamerator.create_fasta_for_formatdb.db
+phamerator.pham.db
+phamerator.plugins.compare_dbs.db
+phamerator.plugins.get_relatives.db" class="py-name" href="#" onclick="return doclink('link-21', 'db', 'link-21');">db</a></tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt class="py-string">'using databse: %s'</tt> <tt class="py-op">%</tt> <tt id="link-22" class="py-name"><a title="phamerator.asm_poster.db
+phamerator.create_fasta_for_formatdb.db
+phamerator.pham.db
+phamerator.plugins.compare_dbs.db
+phamerator.plugins.get_relatives.db" class="py-name" href="#" onclick="return doclink('link-22', 'db', 'link-21');">db</a></tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-23" class="py-name" targets="Variable phamerator.asm_poster.c=phamerator.asm_poster-module.html#c,Variable phamerator.create_blast_scores_table.c=phamerator.create_blast_scores_table-module.html#c,Variable phamerator.create_fasta_for_formatdb.c=phamerator.create_fasta_for_formatdb-module.html#c,Variable phamerator.create_scores_table.c=phamerator.create_scores_table-module.html#c,Variable phamerator.distance.c=phamerator.distance-module.html#c,Variable phamerator.get_genome_info.c=phamerator.get_genome_info-module.html#c,Variable phamerator.get_relatives.c=phamerator.get_relatives-module.html#c,Variable phamerator.look_for_split_genes.c=phamerator.look_for_split_genes-module.html#c,Variable phamerator.notify_progress.c=phamerator.notify_progress-module.html#c,Variable phamerator.phamBuilderComparator.c=phamerator.phamBuilderComparator-module.html#c,Variable phamerator.plugins.get_relatives.c=phamerator.plugins.get_relatives-module.html#c,Variable phamerator.rename_phages.c=phamerator.rename_phages-module.html#c"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-23', 'c', 'link-23');">c</a></tt> <tt class="py-op">=</tt> <tt id="link-24" class="py-name"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-24', 'db_conf', 'link-4');">db_conf</a></tt><tt class="py-op">(</tt><tt id="link-25" class="py-name"><a title="phamerator.asm_poster.username" class="py-name" href="#" onclick="return doclink('link-25', 'username', 'link-17');">username</a></tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-26" class="py-name"><a title="phamerator.asm_poster.username" class="py-name" href="#" onclick="return doclink('link-26', 'username', 'link-17');">username</a></tt><tt class="py-op">,</tt><tt id="link-27" class="py-name"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-27', 'password', 'link-16');">password</a></tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-28" class="py-name"><a title="phamerator.asm_poster.password
+phamerator.create_fasta_for_formatdb.password
+phamerator.distance.password
+phamerator.get_genome_info.password
+phamerator.look_for_split_genes.password
+phamerator.plugins.get_relatives.password" class="py-name" href="#" onclick="return doclink('link-28', 'password', 'link-16');">password</a></tt><tt class="py-op">,</tt><tt id="link-29" class="py-name"><a title="phamerator.SOAPserver.server
+phamerator.asm_poster.server
+phamerator.blastclient_xml.server
+phamerator.phageSOAP.server" class="py-name" href="#" onclick="return doclink('link-29', 'server', 'link-20');">server</a></tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name"><a title="phamerator.SOAPserver.server
+phamerator.asm_poster.server
+phamerator.blastclient_xml.server
+phamerator.phageSOAP.server" class="py-name" href="#" onclick="return doclink('link-30', 'server', 'link-20');">server</a></tt><tt class="py-op">,</tt><tt id="link-31" class="py-name"><a title="phamerator.asm_poster.db
+phamerator.create_fasta_for_formatdb.db
+phamerator.pham.db
+phamerator.plugins.compare_dbs.db
+phamerator.plugins.get_relatives.db" class="py-name" href="#" onclick="return doclink('link-31', 'db', 'link-21');">db</a></tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">database</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-32" class="py-name" targets="Method phamerator.db_conf.db_conf.get_cursor()=phamerator.db_conf.db_conf-class.html#get_cursor"><a title="phamerator.db_conf.db_conf.get_cursor" class="py-name" href="#" onclick="return doclink('link-32', 'get_cursor', 'link-32');">get_cursor</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt id="link-33" class="py-name" targets="Variable phamerator.look_for_split_genes.PhageIDs=phamerator.look_for_split_genes-module.html#PhageIDs"><a title="phamerator.look_for_split_genes.PhageIDs" class="py-name" href="#" onclick="return doclink('link-33', 'PhageIDs', 'link-33');">PhageIDs</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line">      <tt id="link-34" class="py-name"><a title="phamerator.look_for_split_genes.PhageIDs" class="py-name" href="#" onclick="return doclink('link-34', 'PhageIDs', 'link-33');">PhageIDs</a></tt> <tt class="py-op">=</tt> <tt id="link-35" class="py-name"><a title="phamerator.phamerator_manage_db" class="py-name" href="#" onclick="return doclink('link-35', 'phamerator_manage_db', 'link-2');">phamerator_manage_db</a></tt><tt class="py-op">.</tt><tt id="link-36" class="py-name" targets="Method phamerator.phageSOAP.phageSOAP.get_PhageIDs()=phamerator.phageSOAP.phageSOAP-class.html#get_PhageIDs,Function phamerator.phamerator_manage_db.get_PhageIDs()=phamerator.phamerator_manage_db-module.html#get_PhageIDs"><a title="phamerator.phageSOAP.phageSOAP.get_PhageIDs
+phamerator.phamerator_manage_db.get_PhageIDs" class="py-name" href="#" onclick="return doclink('link-36', 'get_PhageIDs', 'link-36');">get_PhageIDs</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-37" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-37', 'c', 'link-23');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-38" class="py-name"><a title="phamerator.look_for_split_genes.PhageIDs" class="py-name" href="#" onclick="return doclink('link-38', 'PhageIDs', 'link-33');">PhageIDs</a></tt> <tt class="py-op">=</tt> <tt class="py-name">list</tt><tt class="py-op">(</tt><tt id="link-39" class="py-name"><a title="phamerator.look_for_split_genes.PhageIDs" class="py-name" href="#" onclick="return doclink('link-39', 'PhageIDs', 'link-33');">PhageIDs</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">    <tt class="py-comment">#errorHandler = pham.errorHandler()</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">dbase</tt> <tt class="py-op">=</tt> <tt id="link-40" class="py-name"><a title="phamerator.pham
+phamerator.phamBuilder3.pham" class="py-name" href="#" onclick="return doclink('link-40', 'pham', 'link-12');">pham</a></tt><tt class="py-op">.</tt><tt id="link-41" class="py-name"><a title="phamerator.asm_poster.db
+phamerator.create_fasta_for_formatdb.db
+phamerator.pham.db
+phamerator.plugins.compare_dbs.db
+phamerator.plugins.get_relatives.db" class="py-name" href="#" onclick="return doclink('link-41', 'db', 'link-21');">db</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-42" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-42', 'c', 'link-23');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">pathtocddDatabase</tt> <tt class="py-op">==</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">      <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">rpsblast_db</tt> <tt class="py-op">=</tt> <tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">environ</tt><tt class="py-op">[</tt><tt class="py-string">'HOME'</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-string">'Databases'</tt><tt class="py-op">,</tt> <tt class="py-string">'Cdd'</tt><tt class="py-op">,</tt> <tt class="py-string">'Cdd'</tt><tt class="py-op">)</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">      <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">rpsblast_db</tt> <tt class="py-op">=</tt> <tt class="py-name">pathtocddDatabase</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line"> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">tempfilepath</tt> <tt class="py-op">==</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">      <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_filename</tt> <tt class="py-op">=</tt> <tt class="py-string">"/tmp/query.fasta"</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">      <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_filename</tt> <tt class="py-op">=</tt> <tt class="py-name">tempfilepath</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line"> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line"> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">pathtoblast</tt> <tt class="py-op">==</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line">      <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">        <tt class="py-keyword">import</tt> <tt class="py-name">ConfigParser</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">        <tt class="py-name">cfg</tt> <tt class="py-op">=</tt> <tt class="py-name">ConfigParser</tt><tt class="py-op">.</tt><tt class="py-name">RawConfigParser</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">        <tt class="py-name">cfg</tt><tt class="py-op">.</tt><tt class="py-name">read</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">environ</tt><tt class="py-op">[</tt><tt class="py-string">'HOME'</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-string">'.phamerator'</tt><tt class="py-op">,</tt> <tt class="py-string">'phamerator.conf'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">        <tt class="py-name">blast_dir</tt> <tt class="py-op">=</tt> <tt class="py-name">cfg</tt><tt class="py-op">.</tt><tt id="link-43" class="py-name" targets="Method phamerator.config.PhameratorConfiguration.get()=phamerator.config.PhameratorConfiguration-class.html#get"><a title="phamerator.config.PhameratorConfiguration.get" class="py-name" href="#" onclick="return doclink('link-43', 'get', 'link-43');">get</a></tt><tt class="py-op">(</tt><tt class="py-string">'Phamerator'</tt><tt class="py-op">,</tt><tt class="py-string">'BLAST_dir'</tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">rpsblast_exe</tt> <tt class="py-op">=</tt> <tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">blast_dir</tt><tt class="py-op">,</tt><tt class="py-string">'bin'</tt><tt class="py-op">,</tt><tt class="py-string">'rpsblast'</tt><tt class="py-op">)</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">        <tt class="py-keyword">print</tt> <tt class="py-string">'path to rpsblast: %s'</tt> <tt class="py-op">%</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">rpsblast_exe</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">      <tt class="py-keyword">except</tt><tt class="py-op">:</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">        <tt class="py-keyword">print</tt> <tt class="py-string">"BLAST not found, Exiting"</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">        <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">exit</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line"> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">      <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">rpsblast_exe</tt> <tt class="py-op">=</tt> <tt class="py-name">pathtoblast</tt> </tt>
+</div><a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">     </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line"> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line"> </tt>
+<a name="cddSearch.search"></a><div id="cddSearch.search-def"><a name="L63"></a><tt class="py-lineno"> 63</tt> <a class="py-toggle" href="#" id="cddSearch.search-toggle" onclick="return toggle('cddSearch.search');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.plugins.cddSearch.cddSearch-class.html#search">search</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="cddSearch.search-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="cddSearch.search-expanded"><a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">    <tt class="py-comment">#print 'path to database: %s' % self.rpsblast_db</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">    <tt class="py-name">fasta</tt> <tt class="py-op">=</tt> <tt id="link-44" class="py-name"><a title="phamerator.phamerator_manage_db" class="py-name" href="#" onclick="return doclink('link-44', 'phamerator_manage_db', 'link-2');">phamerator_manage_db</a></tt><tt class="py-op">.</tt><tt id="link-45" class="py-name" targets="Function phamerator.phamerator_manage_db.get_fasta_aa()=phamerator.phamerator_manage_db-module.html#get_fasta_aa"><a title="phamerator.phamerator_manage_db.get_fasta_aa" class="py-name" href="#" onclick="return doclink('link-45', 'get_fasta_aa', 'link-45');">get_fasta_aa</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-46" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-46', 'c', 'link-23');">c</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-47" class="py-name"><a title="phamerator.look_for_split_genes.PhageIDs" class="py-name" href="#" onclick="return doclink('link-47', 'PhageIDs', 'link-33');">PhageIDs</a></tt><tt class="py-op">,</tt> <tt class="py-name">include_drafts</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">    <tt class="py-comment">#print fasta</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">    <tt id="link-48" class="py-name" targets="Variable phamerator.create_fasta_for_formatdb.f=phamerator.create_fasta_for_formatdb-module.html#f"><a title="phamerator.create_fasta_for_formatdb.f" class="py-name" href="#" onclick="return doclink('link-48', 'f', 'link-48');">f</a></tt> <tt class="py-op">=</tt> <tt class="py-name">open</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_filename</tt><tt class="py-op">,</tt><tt class="py-string">'w'</tt><tt class="py-op">)</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">    <tt id="link-49" class="py-name"><a title="phamerator.create_fasta_for_formatdb.f" class="py-name" href="#" onclick="return doclink('link-49', 'f', 'link-48');">f</a></tt><tt class="py-op">.</tt><tt class="py-name">write</tt><tt class="py-op">(</tt><tt class="py-name">fasta</tt><tt class="py-op">)</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">    <tt id="link-50" class="py-name"><a title="phamerator.create_fasta_for_formatdb.f" class="py-name" href="#" onclick="return doclink('link-50', 'f', 'link-48');">f</a></tt><tt class="py-op">.</tt><tt class="py-name">close</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">    <tt class="py-name">E_VALUE_THRESH</tt> <tt class="py-op">=</tt> <tt class="py-number">0.001</tt> <tt class="py-comment">#Adjust the expectation cut-off here</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">    <tt class="py-keyword">from</tt> <tt class="py-name">Bio</tt><tt class="py-op">.</tt><tt class="py-name">Blast</tt> <tt class="py-keyword">import</tt> <tt class="py-name">NCBIStandalone</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">    <tt class="py-name">output_handle</tt><tt class="py-op">,</tt> <tt class="py-name">error_handle</tt> <tt class="py-op">=</tt> <tt class="py-name">NCBIStandalone</tt><tt class="py-op">.</tt><tt class="py-name">rpsblast</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">rpsblast_exe</tt><tt class="py-op">,</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">rpsblast_db</tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_filename</tt><tt class="py-op">,</tt> <tt class="py-name">expectation</tt><tt class="py-op">=</tt><tt class="py-name">E_VALUE_THRESH</tt><tt class="py-op">)</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">    <tt class="py-comment">#errors = error_handle.read()</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">    <tt class="py-comment">#if errors: print 'Errors: %s' % errors</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">    <tt class="py-keyword">from</tt> <tt class="py-name">Bio</tt><tt class="py-op">.</tt><tt class="py-name">Blast</tt> <tt class="py-keyword">import</tt> <tt class="py-name">NCBIXML</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">record</tt> <tt class="py-keyword">in</tt> <tt class="py-name">NCBIXML</tt><tt class="py-op">.</tt><tt class="py-name">parse</tt><tt class="py-op">(</tt><tt class="py-name">output_handle</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">      <tt class="py-comment">#We want to ignore any queries with no search results:</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">      <tt class="py-keyword">if</tt> <tt class="py-name">record</tt><tt class="py-op">.</tt><tt id="link-51" class="py-name" targets="Class phamerator.phamServer_python.alignments=phamerator.phamServer_python.alignments-class.html"><a title="phamerator.phamServer_python.alignments" class="py-name" href="#" onclick="return doclink('link-51', 'alignments', 'link-51');">alignments</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">        <tt class="py-keyword">print</tt> <tt class="py-string">"QUERY: %s..."</tt> <tt class="py-op">%</tt> <tt class="py-name">record</tt><tt class="py-op">.</tt><tt id="link-52" class="py-name" targets="Module phamerator.query=phamerator.query-module.html,Class phamerator.query.query=phamerator.query.query-class.html"><a title="phamerator.query
+phamerator.query.query" class="py-name" href="#" onclick="return doclink('link-52', 'query', 'link-52');">query</a></tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">':'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt id="link-53" class="py-name" targets="Method phamerator.phamClient.clustalwAligner.align()=phamerator.phamClient.clustalwAligner-class.html#align,Method phamerator.phamClient_remote_access.clustalwAligner.align()=phamerator.phamClient_remote_access.clustalwAligner-class.html#align,Class phamerator.phamServer_python.align=phamerator.phamServer_python.align-class.html"><a title="phamerator.phamClient.clustalwAligner.align
+phamerator.phamClient_remote_access.clustalwAligner.align
+phamerator.phamServer_python.align" class="py-name" href="#" onclick="return doclink('link-53', 'align', 'link-53');">align</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">record</tt><tt class="py-op">.</tt><tt id="link-54" class="py-name"><a title="phamerator.phamServer_python.alignments" class="py-name" href="#" onclick="return doclink('link-54', 'alignments', 'link-51');">alignments</a></tt> <tt class="py-op">:</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">          <tt class="py-keyword">for</tt> <tt class="py-name">hsp</tt> <tt class="py-keyword">in</tt> <tt id="link-55" class="py-name"><a title="phamerator.phamClient.clustalwAligner.align
+phamerator.phamClient_remote_access.clustalwAligner.align
+phamerator.phamServer_python.align" class="py-name" href="#" onclick="return doclink('link-55', 'align', 'link-53');">align</a></tt><tt class="py-op">.</tt><tt class="py-name">hsps</tt> <tt class="py-op">:</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">            <tt class="py-keyword">print</tt> <tt class="py-string">" %s HSP, e=%f, from position %i to %i"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt id="link-56" class="py-name"><a title="phamerator.phamClient.clustalwAligner.align
+phamerator.phamClient_remote_access.clustalwAligner.align
+phamerator.phamServer_python.align" class="py-name" href="#" onclick="return doclink('link-56', 'align', 'link-53');">align</a></tt><tt class="py-op">.</tt><tt class="py-name">hit_id</tt><tt class="py-op">,</tt><tt class="py-name">hsp</tt><tt class="py-op">.</tt><tt class="py-name">expect</tt><tt class="py-op">,</tt> <tt class="py-name">hsp</tt><tt class="py-op">.</tt><tt class="py-name">query_start</tt><tt class="py-op">,</tt> <tt class="py-name">hsp</tt><tt class="py-op">.</tt><tt class="py-name">query_end</tt><tt class="py-op">)</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">            <tt class="py-keyword">print</tt> <tt class="py-string">'inserting into database'</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">            <tt id="link-57" class="py-name"><a title="phamerator.phamClient.clustalwAligner.align
+phamerator.phamClient_remote_access.clustalwAligner.align
+phamerator.phamServer_python.align" class="py-name" href="#" onclick="return doclink('link-57', 'align', 'link-53');">align</a></tt><tt class="py-op">.</tt><tt class="py-name">hit_def</tt> <tt class="py-op">=</tt> <tt id="link-58" class="py-name"><a title="phamerator.phamClient.clustalwAligner.align
+phamerator.phamClient_remote_access.clustalwAligner.align
+phamerator.phamServer_python.align" class="py-name" href="#" onclick="return doclink('link-58', 'align', 'link-53');">align</a></tt><tt class="py-op">.</tt><tt class="py-name">hit_def</tt><tt class="py-op">.</tt><tt class="py-name">replace</tt><tt class="py-op">(</tt><tt class="py-string">"\""</tt><tt class="py-op">,</tt> <tt class="py-string">"\'"</tt><tt class="py-op">)</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">            <tt class="py-comment">#self.dbase.insert(table='domain', hit_id=align.hit_id, description=align.hit_def)</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line">            <tt class="py-comment">#self.dbase.insert(table='gene_domain', GeneID=record.query, hit_id=align.hit_id, expect=float(hsp.expect), query_start=int(hsp.query_start), query_end=int(hsp.query_end))</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">            <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">              <tt class="py-name">descList</tt> <tt class="py-op">=</tt> <tt id="link-59" class="py-name"><a title="phamerator.phamClient.clustalwAligner.align
+phamerator.phamClient_remote_access.clustalwAligner.align
+phamerator.phamServer_python.align" class="py-name" href="#" onclick="return doclink('link-59', 'align', 'link-53');">align</a></tt><tt class="py-op">.</tt><tt class="py-name">hit_def</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">','</tt><tt class="py-op">)</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line">              <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">descList</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;=</tt> <tt class="py-number">3</tt><tt class="py-op">:</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">                <tt class="py-name">DomainID</tt><tt class="py-op">,</tt> <tt class="py-name">Name</tt> <tt class="py-op">=</tt> <tt class="py-name">descList</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">descList</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">                <tt class="py-name">description</tt> <tt class="py-op">=</tt> <tt class="py-string">','</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">descList</tt><tt class="py-op">[</tt><tt class="py-number">2</tt><tt class="py-op">:</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">              <tt class="py-keyword">elif</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">descList</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-number">2</tt><tt class="py-op">:</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">                <tt class="py-name">DomainID</tt><tt class="py-op">,</tt> <tt class="py-name">description</tt> <tt class="py-op">=</tt> <tt class="py-name">descList</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">descList</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">                <tt class="py-name">Name</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">              <tt class="py-keyword">elif</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">descList</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">                <tt class="py-name">description</tt> <tt class="py-op">=</tt> <tt class="py-name">descList</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">                <tt class="py-name">DomainID</tt><tt class="py-op">,</tt> <tt class="py-name">Name</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">              <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt class="py-name">DomainID</tt><tt class="py-op">,</tt> <tt class="py-name">Name</tt><tt class="py-op">,</tt> <tt class="py-name">description</tt> <tt class="py-op">=</tt> <tt class="py-name">DomainID</tt><tt class="py-op">.</tt><tt class="py-name">strip</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">Name</tt><tt class="py-op">.</tt><tt class="py-name">strip</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">description</tt><tt class="py-op">.</tt><tt class="py-name">strip</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">              <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-keyword">pass</tt> <tt class="py-comment"># if DomainID, Name or description are None, strip() raises an objection</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">              <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"""insert into domain (hit_id, DomainID, Name, description) VALUES ("%s", "%s", "%s", "%s")"""</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt id="link-60" class="py-name"><a title="phamerator.phamClient.clustalwAligner.align
+phamerator.phamClient_remote_access.clustalwAligner.align
+phamerator.phamServer_python.align" class="py-name" href="#" onclick="return doclink('link-60', 'align', 'link-53');">align</a></tt><tt class="py-op">.</tt><tt class="py-name">hit_id</tt><tt class="py-op">,</tt> <tt class="py-name">DomainID</tt><tt class="py-op">,</tt> <tt class="py-name">Name</tt><tt class="py-op">,</tt> <tt class="py-name">description</tt><tt class="py-op">)</tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">              <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-61" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-61', 'c', 'link-23');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">              <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-62" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-62', 'c', 'link-23');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-string">'COMMIT'</tt><tt class="py-op">)</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">            <tt class="py-keyword">except</tt> <tt class="py-name">MySQLdb</tt><tt class="py-op">.</tt><tt class="py-name">Error</tt><tt class="py-op">,</tt> <tt id="link-63" class="py-name" targets="Variable phamerator.plugins.compare_dbs.e=phamerator.plugins.compare_dbs-module.html#e"><a title="phamerator.plugins.compare_dbs.e" class="py-name" href="#" onclick="return doclink('link-63', 'e', 'link-63');">e</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">              <tt class="py-keyword">print</tt> <tt class="py-name">sqlQuery</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">              <tt class="py-keyword">if</tt> <tt id="link-64" class="py-name"><a title="phamerator.plugins.compare_dbs.e" class="py-name" href="#" onclick="return doclink('link-64', 'e', 'link-63');">e</a></tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> <tt class="py-op">==</tt> <tt class="py-number">1062</tt><tt class="py-op">:</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">                <tt class="py-keyword">print</tt> <tt id="link-65" class="py-name"><a title="phamerator.plugins.compare_dbs.e" class="py-name" href="#" onclick="return doclink('link-65', 'e', 'link-63');">e</a></tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">              <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">                <tt class="py-keyword">print</tt> <tt id="link-66" class="py-name"><a title="phamerator.plugins.compare_dbs.e" class="py-name" href="#" onclick="return doclink('link-66', 'e', 'link-63');">e</a></tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">                <tt class="py-keyword">print</tt> <tt class="py-string">'exiting on error.'</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">                <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">exit</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line"> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">            <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">              <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"""insert into gene_domain (GeneID, hit_id, expect, query_start, query_end) VALUES ("%s", "%s", %s, %s, %s)"""</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">record</tt><tt class="py-op">.</tt><tt id="link-67" class="py-name"><a title="phamerator.query
+phamerator.query.query" class="py-name" href="#" onclick="return doclink('link-67', 'query', 'link-52');">query</a></tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">':'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt id="link-68" class="py-name"><a title="phamerator.phamClient.clustalwAligner.align
+phamerator.phamClient_remote_access.clustalwAligner.align
+phamerator.phamServer_python.align" class="py-name" href="#" onclick="return doclink('link-68', 'align', 'link-53');">align</a></tt><tt class="py-op">.</tt><tt class="py-name">hit_id</tt><tt class="py-op">,</tt> <tt class="py-name">float</tt><tt class="py-op">(</tt><tt class="py-name">hsp</tt><tt class="py-op">.</tt><tt class="py-name">expect</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">int</tt><tt class="py-op">(</tt><tt class="py-name">hsp</tt><tt class="py-op">.</tt><tt class="py-name">query_start</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">int</tt><tt class="py-op">(</tt><tt class="py-name">hsp</tt><tt class="py-op">.</tt><tt class="py-name">query_end</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">              <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-69" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-69', 'c', 'link-23');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line">              <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-70" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-70', 'c', 'link-23');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-string">'COMMIT'</tt><tt class="py-op">)</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">            <tt class="py-keyword">except</tt> <tt class="py-name">MySQLdb</tt><tt class="py-op">.</tt><tt class="py-name">Error</tt><tt class="py-op">,</tt> <tt id="link-71" class="py-name"><a title="phamerator.plugins.compare_dbs.e" class="py-name" href="#" onclick="return doclink('link-71', 'e', 'link-63');">e</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line">              <tt class="py-keyword">print</tt> <tt class="py-name">sqlQuery</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line">              <tt class="py-keyword">if</tt> <tt id="link-72" class="py-name"><a title="phamerator.plugins.compare_dbs.e" class="py-name" href="#" onclick="return doclink('link-72', 'e', 'link-63');">e</a></tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> <tt class="py-op">==</tt> <tt class="py-number">1062</tt><tt class="py-op">:</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line">                <tt class="py-keyword">print</tt> <tt id="link-73" class="py-name"><a title="phamerator.plugins.compare_dbs.e" class="py-name" href="#" onclick="return doclink('link-73', 'e', 'link-63');">e</a></tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line">              <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">                <tt class="py-keyword">print</tt> <tt id="link-74" class="py-name"><a title="phamerator.plugins.compare_dbs.e" class="py-name" href="#" onclick="return doclink('link-74', 'e', 'link-63');">e</a></tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">                <tt class="py-keyword">print</tt> <tt class="py-string">'exiting on error.'</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">                <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">exit</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line"> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line">            <tt class="py-keyword">print</tt> <tt id="link-75" class="py-name"><a title="phamerator.phamClient.clustalwAligner.align
+phamerator.phamClient_remote_access.clustalwAligner.align
+phamerator.phamServer_python.align" class="py-name" href="#" onclick="return doclink('link-75', 'align', 'link-53');">align</a></tt><tt class="py-op">.</tt><tt class="py-name">hit_def</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line">            <tt class="py-keyword">assert</tt> <tt class="py-name">hsp</tt><tt class="py-op">.</tt><tt class="py-name">expect</tt> <tt class="py-op">&lt;=</tt> <tt class="py-name">E_VALUE_THRESH</tt> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt class="py-string">"Done\n"</tt> </tt>
+</div></div><a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line"> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line"> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line"><tt class="py-keyword">if</tt> <tt class="py-name">__name__</tt> <tt class="py-op">==</tt> <tt class="py-string">"__main__"</tt><tt class="py-op">:</tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">"\n\n\nusage:\ncddSearch.py &lt;sql database&gt; (uses phamerator's blast location, and default fastA file path /tmp/query.fasta and default cdd Database location ~/Databases/Cdd/Cdd)\n"</tt> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line">  <tt class="py-keyword">print</tt> <tt class="py-string">"usage:\ncddSearch.py &lt;sql database&gt; &lt;path to rpsblast executable&gt; &lt;path to cdd database&gt; &lt;query fastA file path&gt;\n"</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">  <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">    <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">exit</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line">  <tt class="py-keyword">elif</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-number">2</tt><tt class="py-op">:</tt> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">    <tt class="py-name">cdd</tt> <tt class="py-op">=</tt> <tt id="link-76" class="py-name" targets="Module phamerator.plugins.cddSearch=phamerator.plugins.cddSearch-module.html,Class phamerator.plugins.cddSearch.cddSearch=phamerator.plugins.cddSearch.cddSearch-class.html"><a title="phamerator.plugins.cddSearch
+phamerator.plugins.cddSearch.cddSearch" class="py-name" href="#" onclick="return doclink('link-76', 'cddSearch', 'link-76');">cddSearch</a></tt><tt class="py-op">(</tt><tt id="link-77" class="py-name"><a title="phamerator.asm_poster.db
+phamerator.create_fasta_for_formatdb.db
+phamerator.pham.db
+phamerator.plugins.compare_dbs.db
+phamerator.plugins.get_relatives.db" class="py-name" href="#" onclick="return doclink('link-77', 'db', 'link-21');">db</a></tt><tt class="py-op">=</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line">  <tt class="py-keyword">elif</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-number">3</tt><tt class="py-op">:</tt> </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">    <tt class="py-name">cdd</tt> <tt class="py-op">=</tt> <tt id="link-78" class="py-name"><a title="phamerator.plugins.cddSearch
+phamerator.plugins.cddSearch.cddSearch" class="py-name" href="#" onclick="return doclink('link-78', 'cddSearch', 'link-76');">cddSearch</a></tt><tt class="py-op">(</tt><tt id="link-79" class="py-name"><a title="phamerator.asm_poster.db
+phamerator.create_fasta_for_formatdb.db
+phamerator.pham.db
+phamerator.plugins.compare_dbs.db
+phamerator.plugins.get_relatives.db" class="py-name" href="#" onclick="return doclink('link-79', 'db', 'link-21');">db</a></tt><tt class="py-op">=</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt id="link-80" class="py-name"><a title="phamerator.look_for_split_genes.PhageIDs" class="py-name" href="#" onclick="return doclink('link-80', 'PhageIDs', 'link-33');">PhageIDs</a></tt><tt class="py-op">=</tt><tt class="py-name">tuple</tt><tt class="py-op">(</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">[</tt><tt class="py-number">2</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">replace</tt><tt class="py-op">(</tt><tt class="py-string">','</tt><tt class="py-op">,</tt> <tt class="py-string">' '</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line">  <tt class="py-keyword">elif</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-number">5</tt><tt class="py-op">:</tt> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">    <tt class="py-name">cdd</tt> <tt class="py-op">=</tt> <tt id="link-81" class="py-name"><a title="phamerator.plugins.cddSearch
+phamerator.plugins.cddSearch.cddSearch" class="py-name" href="#" onclick="return doclink('link-81', 'cddSearch', 'link-76');">cddSearch</a></tt><tt class="py-op">(</tt><tt id="link-82" class="py-name"><a title="phamerator.asm_poster.db
+phamerator.create_fasta_for_formatdb.db
+phamerator.pham.db
+phamerator.plugins.compare_dbs.db
+phamerator.plugins.get_relatives.db" class="py-name" href="#" onclick="return doclink('link-82', 'db', 'link-21');">db</a></tt><tt class="py-op">=</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">,</tt><tt class="py-name">tempfilepath</tt><tt class="py-op">=</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">[</tt><tt class="py-number">4</tt><tt class="py-op">]</tt><tt class="py-op">,</tt><tt class="py-name">pathtoblast</tt><tt class="py-op">=</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">[</tt><tt class="py-number">2</tt><tt class="py-op">]</tt><tt class="py-op">,</tt><tt class="py-name">pathtocddDatabase</tt><tt class="py-op">=</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">argv</tt><tt class="py-op">[</tt><tt class="py-number">3</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">  <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt class="py-string">"Error, please try again.\n"</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line">    <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">exit</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line">  <tt class="py-name">cdd</tt><tt class="py-op">.</tt><tt id="link-83" class="py-name" targets="Method phamerator.plugins.cddSearch.cddSearch.search()=phamerator.plugins.cddSearch.cddSearch-class.html#search,Method phamerator.query.query.search()=phamerator.query.query-class.html#search"><a title="phamerator.plugins.cddSearch.cddSearch.search
+phamerator.query.query.search" class="py-name" href="#" onclick="return doclink('link-83', 'search', 'link-83');">search</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="phamerator-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Nov  1 08:13:43 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

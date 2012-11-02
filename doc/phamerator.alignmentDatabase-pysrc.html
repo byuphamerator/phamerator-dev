@@ -1,0 +1,1406 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>phamerator.alignmentDatabase</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="phamerator-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="phamerator-module.html">Package&nbsp;phamerator</a> ::
+        Module&nbsp;alignmentDatabase
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="phamerator.alignmentDatabase-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="phamerator.alignmentDatabase-module.html">Module phamerator.alignmentDatabase</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Class phamerator.blastServer_InnoDB.errorHandler=phamerator.blastServer_InnoDB.errorHandler-class.html,Module phamerator.errorHandler=phamerator.errorHandler-module.html,Class phamerator.errorHandler.errorHandler=phamerator.errorHandler.errorHandler-class.html,Class phamerator.pham.errorHandler=phamerator.pham.errorHandler-class.html,Class phamerator.phamBuilder.errorHandler=phamerator.phamBuilder.errorHandler-class.html,Class phamerator.phamBuilder2.errorHandler=phamerator.phamBuilder2.errorHandler-class.html,Class phamerator.phamBuilder3.errorHandler=phamerator.phamBuilder3.errorHandler-class.html,Class phamerator.phamBuilderComparator.errorHandler=phamerator.phamBuilderComparator.errorHandler-class.html,Class phamerator.phamServer.errorHandler=phamerator.phamServer.errorHandler-class.html,Class phamerator.phamServer__InnoDB.errorHandler=phamerator.phamServer__InnoDB.errorHandler-class.html"><a title="phamerator.blastServer_InnoDB.errorHandler
+phamerator.errorHandler
+phamerator.errorHandler.errorHandler
+phamerator.pham.errorHandler
+phamerator.phamBuilder.errorHandler
+phamerator.phamBuilder2.errorHandler
+phamerator.phamBuilder3.errorHandler
+phamerator.phamBuilderComparator.errorHandler
+phamerator.phamServer.errorHandler
+phamerator.phamServer__InnoDB.errorHandler" class="py-name" href="#" onclick="return doclink('link-0', 'errorHandler', 'link-0');">errorHandler</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Module phamerator.phamerator_manage_db=phamerator.phamerator_manage_db-module.html"><a title="phamerator.phamerator_manage_db" class="py-name" href="#" onclick="return doclink('link-1', 'phamerator_manage_db', 'link-1');">phamerator_manage_db</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-2" class="py-name" targets="Module phamerator.db_conf=phamerator.db_conf-module.html,Class phamerator.db_conf.db_conf=phamerator.db_conf.db_conf-class.html"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-2', 'db_conf', 'link-2');">db_conf</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name"><a title="phamerator.db_conf
+phamerator.db_conf.db_conf" class="py-name" href="#" onclick="return doclink('link-3', 'db_conf', 'link-2');">db_conf</a></tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"> </tt>
+<a name="workUnitSeq"></a><div id="workUnitSeq-def"><a name="L5"></a><tt class="py-lineno">  5</tt> <a class="py-toggle" href="#" id="workUnitSeq-toggle" onclick="return toggle('workUnitSeq');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.workUnitSeq-class.html">workUnitSeq</a><tt class="py-op">:</tt> </tt>
+</div><div id="workUnitSeq-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="workUnitSeq-expanded"><a name="workUnitSeq.__init__"></a><div id="workUnitSeq.__init__-def"><a name="L6"></a><tt class="py-lineno">  6</tt> <a class="py-toggle" href="#" id="workUnitSeq.__init__-toggle" onclick="return toggle('workUnitSeq.__init__');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.workUnitSeq-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">id</tt><tt class="py-op">,</tt> <tt class="py-param">translation</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="workUnitSeq.__init__-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="workUnitSeq.__init__-expanded"><a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">id</tt> <tt class="py-op">=</tt> <tt class="py-name">id</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">translation</tt> <tt class="py-op">=</tt> <tt class="py-name">translation</tt> </tt>
+</div></div><a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"> </tt>
+<a name="alignmentWorkUnit"></a><div id="alignmentWorkUnit-def"><a name="L10"></a><tt class="py-lineno"> 10</tt> <a class="py-toggle" href="#" id="alignmentWorkUnit-toggle" onclick="return toggle('alignmentWorkUnit');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.alignmentWorkUnit-class.html">alignmentWorkUnit</a><tt class="py-op">(</tt><tt class="py-base-class">errorHandler</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="alignmentWorkUnit-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="alignmentWorkUnit-expanded"><a name="alignmentWorkUnit.__init__"></a><div id="alignmentWorkUnit.__init__-def"><a name="L11"></a><tt class="py-lineno"> 11</tt> <a class="py-toggle" href="#" id="alignmentWorkUnit.__init__-toggle" onclick="return toggle('alignmentWorkUnit.__init__');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.alignmentWorkUnit-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">c</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="alignmentWorkUnit.__init__-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="alignmentWorkUnit.__init__-expanded"><a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line">    <tt id="link-4" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler
+phamerator.errorHandler
+phamerator.errorHandler.errorHandler
+phamerator.pham.errorHandler
+phamerator.phamBuilder.errorHandler
+phamerator.phamBuilder2.errorHandler
+phamerator.phamBuilder3.errorHandler
+phamerator.phamBuilderComparator.errorHandler
+phamerator.phamServer.errorHandler
+phamerator.phamServer__InnoDB.errorHandler" class="py-name" href="#" onclick="return doclink('link-4', 'errorHandler', 'link-0');">errorHandler</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Method phamerator.PhamDisplay.Arc.__init__()=phamerator.PhamDisplay.Arc-class.html#__init__,Method phamerator.PhamDisplay.Cluster.__init__()=phamerator.PhamDisplay.Cluster-class.html#__init__,Method phamerator.PhamDisplay.InputData.__init__()=phamerator.PhamDisplay.InputData-class.html#__init__,Method phamerator.PhamDisplay.Label.__init__()=phamerator.PhamDisplay.Label-class.html#__init__,Method phamerator.PhamDisplay.Node.__init__()=phamerator.PhamDisplay.Node-class.html#__init__,Method phamerator.PhamDisplay.PhamCircle.__init__()=phamerator.PhamDisplay.PhamCircle-class.html#__init__,Method phamerator.alignmentDatabase.alignmentWorkUnit.__init__()=phamerator.alignmentDatabase.alignmentWorkUnit-class.html#__init__,Method phamerator.alignmentDatabase.blastWorkUnit.__init__()=phamerator.alignmentDatabase.blastWorkUnit-class.html#__init__,Method phamerator.alignmentDatabase.clustalwWorkUnit.__init__()=phamerator.alignmentDatabase.clustalwWorkUnit-class.html#__init__,Method phamerator.alignmentDatabase.workUnitSeq.__init__()=phamerator.alignmentDatabase.workUnitSeq-class.html#__init__,Method phamerator.blastServer_InnoDB.BLASTdb.__init__()=phamerator.blastServer_InnoDB.BLASTdb-class.html#__init__,Method phamerator.blastServer_InnoDB.blastServlet.__init__()=phamerator.blastServer_InnoDB.blastServlet-class.html#__init__,Method phamerator.blastServer_InnoDB.errorHandler.__init__()=phamerator.blastServer_InnoDB.errorHandler-class.html#__init__,Method phamerator.blastServer_InnoDB.logger.__init__()=phamerator.blastServer_InnoDB.logger-class.html#__init__,Method phamerator.blastServer_InnoDB.phamServer.__init__()=phamerator.blastServer_InnoDB.phamServer-class.html#__init__,Method phamerator.blastServer_InnoDB.phamServlet.__init__()=phamerator.blastServer_InnoDB.phamServlet-class.html#__init__,Method phamerator.blastServer_InnoDB.serverSelector.__init__()=phamerator.blastServer_InnoDB.serverSelector-class.html#__init__,Method phamerator.blast_genbank.BlastDatabase.__init__()=phamerator.blast_genbank.BlastDatabase-class.html#__init__,Method phamerator.blast_genbank.BlastResults.__init__()=phamerator.blast_genbank.BlastResults-class.html#__init__,Method phamerator.blast_html.blast_html.__init__()=phamerator.blast_html.blast_html-class.html#__init__,Method phamerator.blastclient.blast.__init__()=phamerator.blastclient.blast-class.html#__init__,Method phamerator.blastclient.options.__init__()=phamerator.blastclient.options-class.html#__init__,Method phamerator.blastclient_remote_access.blast.__init__()=phamerator.blastclient_remote_access.blast-class.html#__init__,Method phamerator.blastclient_remote_access.options.__init__()=phamerator.blastclient_remote_access.options-class.html#__init__,Method phamerator.cartographer.BLAST2Seq.__init__()=phamerator.cartographer.BLAST2Seq-class.html#__init__,Method phamerator.cartographer.BlastAlignmentLabel.__init__()=phamerator.cartographer.BlastAlignmentLabel-class.html#__init__,Method phamerator.cartographer.BlastAlignmentModel.__init__()=phamerator.cartographer.BlastAlignmentModel-class.html#__init__,Method phamerator.cartographer.BlastMatch.__init__()=phamerator.cartographer.BlastMatch-class.html#__init__,Method phamerator.cartographer.CanvasController.__init__()=phamerator.cartographer.CanvasController-class.html#__init__,Method phamerator.cartographer.CanvasInterface.__init__()=phamerator.cartographer.CanvasInterface-class.html#__init__,Method phamerator.cartographer.GeneDescriptionLabel.__init__()=phamerator.cartographer.GeneDescriptionLabel-class.html#__init__,Method phamerator.cartographer.Phage.__init__()=phamerator.cartographer.Phage-class.html#__init__,Method phamerator.cartographer.PhamNameLabel.__init__()=phamerator.cartographer.PhamNameLabel-class.html#__init__,Method phamerator.cartographer.PolylineModelListener.__init__()=phamerator.cartographer.PolylineModelListener-class.html#__init__,Method phamerator.cartographer.canvasPlugin.__init__()=phamerator.cartographer.canvasPlugin-class.html#__init__,Method phamerator.cartographer.domainModel.__init__()=phamerator.cartographer.domainModel-class.html#__init__,Method phamerator.cartographer.geneModel.__init__()=phamerator.cartographer.geneModel-class.html#__init__,Method phamerator.cartographer.phameratorGroupModel.__init__()=phamerator.cartographer.phameratorGroupModel-class.html#__init__,Method phamerator.cluster.BaseClusterMethod.__init__()=phamerator.cluster.BaseClusterMethod-class.html#__init__,Method phamerator.cluster.Cluster.__init__()=phamerator.cluster.Cluster-class.html#__init__,Method phamerator.cluster.HierarchicalClustering.__init__()=phamerator.cluster.HierarchicalClustering-class.html#__init__,Method phamerator.cluster.KMeansClustering.__init__()=phamerator.cluster.KMeansClustering-class.html#__init__,Method phamerator.config.PhameratorConfiguration.__init__()=phamerator.config.PhameratorConfiguration-class.html#__init__,Method phamerator.db_conf.AuthenticationError.__init__()=phamerator.db_conf.AuthenticationError-class.html#__init__,Method phamerator.db_conf.db_conf.__init__()=phamerator.db_conf.db_conf-class.html#__init__,Method phamerator.db_status.dbStatus.__init__()=phamerator.db_status.dbStatus-class.html#__init__,Method phamerator.db_status.dbUpdater.__init__()=phamerator.db_status.dbUpdater-class.html#__init__,Method phamerator.dialogs.dialogs.AboutDialog.__init__()=phamerator.dialogs.dialogs.AboutDialog-class.html#__init__,Method phamerator.dialogs.dialogs.AddDatabaseDialog.__init__()=phamerator.dialogs.dialogs.AddDatabaseDialog-class.html#__init__,Method phamerator.dialogs.dialogs.AddPhageDialog.__init__()=phamerator.dialogs.dialogs.AddPhageDialog-class.html#__init__,Method phamerator.dialogs.dialogs.AddServerDialog.__init__()=phamerator.dialogs.dialogs.AddServerDialog-class.html#__init__,Method phamerator.dialogs.dialogs.BLASTWarningDialog.__init__()=phamerator.dialogs.dialogs.BLASTWarningDialog-class.html#__init__,Method phamerator.dialogs.dialogs.BlastCustomLocationDialog.__init__()=phamerator.dialogs.dialogs.BlastCustomLocationDialog-class.html#__init__,Method phamerator.dialogs.dialogs.BlastDownloadDialog.__init__()=phamerator.dialogs.dialogs.BlastDownloadDialog-class.html#__init__,Method phamerator.dialogs.dialogs.DbStatsDialog.__init__()=phamerator.dialogs.dialogs.DbStatsDialog-class.html#__init__,Method phamerator.dialogs.dialogs.Dialog.__init__()=phamerator.dialogs.dialogs.Dialog-class.html#__init__,Method phamerator.dialogs.dialogs.ErrorAddingPhageDialog.__init__()=phamerator.dialogs.dialogs.ErrorAddingPhageDialog-class.html#__init__,Method phamerator.dialogs.dialogs.ExportClusterTableDialog.__init__()=phamerator.dialogs.dialogs.ExportClusterTableDialog-class.html#__init__,Method phamerator.dialogs.dialogs.ExportFastaDialog.__init__()=phamerator.dialogs.dialogs.ExportFastaDialog-class.html#__init__,Method phamerator.dialogs.dialogs.ExportFastaGenomeDialog.__init__()=phamerator.dialogs.dialogs.ExportFastaGenomeDialog-class.html#__init__,Method phamerator.dialogs.dialogs.ExportFastaNucleotideDialog.__init__()=phamerator.dialogs.dialogs.ExportFastaNucleotideDialog-class.html#__init__,Method phamerator.dialogs.dialogs.ExportPhamTableDialog.__init__()=phamerator.dialogs.dialogs.ExportPhamTableDialog-class.html#__init__,Method phamerator.dialogs.dialogs.InvalidConfigurationDialog.__init__()=phamerator.dialogs.dialogs.InvalidConfigurationDialog-class.html#__init__,Method phamerator.dialogs.dialogs.NewDatabaseAvailableDialog.__init__()=phamerator.dialogs.dialogs.NewDatabaseAvailableDialog-class.html#__init__,Method phamerator.dialogs.dialogs.OpenBlastFolderDialog.__init__()=phamerator.dialogs.dialogs.OpenBlastFolderDialog-class.html#__init__,Method phamerator.dialogs.dialogs.OpenGenBankFileDialog.__init__()=phamerator.dialogs.dialogs.OpenGenBankFileDialog-class.html#__init__,Method phamerator.dialogs.dialogs.Phage.__init__()=phamerator.dialogs.dialogs.Phage-class.html#__init__,Method phamerator.dialogs.dialogs.PhageChooserDialog.__init__()=phamerator.dialogs.dialogs.PhageChooserDialog-class.html#__init__,Method phamerator.dialogs.dialogs.PreferencesDialog.__init__()=phamerator.dialogs.dialogs.PreferencesDialog-class.html#__init__,Method phamerator.dialogs.dialogs.SaveDialog.__init__()=phamerator.dialogs.dialogs.SaveDialog-class.html#__init__,Method phamerator.dialogs.dialogs.ServerDatabaseChecker.__init__()=phamerator.dialogs.dialogs.ServerDatabaseChecker-class.html#__init__,Method phamerator.dialogs.dialogs.Shared.__init__()=phamerator.dialogs.dialogs.Shared-class.html#__init__,Method phamerator.dialogs.dialogs.WhatsNewDialog.__init__()=phamerator.dialogs.dialogs.WhatsNewDialog-class.html#__init__,Method phamerator.dialogs.dialogs.accountCreationErrorDialog.__init__()=phamerator.dialogs.dialogs.accountCreationErrorDialog-class.html#__init__,Method phamerator.dialogs.dialogs.batchFileSaveAsDialog.__init__()=phamerator.dialogs.dialogs.batchFileSaveAsDialog-class.html#__init__,Method phamerator.dialogs.dialogs.databaseConnectionErrorDialog.__init__()=phamerator.dialogs.dialogs.databaseConnectionErrorDialog-class.html#__init__,Method phamerator.dialogs.dialogs.databaseSetupWarningDialog.__init__()=phamerator.dialogs.dialogs.databaseSetupWarningDialog-class.html#__init__,Method phamerator.errorHandler.errorHandler.__init__()=phamerator.errorHandler.errorHandler-class.html#__init__,Method phamerator.gene.gene.__init__()=phamerator.gene.gene-class.html#__init__,Method phamerator.gtk_web_browser.TinyGecko.__init__()=phamerator.gtk_web_browser.TinyGecko-class.html#__init__,Method phamerator.logger.logger.__init__()=phamerator.logger.logger-class.html#__init__,Method phamerator.phageSOAP.phageSOAP.__init__()=phamerator.phageSOAP.phageSOAP-class.html#__init__,Method phamerator.pham.DuplicatePhamError.__init__()=phamerator.pham.DuplicatePhamError-class.html#__init__,Method phamerator.pham.Pham.__init__()=phamerator.pham.Pham-class.html#__init__,Method phamerator.pham.PhamController.__init__()=phamerator.pham.PhamController-class.html#__init__,Method phamerator.pham.PhamView.__init__()=phamerator.pham.PhamView-class.html#__init__,Method phamerator.pham.db.__init__()=phamerator.pham.db-class.html#__init__,Method phamerator.pham.errorHandler.__init__()=phamerator.pham.errorHandler-class.html#__init__,Method phamerator.phamBuilder.nameConverter.__init__()=phamerator.phamBuilder.nameConverter-class.html#__init__,Method phamerator.phamBuilder.phamBuilder.__init__()=phamerator.phamBuilder.phamBuilder-class.html#__init__,Method phamerator.phamBuilder2.phamBuilder.__init__()=phamerator.phamBuilder2.phamBuilder-class.html#__init__,Method phamerator.phamBuilder3.nameConverter.__init__()=phamerator.phamBuilder3.nameConverter-class.html#__init__,Method phamerator.phamBuilder3.pham.__init__()=phamerator.phamBuilder3.pham-class.html#__init__,Method phamerator.phamBuilder3.phamBuilder.__init__()=phamerator.phamBuilder3.phamBuilder-class.html#__init__,Method phamerator.phamBuilderComparator.phamBuilder.__init__()=phamerator.phamBuilderComparator.phamBuilder-class.html#__init__,Method phamerator.phamClient.clustalwAligner.__init__()=phamerator.phamClient.clustalwAligner-class.html#__init__,Method phamerator.phamClient.options.__init__()=phamerator.phamClient.options-class.html#__init__,Method phamerator.phamClient_remote_access.clustalwAligner.__init__()=phamerator.phamClient_remote_access.clustalwAligner-class.html#__init__,Method phamerator.phamClient_remote_access.options.__init__()=phamerator.phamClient_remote_access.options-class.html#__init__,Method phamerator.phamCluster.PhamCluster.__init__()=phamerator.phamCluster.PhamCluster-class.html#__init__,Method phamerator.phamServer.phamServer.__init__()=phamerator.phamServer.phamServer-class.html#__init__,Method phamerator.phamServer.phamServlet.__init__()=phamerator.phamServer.phamServlet-class.html#__init__,Method phamerator.phamServer.serverSelector.__init__()=phamerator.phamServer.serverSelector-class.html#__init__,Method phamerator.phamServer_InnoDB.EventServer.__init__()=phamerator.phamServer_InnoDB.EventServer-class.html#__init__,Method phamerator.phamServer_InnoDB.NameServer.__init__()=phamerator.phamServer_InnoDB.NameServer-class.html#__init__,Method phamerator.phamServer_InnoDB.blastServlet.__init__()=phamerator.phamServer_InnoDB.blastServlet-class.html#__init__,Method phamerator.phamServer_InnoDB.checkStaleRows.__init__()=phamerator.phamServer_InnoDB.checkStaleRows-class.html#__init__,Method phamerator.phamServer_InnoDB.clustalwServlet.__init__()=phamerator.phamServer_InnoDB.clustalwServlet-class.html#__init__,Method phamerator.phamServer_InnoDB.options.__init__()=phamerator.phamServer_InnoDB.options-class.html#__init__,Method phamerator.phamServer_InnoDB.phamPublisher.__init__()=phamerator.phamServer_InnoDB.phamPublisher-class.html#__init__,Method phamerator.phamServer_InnoDB.phamServer.__init__()=phamerator.phamServer_InnoDB.phamServer-class.html#__init__,Method phamerator.phamServer_InnoDB.phamServlet.__init__()=phamerator.phamServer_InnoDB.phamServlet-class.html#__init__,Method phamerator.phamServer_InnoDB.serverSelector.__init__()=phamerator.phamServer_InnoDB.serverSelector-class.html#__init__,Method phamerator.phamServer__InnoDB.BLASTdb.__init__()=phamerator.phamServer__InnoDB.BLASTdb-class.html#__init__,Method phamerator.phamServer__InnoDB.EventServer.__init__()=phamerator.phamServer__InnoDB.EventServer-class.html#__init__,Method phamerator.phamServer__InnoDB.NameServer.__init__()=phamerator.phamServer__InnoDB.NameServer-class.html#__init__,Method phamerator.phamServer__InnoDB.blastServlet.__init__()=phamerator.phamServer__InnoDB.blastServlet-class.html#__init__,Method phamerator.phamServer__InnoDB.clustalwServlet.__init__()=phamerator.phamServer__InnoDB.clustalwServlet-class.html#__init__,Method phamerator.phamServer__InnoDB.errorHandler.__init__()=phamerator.phamServer__InnoDB.errorHandler-class.html#__init__,Method phamerator.phamServer__InnoDB.phamServer.__init__()=phamerator.phamServer__InnoDB.phamServer-class.html#__init__,Method phamerator.phamServer__InnoDB.phamServlet.__init__()=phamerator.phamServer__InnoDB.phamServlet-class.html#__init__,Method phamerator.phamServer__InnoDB.serverSelector.__init__()=phamerator.phamServer__InnoDB.serverSelector-class.html#__init__,Method phamerator.phamServer_progress.options.__init__()=phamerator.phamServer_progress.options-class.html#__init__,Method phamerator.phamServer_python.align.__init__()=phamerator.phamServer_python.align-class.html#__init__,Method phamerator.phamServer_python.alignments.__init__()=phamerator.phamServer_python.alignments-class.html#__init__,Method phamerator.phamServer_python.node.__init__()=phamerator.phamServer_python.node-class.html#__init__,Method phamerator.phamServer_python.seqs.__init__()=phamerator.phamServer_python.seqs-class.html#__init__,Method phamerator.phamServer_remote_access.EventServer.__init__()=phamerator.phamServer_remote_access.EventServer-class.html#__init__,Method phamerator.phamServer_remote_access.blastServlet.__init__()=phamerator.phamServer_remote_access.blastServlet-class.html#__init__,Method phamerator.phamServer_remote_access.checkStaleRows.__init__()=phamerator.phamServer_remote_access.checkStaleRows-class.html#__init__,Method phamerator.phamServer_remote_access.clustalwServlet.__init__()=phamerator.phamServer_remote_access.clustalwServlet-class.html#__init__,Method phamerator.phamServer_remote_access.options.__init__()=phamerator.phamServer_remote_access.options-class.html#__init__,Method phamerator.phamServer_remote_access.phamPublisher.__init__()=phamerator.phamServer_remote_access.phamPublisher-class.html#__init__,Method phamerator.phamServer_remote_access.phamServer.__init__()=phamerator.phamServer_remote_access.phamServer-class.html#__init__,Method phamerator.phamServer_remote_access.phamServlet.__init__()=phamerator.phamServer_remote_access.phamServlet-class.html#__init__,Method phamerator.phamServer_remote_access.serverSelector.__init__()=phamerator.phamServer_remote_access.serverSelector-class.html#__init__,Method phamerator.phamerator_manage_db.phamPublisher.__init__()=phamerator.phamerator_manage_db.phamPublisher-class.html#__init__,Method phamerator.plugins.cddSearch.cddSearch.__init__()=phamerator.plugins.cddSearch.cddSearch-class.html#__init__,Method phamerator.query.query.__init__()=phamerator.query.query-class.html#__init__,Method phamerator.statusicon.TrackerStatusIcon.__init__()=phamerator.statusicon.TrackerStatusIcon-class.html#__init__,Method phamerator.ui.ui.gladeFile.__init__()=phamerator.ui.ui.gladeFile-class.html#__init__,Method phamerator.uiControlStateManager.UiControlStateManager.__init__()=phamerator.uiControlStateManager.UiControlStateManager-class.html#__init__,Method phamerator.uiControlStateManager.phameratorState.__init__()=phamerator.uiControlStateManager.phameratorState-class.html#__init__,Method phamerator.utils.utils.ConfigChecker.__init__()=phamerator.utils.utils.ConfigChecker-class.html#__init__"><a title="phamerator.PhamDisplay.Arc.__init__
+phamerator.PhamDisplay.Cluster.__init__
+phamerator.PhamDisplay.InputData.__init__
+phamerator.PhamDisplay.Label.__init__
+phamerator.PhamDisplay.Node.__init__
+phamerator.PhamDisplay.PhamCircle.__init__
+phamerator.alignmentDatabase.alignmentWorkUnit.__init__
+phamerator.alignmentDatabase.blastWorkUnit.__init__
+phamerator.alignmentDatabase.clustalwWorkUnit.__init__
+phamerator.alignmentDatabase.workUnitSeq.__init__
+phamerator.blastServer_InnoDB.BLASTdb.__init__
+phamerator.blastServer_InnoDB.blastServlet.__init__
+phamerator.blastServer_InnoDB.errorHandler.__init__
+phamerator.blastServer_InnoDB.logger.__init__
+phamerator.blastServer_InnoDB.phamServer.__init__
+phamerator.blastServer_InnoDB.phamServlet.__init__
+phamerator.blastServer_InnoDB.serverSelector.__init__
+phamerator.blast_genbank.BlastDatabase.__init__
+phamerator.blast_genbank.BlastResults.__init__
+phamerator.blast_html.blast_html.__init__
+phamerator.blastclient.blast.__init__
+phamerator.blastclient.options.__init__
+phamerator.blastclient_remote_access.blast.__init__
+phamerator.blastclient_remote_access.options.__init__
+phamerator.cartographer.BLAST2Seq.__init__
+phamerator.cartographer.BlastAlignmentLabel.__init__
+phamerator.cartographer.BlastAlignmentModel.__init__
+phamerator.cartographer.BlastMatch.__init__
+phamerator.cartographer.CanvasController.__init__
+phamerator.cartographer.CanvasInterface.__init__
+phamerator.cartographer.GeneDescriptionLabel.__init__
+phamerator.cartographer.Phage.__init__
+phamerator.cartographer.PhamNameLabel.__init__
+phamerator.cartographer.PolylineModelListener.__init__
+phamerator.cartographer.canvasPlugin.__init__
+phamerator.cartographer.domainModel.__init__
+phamerator.cartographer.geneModel.__init__
+phamerator.cartographer.phameratorGroupModel.__init__
+phamerator.cluster.BaseClusterMethod.__init__
+phamerator.cluster.Cluster.__init__
+phamerator.cluster.HierarchicalClustering.__init__
+phamerator.cluster.KMeansClustering.__init__
+phamerator.config.PhameratorConfiguration.__init__
+phamerator.db_conf.AuthenticationError.__init__
+phamerator.db_conf.db_conf.__init__
+phamerator.db_status.dbStatus.__init__
+phamerator.db_status.dbUpdater.__init__
+phamerator.dialogs.dialogs.AboutDialog.__init__
+phamerator.dialogs.dialogs.AddDatabaseDialog.__init__
+phamerator.dialogs.dialogs.AddPhageDialog.__init__
+phamerator.dialogs.dialogs.AddServerDialog.__init__
+phamerator.dialogs.dialogs.BLASTWarningDialog.__init__
+phamerator.dialogs.dialogs.BlastCustomLocationDialog.__init__
+phamerator.dialogs.dialogs.BlastDownloadDialog.__init__
+phamerator.dialogs.dialogs.DbStatsDialog.__init__
+phamerator.dialogs.dialogs.Dialog.__init__
+phamerator.dialogs.dialogs.ErrorAddingPhageDialog.__init__
+phamerator.dialogs.dialogs.ExportClusterTableDialog.__init__
+phamerator.dialogs.dialogs.ExportFastaDialog.__init__
+phamerator.dialogs.dialogs.ExportFastaGenomeDialog.__init__
+phamerator.dialogs.dialogs.ExportFastaNucleotideDialog.__init__
+phamerator.dialogs.dialogs.ExportPhamTableDialog.__init__
+phamerator.dialogs.dialogs.InvalidConfigurationDialog.__init__
+phamerator.dialogs.dialogs.NewDatabaseAvailableDialog.__init__
+phamerator.dialogs.dialogs.OpenBlastFolderDialog.__init__
+phamerator.dialogs.dialogs.OpenGenBankFileDialog.__init__
+phamerator.dialogs.dialogs.Phage.__init__
+phamerator.dialogs.dialogs.PhageChooserDialog.__init__
+phamerator.dialogs.dialogs.PreferencesDialog.__init__
+phamerator.dialogs.dialogs.SaveDialog.__init__
+phamerator.dialogs.dialogs.ServerDatabaseChecker.__init__
+phamerator.dialogs.dialogs.Shared.__init__
+phamerator.dialogs.dialogs.WhatsNewDialog.__init__
+phamerator.dialogs.dialogs.accountCreationErrorDialog.__init__
+phamerator.dialogs.dialogs.batchFileSaveAsDialog.__init__
+phamerator.dialogs.dialogs.databaseConnectionErrorDialog.__init__
+phamerator.dialogs.dialogs.databaseSetupWarningDialog.__init__
+phamerator.errorHandler.errorHandler.__init__
+phamerator.gene.gene.__init__
+phamerator.gtk_web_browser.TinyGecko.__init__
+phamerator.logger.logger.__init__
+phamerator.phageSOAP.phageSOAP.__init__
+phamerator.pham.DuplicatePhamError.__init__
+phamerator.pham.Pham.__init__
+phamerator.pham.PhamController.__init__
+phamerator.pham.PhamView.__init__
+phamerator.pham.db.__init__
+phamerator.pham.errorHandler.__init__
+phamerator.phamBuilder.nameConverter.__init__
+phamerator.phamBuilder.phamBuilder.__init__
+phamerator.phamBuilder2.phamBuilder.__init__
+phamerator.phamBuilder3.nameConverter.__init__
+phamerator.phamBuilder3.pham.__init__
+phamerator.phamBuilder3.phamBuilder.__init__
+phamerator.phamBuilderComparator.phamBuilder.__init__
+phamerator.phamClient.clustalwAligner.__init__
+phamerator.phamClient.options.__init__
+phamerator.phamClient_remote_access.clustalwAligner.__init__
+phamerator.phamClient_remote_access.options.__init__
+phamerator.phamCluster.PhamCluster.__init__
+phamerator.phamServer.phamServer.__init__
+phamerator.phamServer.phamServlet.__init__
+phamerator.phamServer.serverSelector.__init__
+phamerator.phamServer_InnoDB.EventServer.__init__
+phamerator.phamServer_InnoDB.NameServer.__init__
+phamerator.phamServer_InnoDB.blastServlet.__init__
+phamerator.phamServer_InnoDB.checkStaleRows.__init__
+phamerator.phamServer_InnoDB.clustalwServlet.__init__
+phamerator.phamServer_InnoDB.options.__init__
+phamerator.phamServer_InnoDB.phamPublisher.__init__
+phamerator.phamServer_InnoDB.phamServer.__init__
+phamerator.phamServer_InnoDB.phamServlet.__init__
+phamerator.phamServer_InnoDB.serverSelector.__init__
+phamerator.phamServer__InnoDB.BLASTdb.__init__
+phamerator.phamServer__InnoDB.EventServer.__init__
+phamerator.phamServer__InnoDB.NameServer.__init__
+phamerator.phamServer__InnoDB.blastServlet.__init__
+phamerator.phamServer__InnoDB.clustalwServlet.__init__
+phamerator.phamServer__InnoDB.errorHandler.__init__
+phamerator.phamServer__InnoDB.phamServer.__init__
+phamerator.phamServer__InnoDB.phamServlet.__init__
+phamerator.phamServer__InnoDB.serverSelector.__init__
+phamerator.phamServer_progress.options.__init__
+phamerator.phamServer_python.align.__init__
+phamerator.phamServer_python.alignments.__init__
+phamerator.phamServer_python.node.__init__
+phamerator.phamServer_python.seqs.__init__
+phamerator.phamServer_remote_access.EventServer.__init__
+phamerator.phamServer_remote_access.blastServlet.__init__
+phamerator.phamServer_remote_access.checkStaleRows.__init__
+phamerator.phamServer_remote_access.clustalwServlet.__init__
+phamerator.phamServer_remote_access.options.__init__
+phamerator.phamServer_remote_access.phamPublisher.__init__
+phamerator.phamServer_remote_access.phamServer.__init__
+phamerator.phamServer_remote_access.phamServlet.__init__
+phamerator.phamServer_remote_access.serverSelector.__init__
+phamerator.phamerator_manage_db.phamPublisher.__init__
+phamerator.plugins.cddSearch.cddSearch.__init__
+phamerator.query.query.__init__
+phamerator.statusicon.TrackerStatusIcon.__init__
+phamerator.ui.ui.gladeFile.__init__
+phamerator.uiControlStateManager.UiControlStateManager.__init__
+phamerator.uiControlStateManager.phameratorState.__init__
+phamerator.utils.utils.ConfigChecker.__init__" class="py-name" href="#" onclick="return doclink('link-5', '__init__', 'link-5');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line">    <tt class="py-comment">#self.c = c</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Class phamerator.phamServer_python.alignments=phamerator.phamServer_python.alignments-class.html"><a title="phamerator.phamServer_python.alignments" class="py-name" href="#" onclick="return doclink('link-6', 'alignments', 'link-6');">alignments</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+</div></div><a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-comment">#class clustalwWorkUnit(alignmentWorkUnit, errorHandler):</tt> </tt>
+<a name="clustalwWorkUnit"></a><div id="clustalwWorkUnit-def"><a name="L17"></a><tt class="py-lineno"> 17</tt> <a class="py-toggle" href="#" id="clustalwWorkUnit-toggle" onclick="return toggle('clustalwWorkUnit');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.clustalwWorkUnit-class.html">clustalwWorkUnit</a><tt class="py-op">(</tt><tt class="py-base-class">errorHandler</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="clustalwWorkUnit-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="clustalwWorkUnit-expanded"><a name="clustalwWorkUnit.__init__"></a><div id="clustalwWorkUnit.__init__-def"><a name="L18"></a><tt class="py-lineno"> 18</tt> <a class="py-toggle" href="#" id="clustalwWorkUnit.__init__-toggle" onclick="return toggle('clustalwWorkUnit.__init__');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.clustalwWorkUnit-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">c</tt><tt class="py-op">,</tt> <tt class="py-param">query_id</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="clustalwWorkUnit.__init__-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="clustalwWorkUnit.__init__-expanded"><a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line">    <tt id="link-7" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler
+phamerator.errorHandler
+phamerator.errorHandler.errorHandler
+phamerator.pham.errorHandler
+phamerator.phamBuilder.errorHandler
+phamerator.phamBuilder2.errorHandler
+phamerator.phamBuilder3.errorHandler
+phamerator.phamBuilderComparator.errorHandler
+phamerator.phamServer.errorHandler
+phamerator.phamServer__InnoDB.errorHandler" class="py-name" href="#" onclick="return doclink('link-7', 'errorHandler', 'link-0');">errorHandler</a></tt><tt class="py-op">.</tt><tt id="link-8" class="py-name"><a title="phamerator.PhamDisplay.Arc.__init__
+phamerator.PhamDisplay.Cluster.__init__
+phamerator.PhamDisplay.InputData.__init__
+phamerator.PhamDisplay.Label.__init__
+phamerator.PhamDisplay.Node.__init__
+phamerator.PhamDisplay.PhamCircle.__init__
+phamerator.alignmentDatabase.alignmentWorkUnit.__init__
+phamerator.alignmentDatabase.blastWorkUnit.__init__
+phamerator.alignmentDatabase.clustalwWorkUnit.__init__
+phamerator.alignmentDatabase.workUnitSeq.__init__
+phamerator.blastServer_InnoDB.BLASTdb.__init__
+phamerator.blastServer_InnoDB.blastServlet.__init__
+phamerator.blastServer_InnoDB.errorHandler.__init__
+phamerator.blastServer_InnoDB.logger.__init__
+phamerator.blastServer_InnoDB.phamServer.__init__
+phamerator.blastServer_InnoDB.phamServlet.__init__
+phamerator.blastServer_InnoDB.serverSelector.__init__
+phamerator.blast_genbank.BlastDatabase.__init__
+phamerator.blast_genbank.BlastResults.__init__
+phamerator.blast_html.blast_html.__init__
+phamerator.blastclient.blast.__init__
+phamerator.blastclient.options.__init__
+phamerator.blastclient_remote_access.blast.__init__
+phamerator.blastclient_remote_access.options.__init__
+phamerator.cartographer.BLAST2Seq.__init__
+phamerator.cartographer.BlastAlignmentLabel.__init__
+phamerator.cartographer.BlastAlignmentModel.__init__
+phamerator.cartographer.BlastMatch.__init__
+phamerator.cartographer.CanvasController.__init__
+phamerator.cartographer.CanvasInterface.__init__
+phamerator.cartographer.GeneDescriptionLabel.__init__
+phamerator.cartographer.Phage.__init__
+phamerator.cartographer.PhamNameLabel.__init__
+phamerator.cartographer.PolylineModelListener.__init__
+phamerator.cartographer.canvasPlugin.__init__
+phamerator.cartographer.domainModel.__init__
+phamerator.cartographer.geneModel.__init__
+phamerator.cartographer.phameratorGroupModel.__init__
+phamerator.cluster.BaseClusterMethod.__init__
+phamerator.cluster.Cluster.__init__
+phamerator.cluster.HierarchicalClustering.__init__
+phamerator.cluster.KMeansClustering.__init__
+phamerator.config.PhameratorConfiguration.__init__
+phamerator.db_conf.AuthenticationError.__init__
+phamerator.db_conf.db_conf.__init__
+phamerator.db_status.dbStatus.__init__
+phamerator.db_status.dbUpdater.__init__
+phamerator.dialogs.dialogs.AboutDialog.__init__
+phamerator.dialogs.dialogs.AddDatabaseDialog.__init__
+phamerator.dialogs.dialogs.AddPhageDialog.__init__
+phamerator.dialogs.dialogs.AddServerDialog.__init__
+phamerator.dialogs.dialogs.BLASTWarningDialog.__init__
+phamerator.dialogs.dialogs.BlastCustomLocationDialog.__init__
+phamerator.dialogs.dialogs.BlastDownloadDialog.__init__
+phamerator.dialogs.dialogs.DbStatsDialog.__init__
+phamerator.dialogs.dialogs.Dialog.__init__
+phamerator.dialogs.dialogs.ErrorAddingPhageDialog.__init__
+phamerator.dialogs.dialogs.ExportClusterTableDialog.__init__
+phamerator.dialogs.dialogs.ExportFastaDialog.__init__
+phamerator.dialogs.dialogs.ExportFastaGenomeDialog.__init__
+phamerator.dialogs.dialogs.ExportFastaNucleotideDialog.__init__
+phamerator.dialogs.dialogs.ExportPhamTableDialog.__init__
+phamerator.dialogs.dialogs.InvalidConfigurationDialog.__init__
+phamerator.dialogs.dialogs.NewDatabaseAvailableDialog.__init__
+phamerator.dialogs.dialogs.OpenBlastFolderDialog.__init__
+phamerator.dialogs.dialogs.OpenGenBankFileDialog.__init__
+phamerator.dialogs.dialogs.Phage.__init__
+phamerator.dialogs.dialogs.PhageChooserDialog.__init__
+phamerator.dialogs.dialogs.PreferencesDialog.__init__
+phamerator.dialogs.dialogs.SaveDialog.__init__
+phamerator.dialogs.dialogs.ServerDatabaseChecker.__init__
+phamerator.dialogs.dialogs.Shared.__init__
+phamerator.dialogs.dialogs.WhatsNewDialog.__init__
+phamerator.dialogs.dialogs.accountCreationErrorDialog.__init__
+phamerator.dialogs.dialogs.batchFileSaveAsDialog.__init__
+phamerator.dialogs.dialogs.databaseConnectionErrorDialog.__init__
+phamerator.dialogs.dialogs.databaseSetupWarningDialog.__init__
+phamerator.errorHandler.errorHandler.__init__
+phamerator.gene.gene.__init__
+phamerator.gtk_web_browser.TinyGecko.__init__
+phamerator.logger.logger.__init__
+phamerator.phageSOAP.phageSOAP.__init__
+phamerator.pham.DuplicatePhamError.__init__
+phamerator.pham.Pham.__init__
+phamerator.pham.PhamController.__init__
+phamerator.pham.PhamView.__init__
+phamerator.pham.db.__init__
+phamerator.pham.errorHandler.__init__
+phamerator.phamBuilder.nameConverter.__init__
+phamerator.phamBuilder.phamBuilder.__init__
+phamerator.phamBuilder2.phamBuilder.__init__
+phamerator.phamBuilder3.nameConverter.__init__
+phamerator.phamBuilder3.pham.__init__
+phamerator.phamBuilder3.phamBuilder.__init__
+phamerator.phamBuilderComparator.phamBuilder.__init__
+phamerator.phamClient.clustalwAligner.__init__
+phamerator.phamClient.options.__init__
+phamerator.phamClient_remote_access.clustalwAligner.__init__
+phamerator.phamClient_remote_access.options.__init__
+phamerator.phamCluster.PhamCluster.__init__
+phamerator.phamServer.phamServer.__init__
+phamerator.phamServer.phamServlet.__init__
+phamerator.phamServer.serverSelector.__init__
+phamerator.phamServer_InnoDB.EventServer.__init__
+phamerator.phamServer_InnoDB.NameServer.__init__
+phamerator.phamServer_InnoDB.blastServlet.__init__
+phamerator.phamServer_InnoDB.checkStaleRows.__init__
+phamerator.phamServer_InnoDB.clustalwServlet.__init__
+phamerator.phamServer_InnoDB.options.__init__
+phamerator.phamServer_InnoDB.phamPublisher.__init__
+phamerator.phamServer_InnoDB.phamServer.__init__
+phamerator.phamServer_InnoDB.phamServlet.__init__
+phamerator.phamServer_InnoDB.serverSelector.__init__
+phamerator.phamServer__InnoDB.BLASTdb.__init__
+phamerator.phamServer__InnoDB.EventServer.__init__
+phamerator.phamServer__InnoDB.NameServer.__init__
+phamerator.phamServer__InnoDB.blastServlet.__init__
+phamerator.phamServer__InnoDB.clustalwServlet.__init__
+phamerator.phamServer__InnoDB.errorHandler.__init__
+phamerator.phamServer__InnoDB.phamServer.__init__
+phamerator.phamServer__InnoDB.phamServlet.__init__
+phamerator.phamServer__InnoDB.serverSelector.__init__
+phamerator.phamServer_progress.options.__init__
+phamerator.phamServer_python.align.__init__
+phamerator.phamServer_python.alignments.__init__
+phamerator.phamServer_python.node.__init__
+phamerator.phamServer_python.seqs.__init__
+phamerator.phamServer_remote_access.EventServer.__init__
+phamerator.phamServer_remote_access.blastServlet.__init__
+phamerator.phamServer_remote_access.checkStaleRows.__init__
+phamerator.phamServer_remote_access.clustalwServlet.__init__
+phamerator.phamServer_remote_access.options.__init__
+phamerator.phamServer_remote_access.phamPublisher.__init__
+phamerator.phamServer_remote_access.phamServer.__init__
+phamerator.phamServer_remote_access.phamServlet.__init__
+phamerator.phamServer_remote_access.serverSelector.__init__
+phamerator.phamerator_manage_db.phamPublisher.__init__
+phamerator.plugins.cddSearch.cddSearch.__init__
+phamerator.query.query.__init__
+phamerator.statusicon.TrackerStatusIcon.__init__
+phamerator.ui.ui.gladeFile.__init__
+phamerator.uiControlStateManager.UiControlStateManager.__init__
+phamerator.uiControlStateManager.phameratorState.__init__
+phamerator.utils.utils.ConfigChecker.__init__" class="py-name" href="#" onclick="return doclink('link-8', '__init__', 'link-5');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">query_id</tt><tt class="py-op">:</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line">      <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"SELECT id FROM gene WHERE clustalw_status = 'avail' LIMIT 1"</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line">      <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line">        <tt id="link-9" class="py-name" targets="Variable phamerator.asm_poster.c=phamerator.asm_poster-module.html#c,Variable phamerator.create_blast_scores_table.c=phamerator.create_blast_scores_table-module.html#c,Variable phamerator.create_fasta_for_formatdb.c=phamerator.create_fasta_for_formatdb-module.html#c,Variable phamerator.create_scores_table.c=phamerator.create_scores_table-module.html#c,Variable phamerator.distance.c=phamerator.distance-module.html#c,Variable phamerator.get_genome_info.c=phamerator.get_genome_info-module.html#c,Variable phamerator.get_relatives.c=phamerator.get_relatives-module.html#c,Variable phamerator.look_for_split_genes.c=phamerator.look_for_split_genes-module.html#c,Variable phamerator.notify_progress.c=phamerator.notify_progress-module.html#c,Variable phamerator.phamBuilderComparator.c=phamerator.phamBuilderComparator-module.html#c,Variable phamerator.plugins.get_relatives.c=phamerator.plugins.get_relatives-module.html#c,Variable phamerator.rename_phages.c=phamerator.rename_phages-module.html#c"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-9', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line">          <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_id</tt> <tt class="py-op">=</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">int</tt><tt class="py-op">(</tt><tt id="link-10" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-10', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">fetchall</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt><tt class="py-op">:</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line">          <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_id</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">          <tt class="py-keyword">return</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line">      <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name" targets="Method phamerator.blastServer_InnoDB.errorHandler.show_sql_errors()=phamerator.blastServer_InnoDB.errorHandler-class.html#show_sql_errors,Method phamerator.errorHandler.errorHandler.show_sql_errors()=phamerator.errorHandler.errorHandler-class.html#show_sql_errors,Method phamerator.pham.errorHandler.show_sql_errors()=phamerator.pham.errorHandler-class.html#show_sql_errors,Method phamerator.phamBuilder.errorHandler.show_sql_errors()=phamerator.phamBuilder.errorHandler-class.html#show_sql_errors,Method phamerator.phamBuilder2.errorHandler.show_sql_errors()=phamerator.phamBuilder2.errorHandler-class.html#show_sql_errors,Method phamerator.phamBuilder3.errorHandler.show_sql_errors()=phamerator.phamBuilder3.errorHandler-class.html#show_sql_errors,Method phamerator.phamBuilderComparator.errorHandler.show_sql_errors()=phamerator.phamBuilderComparator.errorHandler-class.html#show_sql_errors,Method phamerator.phamServer.errorHandler.show_sql_errors()=phamerator.phamServer.errorHandler-class.html#show_sql_errors,Method phamerator.phamServer__InnoDB.errorHandler.show_sql_errors()=phamerator.phamServer__InnoDB.errorHandler-class.html#show_sql_errors"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-11', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-12" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-12', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Method phamerator.alignmentDatabase.blastWorkUnit._mark_pending()=phamerator.alignmentDatabase.blastWorkUnit-class.html#_mark_pending,Method phamerator.alignmentDatabase.clustalwWorkUnit._mark_pending()=phamerator.alignmentDatabase.clustalwWorkUnit-class.html#_mark_pending"><a title="phamerator.alignmentDatabase.blastWorkUnit._mark_pending
+phamerator.alignmentDatabase.clustalwWorkUnit._mark_pending" class="py-name" href="#" onclick="return doclink('link-13', '_mark_pending', 'link-13');">_mark_pending</a></tt><tt class="py-op">(</tt><tt id="link-14" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-14', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_translation</tt> <tt class="py-op">=</tt> <tt id="link-15" class="py-name" targets="Function phamerator.phamerator_manage_db.get_translation_from_id()=phamerator.phamerator_manage_db-module.html#get_translation_from_id"><a title="phamerator.phamerator_manage_db.get_translation_from_id" class="py-name" href="#" onclick="return doclink('link-15', 'get_translation_from_id', 'link-15');">get_translation_from_id</a></tt><tt class="py-op">(</tt><tt id="link-16" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-16', 'c', 'link-9');">c</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_id</tt><tt class="py-op">)</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-17" class="py-name" targets="Method phamerator.alignmentDatabase.blastWorkUnit.create_database()=phamerator.alignmentDatabase.blastWorkUnit-class.html#create_database,Method phamerator.alignmentDatabase.clustalwWorkUnit.create_database()=phamerator.alignmentDatabase.clustalwWorkUnit-class.html#create_database"><a title="phamerator.alignmentDatabase.blastWorkUnit.create_database
+phamerator.alignmentDatabase.clustalwWorkUnit.create_database" class="py-name" href="#" onclick="return doclink('link-17', 'create_database', 'link-17');">create_database</a></tt><tt class="py-op">(</tt><tt id="link-18" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-18', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"> </tt>
+<a name="clustalwWorkUnit.set_cursor"></a><div id="clustalwWorkUnit.set_cursor-def"><a name="L34"></a><tt class="py-lineno"> 34</tt> <a class="py-toggle" href="#" id="clustalwWorkUnit.set_cursor-toggle" onclick="return toggle('clustalwWorkUnit.set_cursor');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.clustalwWorkUnit-class.html#set_cursor">set_cursor</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">c</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="clustalwWorkUnit.set_cursor-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="clustalwWorkUnit.set_cursor-expanded"><a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">    <tt class="py-keyword">pass</tt> </tt>
+</div><a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">    <tt class="py-comment">#self.c = c</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line"> </tt>
+<a name="clustalwWorkUnit._mark_pending"></a><div id="clustalwWorkUnit._mark_pending-def"><a name="L38"></a><tt class="py-lineno"> 38</tt> <a class="py-toggle" href="#" id="clustalwWorkUnit._mark_pending-toggle" onclick="return toggle('clustalwWorkUnit._mark_pending');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.clustalwWorkUnit-class.html#_mark_pending">_mark_pending</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">c</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="clustalwWorkUnit._mark_pending-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="clustalwWorkUnit._mark_pending-expanded"><a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"update gene set clustalw_status = 'pending' where id = %s"</tt> <tt class="py-op">%</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_id</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-19" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-19', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-20" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-20', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-21" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-21', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"COMMIT"</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-22" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-22', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-23" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-23', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-24" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-24', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"> </tt>
+<a name="clustalwWorkUnit.create_database"></a><div id="clustalwWorkUnit.create_database-def"><a name="L46"></a><tt class="py-lineno"> 46</tt> <a class="py-toggle" href="#" id="clustalwWorkUnit.create_database-toggle" onclick="return toggle('clustalwWorkUnit.create_database');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.clustalwWorkUnit-class.html#create_database">create_database</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">c</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="clustalwWorkUnit.create_database-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="clustalwWorkUnit.create_database-expanded"><a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">database</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"select id, translation from gene where id &lt; %s"</tt> <tt class="py-op">%</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_id</tt>  </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-25" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-25', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-26" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-26', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-27" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-27', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">result</tt> <tt class="py-keyword">in</tt> <tt id="link-28" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-28', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">fetchall</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">      <tt class="py-name">record</tt> <tt class="py-op">=</tt> <tt id="link-29" class="py-name" targets="Class phamerator.alignmentDatabase.workUnitSeq=phamerator.alignmentDatabase.workUnitSeq-class.html"><a title="phamerator.alignmentDatabase.workUnitSeq" class="py-name" href="#" onclick="return doclink('link-29', 'workUnitSeq', 'link-29');">workUnitSeq</a></tt><tt class="py-op">(</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">int</tt><tt class="py-op">(</tt><tt class="py-name">result</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">result</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">      <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">database</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name" targets="Method phamerator.cluster.Cluster.append()=phamerator.cluster.Cluster-class.html#append"><a title="phamerator.cluster.Cluster.append" class="py-name" href="#" onclick="return doclink('link-30', 'append', 'link-30');">append</a></tt><tt class="py-op">(</tt><tt class="py-name">record</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line"> </tt>
+<a name="clustalwWorkUnit.add_matches"></a><div id="clustalwWorkUnit.add_matches-def"><a name="L55"></a><tt class="py-lineno"> 55</tt> <a class="py-toggle" href="#" id="clustalwWorkUnit.add_matches-toggle" onclick="return toggle('clustalwWorkUnit.add_matches');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.clustalwWorkUnit-class.html#add_matches">add_matches</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">matches</tt><tt class="py-op">,</tt> <tt class="py-param">c</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="clustalwWorkUnit.add_matches-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="clustalwWorkUnit.add_matches-expanded"><a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">    <tt class="py-docstring">'''called by a compute node to keep track of a good clustalw alignment'''</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">    <tt class="py-comment"># matches = [(qid1, sid1, score1), (qid2, sid2, score2), ...]</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">qid</tt><tt class="py-op">,</tt> <tt class="py-name">sid</tt><tt class="py-op">,</tt> <tt class="py-name">score</tt> <tt class="py-keyword">in</tt> <tt class="py-name">matches</tt><tt class="py-op">:</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">      <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-31" class="py-name" targets="Method phamerator.alignmentDatabase.blastWorkUnit._add_match()=phamerator.alignmentDatabase.blastWorkUnit-class.html#_add_match,Method phamerator.alignmentDatabase.clustalwWorkUnit._add_match()=phamerator.alignmentDatabase.clustalwWorkUnit-class.html#_add_match"><a title="phamerator.alignmentDatabase.blastWorkUnit._add_match
+phamerator.alignmentDatabase.clustalwWorkUnit._add_match" class="py-name" href="#" onclick="return doclink('link-31', '_add_match', 'link-31');">_add_match</a></tt><tt class="py-op">(</tt><tt class="py-name">qid</tt><tt class="py-op">,</tt> <tt class="py-name">sid</tt><tt class="py-op">,</tt> <tt class="py-name">score</tt><tt class="py-op">,</tt> <tt id="link-32" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-32', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"UPDATE gene SET clustalw_status = 'done' WHERE id = %s"</tt> <tt class="py-op">%</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_id</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-33" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-33', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-34" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-34', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-35" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-35', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"COMMIT"</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-36" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-36', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-37" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-37', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-38" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-38', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line"> </tt>
+<a name="clustalwWorkUnit._add_match"></a><div id="clustalwWorkUnit._add_match-def"><a name="L67"></a><tt class="py-lineno"> 67</tt> <a class="py-toggle" href="#" id="clustalwWorkUnit._add_match-toggle" onclick="return toggle('clustalwWorkUnit._add_match');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.clustalwWorkUnit-class.html#_add_match">_add_match</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">qid</tt><tt class="py-op">,</tt> <tt class="py-param">sid</tt><tt class="py-op">,</tt> <tt class="py-param">score</tt><tt class="py-op">,</tt> <tt class="py-param">c</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="clustalwWorkUnit._add_match-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="clustalwWorkUnit._add_match-expanded"><a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">    <tt class="py-docstring">'''add a good alignment score to the database'''</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">    <tt class="py-comment"># qid and sid are gene table id's for the query and subject</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">    <tt class="py-name">q</tt> <tt class="py-op">=</tt> <tt id="link-39" class="py-name" targets="Function phamerator.phamerator_manage_db.get_GeneID_from_id()=phamerator.phamerator_manage_db-module.html#get_GeneID_from_id"><a title="phamerator.phamerator_manage_db.get_GeneID_from_id" class="py-name" href="#" onclick="return doclink('link-39', 'get_GeneID_from_id', 'link-39');">get_GeneID_from_id</a></tt><tt class="py-op">(</tt><tt id="link-40" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-40', 'c', 'link-9');">c</a></tt><tt class="py-op">,</tt> <tt class="py-name">qid</tt><tt class="py-op">)</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">    <tt class="py-name">s</tt> <tt class="py-op">=</tt> <tt id="link-41" class="py-name"><a title="phamerator.phamerator_manage_db.get_GeneID_from_id" class="py-name" href="#" onclick="return doclink('link-41', 'get_GeneID_from_id', 'link-39');">get_GeneID_from_id</a></tt><tt class="py-op">(</tt><tt id="link-42" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-42', 'c', 'link-9');">c</a></tt><tt class="py-op">,</tt> <tt class="py-name">sid</tt><tt class="py-op">)</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"""INSERT INTO scores_summary(query, subject, clustalw_score) VALUES('%s', '%s', ROUND(%s,4))"""</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">q</tt><tt class="py-op">,</tt> <tt class="py-name">s</tt><tt class="py-op">,</tt> <tt class="py-name">score</tt><tt class="py-op">)</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-43" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-43', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-44" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-44', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-45" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-45', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"COMMIT"</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-46" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-46', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-47" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-47', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-48" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-48', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"> </tt>
+<a name="clustalwWorkUnit.get_matches"></a><div id="clustalwWorkUnit.get_matches-def"><a name="L79"></a><tt class="py-lineno"> 79</tt> <a class="py-toggle" href="#" id="clustalwWorkUnit.get_matches-toggle" onclick="return toggle('clustalwWorkUnit.get_matches');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.clustalwWorkUnit-class.html#get_matches">get_matches</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">qid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="clustalwWorkUnit.get_matches-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="clustalwWorkUnit.get_matches-expanded"><a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">    <tt class="py-docstring">'''called by server when adding good clustalw alignment(s) to MySQL db'''</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-49" class="py-name"><a title="phamerator.phamServer_python.alignments" class="py-name" href="#" onclick="return doclink('link-49', 'alignments', 'link-6');">alignments</a></tt><tt class="py-op">.</tt><tt class="py-name">has_key</tt><tt class="py-op">(</tt><tt class="py-name">qid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">      <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-50" class="py-name"><a title="phamerator.phamServer_python.alignments" class="py-name" href="#" onclick="return doclink('link-50', 'alignments', 'link-6');">alignments</a></tt><tt class="py-op">[</tt><tt class="py-name">qid</tt><tt class="py-op">]</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">None</tt> </tt>
+</div></div><a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line"> </tt>
+<a name="blastWorkUnit"></a><div id="blastWorkUnit-def"><a name="L85"></a><tt class="py-lineno"> 85</tt> <a class="py-toggle" href="#" id="blastWorkUnit-toggle" onclick="return toggle('blastWorkUnit');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.blastWorkUnit-class.html">blastWorkUnit</a><tt class="py-op">(</tt><tt class="py-base-class">errorHandler</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="blastWorkUnit-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="blastWorkUnit-expanded"><a name="blastWorkUnit.__init__"></a><div id="blastWorkUnit.__init__-def"><a name="L86"></a><tt class="py-lineno"> 86</tt> <a class="py-toggle" href="#" id="blastWorkUnit.__init__-toggle" onclick="return toggle('blastWorkUnit.__init__');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.blastWorkUnit-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">c</tt><tt class="py-op">,</tt> <tt class="py-param">query_id</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="blastWorkUnit.__init__-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="blastWorkUnit.__init__-expanded"><a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">    <tt id="link-51" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler
+phamerator.errorHandler
+phamerator.errorHandler.errorHandler
+phamerator.pham.errorHandler
+phamerator.phamBuilder.errorHandler
+phamerator.phamBuilder2.errorHandler
+phamerator.phamBuilder3.errorHandler
+phamerator.phamBuilderComparator.errorHandler
+phamerator.phamServer.errorHandler
+phamerator.phamServer__InnoDB.errorHandler" class="py-name" href="#" onclick="return doclink('link-51', 'errorHandler', 'link-0');">errorHandler</a></tt><tt class="py-op">.</tt><tt id="link-52" class="py-name"><a title="phamerator.PhamDisplay.Arc.__init__
+phamerator.PhamDisplay.Cluster.__init__
+phamerator.PhamDisplay.InputData.__init__
+phamerator.PhamDisplay.Label.__init__
+phamerator.PhamDisplay.Node.__init__
+phamerator.PhamDisplay.PhamCircle.__init__
+phamerator.alignmentDatabase.alignmentWorkUnit.__init__
+phamerator.alignmentDatabase.blastWorkUnit.__init__
+phamerator.alignmentDatabase.clustalwWorkUnit.__init__
+phamerator.alignmentDatabase.workUnitSeq.__init__
+phamerator.blastServer_InnoDB.BLASTdb.__init__
+phamerator.blastServer_InnoDB.blastServlet.__init__
+phamerator.blastServer_InnoDB.errorHandler.__init__
+phamerator.blastServer_InnoDB.logger.__init__
+phamerator.blastServer_InnoDB.phamServer.__init__
+phamerator.blastServer_InnoDB.phamServlet.__init__
+phamerator.blastServer_InnoDB.serverSelector.__init__
+phamerator.blast_genbank.BlastDatabase.__init__
+phamerator.blast_genbank.BlastResults.__init__
+phamerator.blast_html.blast_html.__init__
+phamerator.blastclient.blast.__init__
+phamerator.blastclient.options.__init__
+phamerator.blastclient_remote_access.blast.__init__
+phamerator.blastclient_remote_access.options.__init__
+phamerator.cartographer.BLAST2Seq.__init__
+phamerator.cartographer.BlastAlignmentLabel.__init__
+phamerator.cartographer.BlastAlignmentModel.__init__
+phamerator.cartographer.BlastMatch.__init__
+phamerator.cartographer.CanvasController.__init__
+phamerator.cartographer.CanvasInterface.__init__
+phamerator.cartographer.GeneDescriptionLabel.__init__
+phamerator.cartographer.Phage.__init__
+phamerator.cartographer.PhamNameLabel.__init__
+phamerator.cartographer.PolylineModelListener.__init__
+phamerator.cartographer.canvasPlugin.__init__
+phamerator.cartographer.domainModel.__init__
+phamerator.cartographer.geneModel.__init__
+phamerator.cartographer.phameratorGroupModel.__init__
+phamerator.cluster.BaseClusterMethod.__init__
+phamerator.cluster.Cluster.__init__
+phamerator.cluster.HierarchicalClustering.__init__
+phamerator.cluster.KMeansClustering.__init__
+phamerator.config.PhameratorConfiguration.__init__
+phamerator.db_conf.AuthenticationError.__init__
+phamerator.db_conf.db_conf.__init__
+phamerator.db_status.dbStatus.__init__
+phamerator.db_status.dbUpdater.__init__
+phamerator.dialogs.dialogs.AboutDialog.__init__
+phamerator.dialogs.dialogs.AddDatabaseDialog.__init__
+phamerator.dialogs.dialogs.AddPhageDialog.__init__
+phamerator.dialogs.dialogs.AddServerDialog.__init__
+phamerator.dialogs.dialogs.BLASTWarningDialog.__init__
+phamerator.dialogs.dialogs.BlastCustomLocationDialog.__init__
+phamerator.dialogs.dialogs.BlastDownloadDialog.__init__
+phamerator.dialogs.dialogs.DbStatsDialog.__init__
+phamerator.dialogs.dialogs.Dialog.__init__
+phamerator.dialogs.dialogs.ErrorAddingPhageDialog.__init__
+phamerator.dialogs.dialogs.ExportClusterTableDialog.__init__
+phamerator.dialogs.dialogs.ExportFastaDialog.__init__
+phamerator.dialogs.dialogs.ExportFastaGenomeDialog.__init__
+phamerator.dialogs.dialogs.ExportFastaNucleotideDialog.__init__
+phamerator.dialogs.dialogs.ExportPhamTableDialog.__init__
+phamerator.dialogs.dialogs.InvalidConfigurationDialog.__init__
+phamerator.dialogs.dialogs.NewDatabaseAvailableDialog.__init__
+phamerator.dialogs.dialogs.OpenBlastFolderDialog.__init__
+phamerator.dialogs.dialogs.OpenGenBankFileDialog.__init__
+phamerator.dialogs.dialogs.Phage.__init__
+phamerator.dialogs.dialogs.PhageChooserDialog.__init__
+phamerator.dialogs.dialogs.PreferencesDialog.__init__
+phamerator.dialogs.dialogs.SaveDialog.__init__
+phamerator.dialogs.dialogs.ServerDatabaseChecker.__init__
+phamerator.dialogs.dialogs.Shared.__init__
+phamerator.dialogs.dialogs.WhatsNewDialog.__init__
+phamerator.dialogs.dialogs.accountCreationErrorDialog.__init__
+phamerator.dialogs.dialogs.batchFileSaveAsDialog.__init__
+phamerator.dialogs.dialogs.databaseConnectionErrorDialog.__init__
+phamerator.dialogs.dialogs.databaseSetupWarningDialog.__init__
+phamerator.errorHandler.errorHandler.__init__
+phamerator.gene.gene.__init__
+phamerator.gtk_web_browser.TinyGecko.__init__
+phamerator.logger.logger.__init__
+phamerator.phageSOAP.phageSOAP.__init__
+phamerator.pham.DuplicatePhamError.__init__
+phamerator.pham.Pham.__init__
+phamerator.pham.PhamController.__init__
+phamerator.pham.PhamView.__init__
+phamerator.pham.db.__init__
+phamerator.pham.errorHandler.__init__
+phamerator.phamBuilder.nameConverter.__init__
+phamerator.phamBuilder.phamBuilder.__init__
+phamerator.phamBuilder2.phamBuilder.__init__
+phamerator.phamBuilder3.nameConverter.__init__
+phamerator.phamBuilder3.pham.__init__
+phamerator.phamBuilder3.phamBuilder.__init__
+phamerator.phamBuilderComparator.phamBuilder.__init__
+phamerator.phamClient.clustalwAligner.__init__
+phamerator.phamClient.options.__init__
+phamerator.phamClient_remote_access.clustalwAligner.__init__
+phamerator.phamClient_remote_access.options.__init__
+phamerator.phamCluster.PhamCluster.__init__
+phamerator.phamServer.phamServer.__init__
+phamerator.phamServer.phamServlet.__init__
+phamerator.phamServer.serverSelector.__init__
+phamerator.phamServer_InnoDB.EventServer.__init__
+phamerator.phamServer_InnoDB.NameServer.__init__
+phamerator.phamServer_InnoDB.blastServlet.__init__
+phamerator.phamServer_InnoDB.checkStaleRows.__init__
+phamerator.phamServer_InnoDB.clustalwServlet.__init__
+phamerator.phamServer_InnoDB.options.__init__
+phamerator.phamServer_InnoDB.phamPublisher.__init__
+phamerator.phamServer_InnoDB.phamServer.__init__
+phamerator.phamServer_InnoDB.phamServlet.__init__
+phamerator.phamServer_InnoDB.serverSelector.__init__
+phamerator.phamServer__InnoDB.BLASTdb.__init__
+phamerator.phamServer__InnoDB.EventServer.__init__
+phamerator.phamServer__InnoDB.NameServer.__init__
+phamerator.phamServer__InnoDB.blastServlet.__init__
+phamerator.phamServer__InnoDB.clustalwServlet.__init__
+phamerator.phamServer__InnoDB.errorHandler.__init__
+phamerator.phamServer__InnoDB.phamServer.__init__
+phamerator.phamServer__InnoDB.phamServlet.__init__
+phamerator.phamServer__InnoDB.serverSelector.__init__
+phamerator.phamServer_progress.options.__init__
+phamerator.phamServer_python.align.__init__
+phamerator.phamServer_python.alignments.__init__
+phamerator.phamServer_python.node.__init__
+phamerator.phamServer_python.seqs.__init__
+phamerator.phamServer_remote_access.EventServer.__init__
+phamerator.phamServer_remote_access.blastServlet.__init__
+phamerator.phamServer_remote_access.checkStaleRows.__init__
+phamerator.phamServer_remote_access.clustalwServlet.__init__
+phamerator.phamServer_remote_access.options.__init__
+phamerator.phamServer_remote_access.phamPublisher.__init__
+phamerator.phamServer_remote_access.phamServer.__init__
+phamerator.phamServer_remote_access.phamServlet.__init__
+phamerator.phamServer_remote_access.serverSelector.__init__
+phamerator.phamerator_manage_db.phamPublisher.__init__
+phamerator.plugins.cddSearch.cddSearch.__init__
+phamerator.query.query.__init__
+phamerator.statusicon.TrackerStatusIcon.__init__
+phamerator.ui.ui.gladeFile.__init__
+phamerator.uiControlStateManager.UiControlStateManager.__init__
+phamerator.uiControlStateManager.phameratorState.__init__
+phamerator.utils.utils.ConfigChecker.__init__" class="py-name" href="#" onclick="return doclink('link-52', '__init__', 'link-5');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"SELECT id FROM gene WHERE blast_status = 'avail' LIMIT 1"</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">      <tt id="link-53" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-53', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">      <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_id</tt> <tt class="py-op">=</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">int</tt><tt class="py-op">(</tt><tt id="link-54" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-54', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">fetchall</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">      <tt class="py-keyword">except</tt><tt class="py-op">:</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_id</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-55" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-55', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-56" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-56', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-57" class="py-name"><a title="phamerator.alignmentDatabase.blastWorkUnit._mark_pending
+phamerator.alignmentDatabase.clustalwWorkUnit._mark_pending" class="py-name" href="#" onclick="return doclink('link-57', '_mark_pending', 'link-13');">_mark_pending</a></tt><tt class="py-op">(</tt><tt id="link-58" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-58', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_translation</tt> <tt class="py-op">=</tt> <tt id="link-59" class="py-name"><a title="phamerator.phamerator_manage_db.get_translation_from_id" class="py-name" href="#" onclick="return doclink('link-59', 'get_translation_from_id', 'link-15');">get_translation_from_id</a></tt><tt class="py-op">(</tt><tt id="link-60" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-60', 'c', 'link-9');">c</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_id</tt><tt class="py-op">)</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-61" class="py-name"><a title="phamerator.alignmentDatabase.blastWorkUnit.create_database
+phamerator.alignmentDatabase.clustalwWorkUnit.create_database" class="py-name" href="#" onclick="return doclink('link-61', 'create_database', 'link-17');">create_database</a></tt><tt class="py-op">(</tt><tt id="link-62" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-62', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line"> </tt>
+<a name="blastWorkUnit._mark_pending"></a><div id="blastWorkUnit._mark_pending-def"><a name="L102"></a><tt class="py-lineno">102</tt> <a class="py-toggle" href="#" id="blastWorkUnit._mark_pending-toggle" onclick="return toggle('blastWorkUnit._mark_pending');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.blastWorkUnit-class.html#_mark_pending">_mark_pending</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">c</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="blastWorkUnit._mark_pending-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="blastWorkUnit._mark_pending-expanded"><a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"update gene set blast_status = 'pending' where id = %s"</tt> <tt class="py-op">%</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_id</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-63" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-63', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-64" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-64', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-65" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-65', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"COMMIT"</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-66" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-66', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-67" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-67', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-68" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-68', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line"> </tt>
+<a name="blastWorkUnit.create_database"></a><div id="blastWorkUnit.create_database-def"><a name="L110"></a><tt class="py-lineno">110</tt> <a class="py-toggle" href="#" id="blastWorkUnit.create_database-toggle" onclick="return toggle('blastWorkUnit.create_database');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.blastWorkUnit-class.html#create_database">create_database</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">c</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="blastWorkUnit.create_database-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="blastWorkUnit.create_database-expanded"><a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">database</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"select id, translation from gene"</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-69" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-69', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-70" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-70', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-71" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-71', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt class="py-string">'rowcount: %s'</tt> <tt class="py-op">%</tt> <tt id="link-72" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-72', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">rowcount</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">result</tt> <tt class="py-keyword">in</tt> <tt id="link-73" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-73', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">fetchall</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line">      <tt class="py-name">record</tt> <tt class="py-op">=</tt> <tt id="link-74" class="py-name"><a title="phamerator.alignmentDatabase.workUnitSeq" class="py-name" href="#" onclick="return doclink('link-74', 'workUnitSeq', 'link-29');">workUnitSeq</a></tt><tt class="py-op">(</tt><tt class="py-name">result</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">result</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line">      <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">database</tt><tt class="py-op">.</tt><tt id="link-75" class="py-name"><a title="phamerator.cluster.Cluster.append" class="py-name" href="#" onclick="return doclink('link-75', 'append', 'link-30');">append</a></tt><tt class="py-op">(</tt><tt class="py-name">record</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line"> </tt>
+<a name="blastWorkUnit.get_as_fasta"></a><div id="blastWorkUnit.get_as_fasta-def"><a name="L120"></a><tt class="py-lineno">120</tt> <a class="py-toggle" href="#" id="blastWorkUnit.get_as_fasta-toggle" onclick="return toggle('blastWorkUnit.get_as_fasta');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.blastWorkUnit-class.html#get_as_fasta">get_as_fasta</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="blastWorkUnit.get_as_fasta-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="blastWorkUnit.get_as_fasta-expanded"><a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">    <tt class="py-name">fasta</tt> <tt class="py-op">=</tt> <tt class="py-string">""</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">record</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">database</tt><tt class="py-op">:</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">      <tt class="py-name">fasta</tt> <tt class="py-op">=</tt> <tt class="py-string">"%s&gt;%s\n%s\n"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">fasta</tt><tt class="py-op">,</tt> <tt class="py-name">record</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">,</tt> <tt class="py-name">record</tt><tt class="py-op">.</tt><tt class="py-name">translation</tt><tt class="py-op">)</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">fasta</tt> </tt>
+</div><a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line"> </tt>
+<a name="blastWorkUnit.add_matches"></a><div id="blastWorkUnit.add_matches-def"><a name="L126"></a><tt class="py-lineno">126</tt> <a class="py-toggle" href="#" id="blastWorkUnit.add_matches-toggle" onclick="return toggle('blastWorkUnit.add_matches');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.blastWorkUnit-class.html#add_matches">add_matches</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">matches</tt><tt class="py-op">,</tt> <tt class="py-param">c</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="blastWorkUnit.add_matches-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="blastWorkUnit.add_matches-expanded"><a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line">    <tt class="py-docstring">'''called by a compute node to keep track of a good BLASTp alignment'''</tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line">    <tt class="py-comment"># matches = [(qid1, sid1, score1), (qid2, sid2, score2), ...]</tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">qid</tt><tt class="py-op">,</tt> <tt class="py-name">sid</tt><tt class="py-op">,</tt> <tt id="link-76" class="py-name" targets="Variable phamerator.plugins.compare_dbs.e=phamerator.plugins.compare_dbs-module.html#e"><a title="phamerator.plugins.compare_dbs.e" class="py-name" href="#" onclick="return doclink('link-76', 'e', 'link-76');">e</a></tt><tt class="py-op">,</tt> <tt class="py-name">bits</tt> <tt class="py-keyword">in</tt> <tt class="py-name">matches</tt><tt class="py-op">:</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line">      <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-77" class="py-name"><a title="phamerator.alignmentDatabase.blastWorkUnit._add_match
+phamerator.alignmentDatabase.clustalwWorkUnit._add_match" class="py-name" href="#" onclick="return doclink('link-77', '_add_match', 'link-31');">_add_match</a></tt><tt class="py-op">(</tt><tt class="py-name">qid</tt><tt class="py-op">,</tt> <tt class="py-name">sid</tt><tt class="py-op">,</tt> <tt id="link-78" class="py-name"><a title="phamerator.plugins.compare_dbs.e" class="py-name" href="#" onclick="return doclink('link-78', 'e', 'link-76');">e</a></tt><tt class="py-op">,</tt> <tt class="py-name">bits</tt><tt class="py-op">,</tt> <tt id="link-79" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-79', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"UPDATE gene SET blast_status = 'done' WHERE id = %s"</tt> <tt class="py-op">%</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">query_id</tt> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-80" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-80', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-81" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-81', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-82" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-82', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"COMMIT"</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-83" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-83', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-84" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-84', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-85" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-85', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line"> </tt>
+<a name="blastWorkUnit._add_match"></a><div id="blastWorkUnit._add_match-def"><a name="L138"></a><tt class="py-lineno">138</tt> <a class="py-toggle" href="#" id="blastWorkUnit._add_match-toggle" onclick="return toggle('blastWorkUnit._add_match');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.blastWorkUnit-class.html#_add_match">_add_match</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">qid</tt><tt class="py-op">,</tt> <tt class="py-param">sid</tt><tt class="py-op">,</tt> <tt class="py-param">e</tt><tt class="py-op">,</tt> <tt class="py-param">bits</tt><tt class="py-op">,</tt> <tt class="py-param">c</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="blastWorkUnit._add_match-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="blastWorkUnit._add_match-expanded"><a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line">    <tt class="py-docstring">'''called by a compute node to keep track of a good BLAST alignment'''</tt> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">    <tt class="py-comment"># qid and sid are gene table id's for the query and subject</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">    <tt class="py-name">q</tt> <tt class="py-op">=</tt> <tt id="link-86" class="py-name"><a title="phamerator.phamerator_manage_db.get_GeneID_from_id" class="py-name" href="#" onclick="return doclink('link-86', 'get_GeneID_from_id', 'link-39');">get_GeneID_from_id</a></tt><tt class="py-op">(</tt><tt id="link-87" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-87', 'c', 'link-9');">c</a></tt><tt class="py-op">,</tt> <tt class="py-name">qid</tt><tt class="py-op">)</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line">    <tt class="py-name">s</tt> <tt class="py-op">=</tt> <tt id="link-88" class="py-name"><a title="phamerator.phamerator_manage_db.get_GeneID_from_id" class="py-name" href="#" onclick="return doclink('link-88', 'get_GeneID_from_id', 'link-39');">get_GeneID_from_id</a></tt><tt class="py-op">(</tt><tt id="link-89" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-89', 'c', 'link-9');">c</a></tt><tt class="py-op">,</tt> <tt class="py-name">sid</tt><tt class="py-op">)</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"""INSERT INTO scores_summary(query, subject, blast_score, blast_bit_score)</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line"><tt class="py-string">                VALUES('%s', '%s', '%s', '%s')"""</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">q</tt><tt class="py-op">,</tt> <tt class="py-name">s</tt><tt class="py-op">,</tt> <tt id="link-90" class="py-name"><a title="phamerator.plugins.compare_dbs.e" class="py-name" href="#" onclick="return doclink('link-90', 'e', 'link-76');">e</a></tt><tt class="py-op">,</tt> <tt class="py-name">bits</tt><tt class="py-op">)</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-91" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-91', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-92" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-92', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-93" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-93', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line">    <tt class="py-name">sqlQuery</tt> <tt class="py-op">=</tt> <tt class="py-string">"COMMIT"</tt> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> <tt id="link-94" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-94', 'c', 'link-9');">c</a></tt><tt class="py-op">.</tt><tt class="py-name">execute</tt><tt class="py-op">(</tt><tt class="py-name">sqlQuery</tt><tt class="py-op">)</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt><tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-95" class="py-name"><a title="phamerator.blastServer_InnoDB.errorHandler.show_sql_errors
+phamerator.errorHandler.errorHandler.show_sql_errors
+phamerator.pham.errorHandler.show_sql_errors
+phamerator.phamBuilder.errorHandler.show_sql_errors
+phamerator.phamBuilder2.errorHandler.show_sql_errors
+phamerator.phamBuilder3.errorHandler.show_sql_errors
+phamerator.phamBuilderComparator.errorHandler.show_sql_errors
+phamerator.phamServer.errorHandler.show_sql_errors
+phamerator.phamServer__InnoDB.errorHandler.show_sql_errors" class="py-name" href="#" onclick="return doclink('link-95', 'show_sql_errors', 'link-11');">show_sql_errors</a></tt><tt class="py-op">(</tt><tt id="link-96" class="py-name"><a title="phamerator.asm_poster.c
+phamerator.create_blast_scores_table.c
+phamerator.create_fasta_for_formatdb.c
+phamerator.create_scores_table.c
+phamerator.distance.c
+phamerator.get_genome_info.c
+phamerator.get_relatives.c
+phamerator.look_for_split_genes.c
+phamerator.notify_progress.c
+phamerator.phamBuilderComparator.c
+phamerator.plugins.get_relatives.c
+phamerator.rename_phages.c" class="py-name" href="#" onclick="return doclink('link-96', 'c', 'link-9');">c</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line"> </tt>
+<a name="blastWorkUnit.get_matches"></a><div id="blastWorkUnit.get_matches-def"><a name="L151"></a><tt class="py-lineno">151</tt> <a class="py-toggle" href="#" id="blastWorkUnit.get_matches-toggle" onclick="return toggle('blastWorkUnit.get_matches');">-</a><tt class="py-line">  <tt class="py-keyword">def</tt> <a class="py-def-name" href="phamerator.alignmentDatabase.blastWorkUnit-class.html#get_matches">get_matches</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">qid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="blastWorkUnit.get_matches-collapsed" style="display:none;" pad="+++" indent="++++++"></div><div id="blastWorkUnit.get_matches-expanded"><a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line">    <tt class="py-docstring">'''called by server when adding good BLAST alignment(s) to MySQL db'''</tt> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-97" class="py-name"><a title="phamerator.phamServer_python.alignments" class="py-name" href="#" onclick="return doclink('link-97', 'alignments', 'link-6');">alignments</a></tt><tt class="py-op">.</tt><tt class="py-name">has_key</tt><tt class="py-op">(</tt><tt class="py-name">qid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line">      <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-98" class="py-name"><a title="phamerator.phamServer_python.alignments" class="py-name" href="#" onclick="return doclink('link-98', 'alignments', 'link-6');">alignments</a></tt><tt class="py-op">[</tt><tt class="py-name">qid</tt><tt class="py-op">]</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">None</tt> </tt>
+</div></div><a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="phamerator-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Nov  1 08:13:41 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
