@@ -10,6 +10,8 @@ for this purpose.
 Phamerator is released under a free software license.  See LICENSE.txt for
 more details.
 
+Documentation for this project can be found in the doc directory.
+
 (C) 2006-2008 Steve Cresawn <scresawn@gmail.com>
 (C) 2006-2008 Matt Bogel <dabogsta@gmail.com>
 
