@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 
 import Pyro.core
@@ -27,10 +28,10 @@ import Pyro.EventService.Clients
 
 #Pyro.config.PYRO_NS_HOSTNAME=getHostname()
 #Pyro.config.PYRO_NS_HOSTNAME='phamerator.csm.jmu.edu'
-Pyro.config.PYRO_NS_HOSTNAME='134.126.95.56'
+#Pyro.config.PYRO_NS_HOSTNAME='134.126.95.56'
 Pyro.config.PYRO_MAXCONNECTIONS=1000
 
-#Pyro.config.PYRO_NS_HOSTNAME='localhost'
+Pyro.config.PYRO_NS_HOSTNAME='localhost'
 #Pyro.config.PYRO_NS_HOSTNAME='136.142.141.113'
 
 class options:
@@ -360,7 +361,7 @@ class phamServer(errorHandler):
 
 def main():
   opts = options(sys.argv[1:]).argDict
-  username, password, database, server = opts['user'], opts['password'], opts['database'], '134.126.95.56'#'136.142.141.113'
+  username, password, database, server = opts['user'], opts['password'], opts['database'], 'localhost'
   alignment_type = opts['alignment_type']
   print 'username :', username
   #print 'password :', password
