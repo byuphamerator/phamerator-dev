@@ -49,7 +49,7 @@ class clustalwAligner(Subscriber):
     self.username = username
     self.password = password
     #Pyro.config.PYRO_NS_HOSTNAME='136.142.141.113' #djs
-    Pyro.config.PYRO_NS_HOSTNAME='phamerator.csm.jmu.edu' # scresawn2
+    Pyro.config.PYRO_NS_HOSTNAME='localhost' # scresawn2
     Subscriber.__init__(self)
     self.subscribe("clustalw")
     self._logger = logger.logger(sys.argv[2])
@@ -114,13 +114,13 @@ class clustalwAligner(Subscriber):
   def align(self):
     id = True
     ppservers = ()
-    job_server = pp.Server(ppservers=ppservers)
+    job_server = pp.Server(ppservers=ppservers,secret="secret")
     while id: # this should test to make sure there are still alignments to do
-      print 'getting clustalw_work_unit'
+      print 'getting work unit'
       try:
         clustalw_work_unit = self.phamServer.request_seqs(self.client)
         if not clustalw_work_unit.query_id:
-          print 'no clustalw alignments available...sleeping'
+          print 'no work units available...sleeping'
           logo = os.path.join(os.path.dirname(__file__),"pixmaps/phamerator.png")
           #print "logo: %s" % logo
           try:
