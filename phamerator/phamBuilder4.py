@@ -36,16 +36,16 @@ def get_options(argv):
   return argDict
 
 def main():
-  cfg = ConfigParser.RawConfigParser()
-  cfg.read(os.path.join(os.environ['HOME'], '.my.cnf'))
-  try:
-    username = cfg.get('client','user')
-  except ConfigParser.NoOptionError:
-    username = raw_input('database username: ')
-  try:
-    password = cfg.get('client','password')
-  except ConfigParser.NoOptionError:
-    password = getpass.getpass('database password: ')
+#  cfg = ConfigParser.RawConfigParser()
+#  cfg.read(os.path.join(os.environ['HOME'], '.my.cnf'))
+#  try:
+#    username = cfg.get('client','user')
+#  except ConfigParser.NoOptionError:
+  username = raw_input('database username: ')
+#  try:
+#    password = cfg.get('client','password')
+#  except ConfigParser.NoOptionError:
+  password = getpass.getpass('database password: ')
 
   argDict = get_options(sys.argv[1:])
   database = argDict['database']
