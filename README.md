@@ -3,6 +3,9 @@ Phamerator
 
 Overview
 --------
+****
+This is a fork being worked on by Brigham Young University and is NOT the official Phamerator repository.
+****
 Phamerator is a set of computer programs that is useful for genomic analysis
 of bacteriophage genomes. In fact, these programs were specifically designed
 for this purpose.
