@@ -27,21 +27,21 @@ Requirements
 
 For the server backend, you will need
 
-Python
-Biopython 1.42 or newer (python-biopython)
-Pyro 3.4 or newer (pyro)
-ClustalW (clustalw)
-Parallel Python (python-pp)
-MySQL for Python (python-mysqldb)
-curl
-MySQL Server (mysql-server)
+* Python
+* Biopython 1.42 or newer (python-biopython)
+* Pyro 3.4 or newer (pyro)
+* ClustalW (clustalw)
+* Parallel Python (python-pp)
+* MySQL for Python (python-mysqldb)
+* curl
+* MySQL Server (mysql-server)
 
 In addition, for the GUI you will need
 
-bzr
-Python GooCanvas Bindings (python-pygoocanvas)
-Python Webkit Bindings (python-webkit)
-GTK+ 3 or newer
+* bzr
+* Python GooCanvas Bindings (python-pygoocanvas)
+* Python Webkit Bindings (python-webkit)
+* GTK+ 3 or newer
 
 Introduction
 ------------
