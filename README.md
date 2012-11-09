@@ -24,10 +24,23 @@ This project was forked under GNU License v2 section 2 as above.
 
 Requirements
 ------------
-    * Python
-    * Biopython 1.42 or newer
-    * Pyro 3.4 or newer
-    * ClustalW
+
+For the server backend, you will need
+
+Python
+Biopython 1.42 or newer (python-biopython)
+Pyro 3.4 or newer (pyro)
+ClustalW (clustalw)
+Parallel Python (python-pp)
+MySQL for Python (python-mysqldb)
+curl
+MySQL Server (mysql-server)
+
+In addition, for the GUI you will need
+
+bzr
+Python GooCanvas Bindings (python-pygoocanvas)
+GTK+ 3 or newer
 
 Introduction
 ------------
