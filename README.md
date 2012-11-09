@@ -40,6 +40,7 @@ In addition, for the GUI you will need
 
 bzr
 Python GooCanvas Bindings (python-pygoocanvas)
+Python Webkit Bindings (python-webkit)
 GTK+ 3 or newer
 
 Introduction
