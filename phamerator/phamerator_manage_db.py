@@ -701,13 +701,11 @@ def add_genes(record, c=None):
         GeneID = PhageID + '_' + name
         #GeneID = name
 
-      while 1:
-        if GeneID not in GeneIDs:
-          GeneIDs.append(GeneID)
-          break
-        else:
-          GeneID = raw_input('GeneID %s is already in use.  Please specify a new GeneID: ' % GeneID)
-
+      while GeneID in GeneIDs:
+        print GeneIDs
+        GeneID = raw_input('GeneID %s is already in use.  Please specify a new GeneID: ' % GeneID)
+      GeneIDs.append(GeneID)
+      
       if feature.strand == 1:
         orientation = 'F'
       elif feature.strand == -1:
