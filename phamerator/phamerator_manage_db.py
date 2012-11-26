@@ -702,8 +702,10 @@ def add_genes(record, c=None):
         #GeneID = name
 
       while GeneID in GeneIDs:
-        print GeneIDs
-        GeneID = raw_input('GeneID %s is already in use.  Please specify a new GeneID: ' % GeneID)
+        if opt in ("-U","--unique"):
+          print "Creating unique ID for " + GeneID
+        else:
+          GeneID = raw_input('GeneID %s is already in use.  Please specify a new GeneID: ' % GeneID)
       GeneIDs.append(GeneID)
       
       if feature.strand == 1:
@@ -1769,7 +1771,7 @@ def main(argv):
   removeFromDb = []
   listPhages = False
   try:                                
-    opts, args = getopt.getopt(argv, "hlpc:u:t:s:d:i:a:r:e:", ["help", "list", "password", "create=", "username=", "server=", "database=", "import=", "add=", 'remove=', "template=", "clone=", 'refseq=', 'confirm='])
+    opts, args = getopt.getopt(argv, "hlpUc:u:t:s:d:i:a:r:e:", ["help","unique", "list", "password", "create=", "username=", "server=", "database=", "import=", "add=", 'remove=', "template=", "clone=", 'refseq=', 'confirm='])
   except getopt.GetoptError:
     usage()
     sys.exit(2)
