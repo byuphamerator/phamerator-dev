@@ -28,13 +28,9 @@ from Pyro.EventService.Clients import Subscriber
 from Pyro.protocol import getHostname
 import Pyro.EventService.Clients
 
-#Pyro.config.PYRO_NS_HOSTNAME=getHostname()
-#Pyro.config.PYRO_NS_HOSTNAME='phamerator.csm.jmu.edu'
-#Pyro.config.PYRO_NS_HOSTNAME='134.126.95.56'
 Pyro.config.PYRO_MAXCONNECTIONS=1000
 
 Pyro.config.PYRO_NS_HOSTNAME='localhost'
-#Pyro.config.PYRO_NS_HOSTNAME='136.142.141.113'
 
 class options:
   def __init__(self, argv):
