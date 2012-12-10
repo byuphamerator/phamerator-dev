@@ -399,7 +399,7 @@ def main():
   # run the Pyro loop
   try: daemon.requestLoop()
   # if Cntl-C pressed, exit cleanly
-  except KeyboardInterrupt:
+  except (KeyboardInterrupt, SystemExit):
     pServer.shutdown()
     _logger.log('waiting for all threads to exit')
 
