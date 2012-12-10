@@ -16,7 +16,10 @@ import alignmentDatabase
 from errorHandler import *
 import db_conf
 import sys
-import md5
+try:
+  import hashlib
+except ImportError:
+  import md5
 import getopt
 import getpass
 import logger
