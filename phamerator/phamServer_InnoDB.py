@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 
 import Pyro.core
@@ -37,7 +36,7 @@ Pyro.config.PYRO_NS_HOSTNAME='localhost'
 class options:
   def __init__(self, argv):
     try:
-      opts, args = getopt.getopt(argv, "hpu:d:i:l:a:", ["help", "password", "user=","database=","instances=","logging=","alignment_type="])
+      opts, args = getopt.getopt(argv, "hps:n:u:d:i:l:a:", ["help", "password", "server=", "nsname=", "user=","database=","instances=","logging=","alignment_type="])
     except getopt.GetoptError:
       print 'error running getopt.getopt'
       self.usage()
@@ -48,6 +47,10 @@ class options:
         sys.exit()
       elif opt in ("-p", "--password"):
         self.argDict['password'] = getpass.getpass('password: ')
+      elif opt in ("-s", "--server"):
+      	self.argDict['server'] = arg
+      elif opt in ("-n", "--nsname"):
+      	self.argDict['nsname'] = arg
       elif opt in ("-u", "--user"):
         self.argDict['user'] = arg
       elif opt in ("-d", "--database"):
@@ -59,7 +62,7 @@ class options:
       elif opt in ("-a", "--alignment_type"):
         self.argDict['alignment_type'] = arg
     if not self.argDict.has_key('password'): self.argDict['password'] = ''
-    required_args = ('user', 'database', 'instances', 'logging', 'alignment_type')
+    required_args = ('server', 'nsname', 'user', 'database', 'instances', 'logging', 'alignment_type')
     for a in required_args:
       if a not in self.argDict:
         print "required argument '%s' is missing" % a
@@ -75,7 +78,9 @@ class options:
              -d, --database=<database name>: specify the name of the database to access
              -i, --instances=<number_of_instances>: number of server instances to run (default=1)
              -l, --logging={True or False}: whether to print out debugging info (default is True)
-             -a, --alignment_type={blast or clustalw}: this argument is required"""
+             -a, --alignment_type={blast or clustalw}: this argument is required
+             -s, --server=<hostname>: hostname of database server, required
+             -n, --nsname=<nsname>: PYRO server nsname, usually localhost, required"""
 
 class phamPublisher(Pyro.EventService.Clients.Publisher):
   '''Publishes Pyro events over the network to clients, for instance when the BLAST database changes'''
@@ -361,12 +366,14 @@ class phamServer(errorHandler):
 
 def main():
   opts = options(sys.argv[1:]).argDict
-  username, password, database, server = opts['user'], opts['password'], opts['database'], 'localhost'
+  username, password, database, server = opts['user'], opts['password'], opts['database'], opts['server']
   alignment_type = opts['alignment_type']
   print 'username :', username
   #print 'password :', password
   print 'server   :', server
   print 'database :', database
+  if opts['nsname']:
+    Pyro.config.PYRO_NS_HOSTNAME=opts['nsname']
   nss=NameServer()
   nss.start()
   nss.waitUntilStarted()          # wait until the NS has fully started.
