@@ -472,7 +472,7 @@ class phageManager:
             r.execute("CREATE DATABASE %s" % dbSetupWarningDlg.dbname)
           if instance.msg[1].startswith('Access denied for user'):
             print "user doesn't exist or lacks sufficient privileges"
-            r.execute("GRANT ALL ON %s.* TO " + self.username + " IDENTIFIED BY '" + self.password + "'" % dbSetupWarningDlg.dbname)
+            r.execute("GRANT ALL ON %s.* TO %s IDENTIFIED BY '%s'" % (dbSetupWarningDlg.dbname, self.username, self.password))
             r.execute("FLUSH PRIVILEGES")
           self.database = dbSetupWarningDlg.dbname
 
