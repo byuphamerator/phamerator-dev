@@ -15,7 +15,7 @@ from db_conf import db_conf
 class options:
   def __init__(self, argv):
     try:
-      opts, args = getopt.getopt(argv, "hpu:", ["help", "password", "user="])
+      opts, args = getopt.getopt(argv, "hpu:n:", ["help", "password", "user=", "nsname="])
     except getopt.GetoptError:
       print 'error running getopt.getopt'
       self.usage()
@@ -28,8 +28,10 @@ class options:
         self.argDict['password'] = getpass.getpass('password: ')
       elif opt in ("-u", "--user"):
         self.argDict['user'] = arg
+      elif opt in ("-n", "--nsname"):
+      	self.argDict['nsname'] = arg
     if not self.argDict.has_key('password'): self.argDict['password'] = ''
-    required_args = ('user',)
+    required_args = ('user', 'nsname')
     for a in required_args:
       if a not in self.argDict:
         print "required argument '%s' is missing" % a
@@ -42,6 +44,7 @@ class options:
              -h, --help: print this usage information
              -u, --user=<username>: specify a username on the database
              -p, --password: prompt for a password
+             -n, --nsname=<nsname>: nsname of PYRO server, required
 """
 
 class clustalwAligner(Subscriber):
@@ -49,7 +52,10 @@ class clustalwAligner(Subscriber):
     self.username = username
     self.password = password
     #Pyro.config.PYRO_NS_HOSTNAME='136.142.141.113' #djs
-    Pyro.config.PYRO_NS_HOSTNAME='localhost' # scresawn2
+    if opts['nsname']:
+      Pyro.config.PYRO_NS_HOSTNAME=opts['nsname']
+    else:
+      Pyro.config.PYRO_NS_HOSTNAME='localhost'
     Subscriber.__init__(self)
     self.subscribe("clustalw")
     self._logger = logger.logger(sys.argv[2])
