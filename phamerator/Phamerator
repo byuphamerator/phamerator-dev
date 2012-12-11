@@ -316,6 +316,9 @@ class phageManager:
     md.destroy()
 
   def __init__(self):
+    
+    print "THIS IS THE ENTRY POINT --------------------------------"
+    
     print 'running ConfigChecker()...'
     ConfigChecker()
     self.canvas = self.create_canvas(None,None,'genomeMap',None,None,None,None)
