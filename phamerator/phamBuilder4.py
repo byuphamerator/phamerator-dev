@@ -63,6 +63,8 @@ def main():
 #  except ConfigParser.NoOptionError:
   if "password" in argDict:
     password = getpass.getpass('database password: ')
+  else:
+    password = ''
 
   database = argDict['database']
   server = argDict['server']
