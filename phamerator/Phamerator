@@ -41,6 +41,7 @@ import ConfigParser
 from Bio import AlignIO
 #from Bio.Align.Applications import ClustalwCommandline
 import urllib
+import getpass
 
 #from pkg_resources import resource_filename
 
@@ -316,6 +317,10 @@ class phageManager:
     md.destroy()
 
   def __init__(self):
+    
+    self.username = raw_input('database username: ')
+    self.password = getpass.getpass('database password: ')
+    self.server = raw_input('database server: ')
     
     print "THIS IS THE ENTRY POINT --------------------------------"
     
