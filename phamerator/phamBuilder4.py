@@ -10,6 +10,8 @@ def usage():
   '''Prints program usage information'''
   print """phamBuilder4.py [OPTION] [ARGUMENT]
            -h, --help: print this usage information
+           -p, --password: prompt for database password
+           -u, --user: database username, required
            -s, --server=<server name>: specify the address of the server where the database is located
            -d, --database=<database name>: specify the name of the database to access
            -c, --clustalw_threshold=<threshold value (0-1)>: specify a % identity as a number 0-1
@@ -17,7 +19,7 @@ def usage():
 
 def get_options(argv):
   try:
-    opts, args = getopt.getopt(argv, "hs:d:c:b:", ["help", "server=", "database=", "clustalw_threshold=", "blast_threshold="])
+    opts, args = getopt.getopt(argv, "hpu:s:d:c:b:", ["help", "password" "user=",  "server=", "database=", "clustalw_threshold=", "blast_threshold="])
   except getopt.GetoptError:
     usage()
   argDict = {}
@@ -25,6 +27,10 @@ def get_options(argv):
     if opt in ("-h", "--help"):
       usage()
       sys.exit()
+    elif opt in ("-p", "--password"):
+      argDict['password'] = True
+    elif opt in ("-u", "--user"):
+      argDict['user'] = arg
     elif opt in ("-s", "--server"):
       argDict['server'] = arg
     elif opt in ("-d", "--database"):
@@ -33,21 +39,31 @@ def get_options(argv):
       argDict['clustalw_threshold'] = float(arg)
     elif opt in ("-b", "--blast_threshold"):
       argDict['blast_threshold'] = float(arg)
+  required_args = ('user', 'server', 'database', 'clustalw_threshold', 'blast_threshold')
+  for a in required_args:
+    if a not in argDict:
+      print "required argument '%s' is missing" % a
+      usage()
+      sys.exit()
   return argDict
 
 def main():
+  argDict = get_options(sys.argv[1:])
 #  cfg = ConfigParser.RawConfigParser()
 #  cfg.read(os.path.join(os.environ['HOME'], '.my.cnf'))
 #  try:
 #    username = cfg.get('client','user')
 #  except ConfigParser.NoOptionError:
-  username = raw_input('database username: ')
+  if argDict['user']:
+    username = argDict['user']
+  else:
+    username = raw_input('database username: ')
 #  try:
 #    password = cfg.get('client','password')
 #  except ConfigParser.NoOptionError:
-  password = getpass.getpass('database password: ')
+  if "password" in argDict:
+    password = getpass.getpass('database password: ')
 
-  argDict = get_options(sys.argv[1:])
   database = argDict['database']
   server = argDict['server']
   cthreshold = argDict['clustalw_threshold']
