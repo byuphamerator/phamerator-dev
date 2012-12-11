@@ -403,9 +403,9 @@ class phageManager:
       result = self.loginDialog.run()
       if result == gtk.RESPONSE_DELETE_EVENT: sys.exit()
     else:
-      self.username='anonymous'
-      self.password='anonymous'
-      self.server='localhost'
+      #self.username='anonymous'
+      #self.password='anonymous'
+      #self.server='localhost'
       import ConfigParser
       cfg = ConfigParser.RawConfigParser()
       import shutil
