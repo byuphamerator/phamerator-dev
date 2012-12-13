@@ -60,7 +60,7 @@ it is recommended that you first install Git, in order to facilitate quick
 updates of the Phamerator program. To install Git on a Debian-based Linux 
 system (including Ubuntu), run the command:
 
-> apt-get install git
+> sudo apt-get install git
 
 After installing Git, you can download the latest version of this branch of 
 Phamerator by running this command, which will download to the current working 
