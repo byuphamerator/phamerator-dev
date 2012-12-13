@@ -94,29 +94,29 @@ If login is successful, you will be greeted with the MySQL prompt. At the
 prompt, run these commands to create a new database and grant access to a user 
 for Phamerator:
 
-mysql> CREATE DATABASE <database>;
+mysql> CREATE DATABASE $database$;
 mysql> GRANT SELECT, DROP, DELETE, INSERT, CREATE, LOCK TABLES, UPDATE on 
-<database>.* to <username> IDENTIFIED BY “<password>”;
+$database$.* to $username$ IDENTIFIED BY “$password$”;
 mysql> FLUSH PRIVILEGES;
 
-Replace <database> with the name of your new database, <username> with the name 
-of your new user, and <password> with the password for your new user. 
-<database> should be the same in both commands. If no errors result, we can 
+Replace $database$ with the name of your new database, $username$ with the name 
+of your new user, and $password$ with the password for your new user. 
+$database$ should be the same in both commands. If no errors result, we can 
 exit the command prompt:
 
 mysql> quit
 
 To finish our database installation, we need to dump the database schema into 
 our new database. The schema for Phamerator is included with the Phamerator 
-files, in <phamerator-repo>/phamerator/sql/db_schema.sql, where 
-<phamerator-repo> is the name of the folder that you downloaded the Phamerator 
+files, in $phamerator-repo$/phamerator/sql/db_schema.sql, where 
+$phamerator-repo$ is the name of the folder that you downloaded the Phamerator 
 development snapshot repository. In order to install the schema, run this 
 command on the command prompt:
 
-mysql -u root -p <database> < <phamerator-repo>/phamerator/sql/db_schema.sql
+mysql -u root -p $database$ < $phamerator-repo$/phamerator/sql/db_schema.sql
 
-<database> is the name of the database you created earlier, and 
-<phamerator-repo> is the name of the Phamerator repository directory, as 
+$database$ is the name of the database you created earlier, and 
+$phamerator-repo$ is the name of the Phamerator repository directory, as 
 before. Note the “<” character, pointing at your database name. You will be 
 prompted for your root database password. If there is no error, your database 
 installation is complete!
@@ -149,40 +149,40 @@ task we will use the phamerator_manage_db.py script, located in the phamerator
 directory. To import the GenBank files we checked in the previous step, run the 
 command
 
-./phamerator/phamerator_manage_db.py -u <username> -p -s <database-server> -d 
-<database> -i /path/to/ImportSequences
+./phamerator/phamerator_manage_db.py -u $username$ -p -s $database-server$ -d 
+$database$ -i /path/to/ImportSequences
 
-where <username> is your database username, <database-server> is the hostname 
-of your database server, and <database> is the name of your database.
+where $username$ is your database username, $database-server$ is the hostname 
+of your database server, and $database$ is the name of your database.
 
 Next it is time to run genome alignments on the newly added data. To do this, 
 we will run the phamServer_InnoDB.py script, located in the phamerator 
 directory. First, let’s run the server for ClustalW:
 
-./phamerator/phamServer_InnoDB.py -u <username> -p -s <database-server> -n 
-localhost -d <database> -i 1 -l True -a clustalw
+./phamerator/phamServer_InnoDB.py -u $username$ -p -s $database-server$ -n 
+localhost -d $database$ -i 1 -l True -a clustalw
 
-where <username> is your database username, <database-server> is the hostname 
-of your database server, and <database> is the name of your database. This will 
+where $username$ is your database username, $database-server$ is the hostname 
+of your database server, and $database$ is the name of your database. This will 
 start an instance of the phamServer for ClustalW. In order to run any 
 sequences, we will then have to connect to the server with a client. To do 
 this, open another terminal, leaving the server running in your old one, and 
 run:
 
-./phamerator/phamClient.py -u <username> -p -n localhost
+./phamerator/phamClient.py -u $username$ -p -n localhost
 
-where <username> is your database username. This script will run alignments 
+where $username$ is your database username. This script will run alignments 
 that the phamServer deals out.
 
 In order to run blast jobs, repeat the previous server step, but with 
 “blast” for the -a argument on the phamServer_InnoDB.py script. To run 
 blast jobs, use the blastclient.py script, in the phamerator directory, like so:
 
-blastclient.py -u <username> -p -n localhost -a <path-to-blast> -d 
-<path-to-blast-data>
+blastclient.py -u $username$ -p -n localhost -a $path-to-blast$ -d 
+$path-to-blast-data$
 
-where <username> is your database username, <path-to-blast> is the path to your 
-Blast binaries, and <path-to-blast-data> is your Blast datapath.
+where $username$ is your database username, $path-to-blast$ is the path to your 
+Blast binaries, and $path-to-blast-data$ is your Blast datapath.
 
 Depending on the amount of data to be processed, ClustalW and Blast jobs can 
 take a very long time, so remember to be very patient!
@@ -194,11 +194,11 @@ that make a protein acceptable to join the Pham being built. Some sample values
 are provided  below. See the script usage for more information. Run the command 
 like this:
 
-./phamerator/phamBuilder4.py -u <username> -p -s <database-server> -d 
-<database> -c 0.325 -b 1e-50
+./phamerator/phamBuilder4.py -u $username$ -p -s $database-server$ -d 
+$database$ -c 0.325 -b 1e-50
 
-where <username> is your database username, <database-server> is the hostname 
-of your database server, and <database> is the name of your database. This 
+where $username$ is your database username, $database-server$ is the hostname 
+of your database server, and $database$ is the name of your database. This 
 process also takes a long time, so now is a great time to take a break.
 
 Finally, you have the option of determining conserved domains for the Phams in 
@@ -208,12 +208,12 @@ get a copy of the CDD database from NCBI
 cddSearch.py script, located in the phamerator/plugins directory. Run the 
 script like so:
 
-./phamerator/plugins/cddSearch.py <database> <path-to-blast> <path-to-cdd> 
-<path-to-fasta>
+./phamerator/plugins/cddSearch.py $database$ $path-to-blast$ $path-to-cdd$ 
+$path-to-fasta$
 
-where <database> is the name of your database, <path-to-blast> is the path to 
-your RPS Blast binary, <path-to-cdd> is the path to your CDD database working 
-copy, and <path-to-fasta> is the path to your FastA query file. Note that 
+where $database$ is the name of your database, $path-to-blast$ is the path to 
+your RPS Blast binary, $path-to-cdd$ is the path to your CDD database working 
+copy, and $path-to-fasta$ is the path to your FastA query file. Note that 
 currently this script will only run queries on a database local to your machine.
 
 Phamerator GUI
