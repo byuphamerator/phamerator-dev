@@ -1763,6 +1763,9 @@ def usage():
            exactly one of --list, --import, --add, and --remove"""
 
 def main(argv):
+  if 1 not in argv:
+    usage()
+    sys.exit()
   addToDbFromNCBI = []
   addToDbFromFile = []
   removeFromDb = []
@@ -1819,15 +1822,15 @@ def main(argv):
       create_db(template=template, db_name=database, clone=clone)
       sys.exit()
   if not username or not password:
-    cfg = ConfigParser.RawConfigParser()
-    cfg.read(os.path.join(os.environ['HOME'], '.my.cnf'))
-    try:
-      username = cfg.get('client','user')
-    except ConfigParser.NoOptionError:
+    #cfg = ConfigParser.RawConfigParser()
+    #cfg.read(os.path.join(os.environ['HOME'], '.my.cnf'))
+    #try:
+      #username = cfg.get('client','user')
+    #except ConfigParser.NoOptionError:
       username = raw_input('database username: ')
-    try:
-      password = cfg.get('client','password')
-    except ConfigParser.NoOptionError:
+    #try:
+      #password = cfg.get('client','password')
+    #except ConfigParser.NoOptionError:
       password = getpass.getpass('database password: ')
      
   c = db_conf.db_conf(username=username, password=password, server=server, db=database).get_cursor()
