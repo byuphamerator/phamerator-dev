@@ -60,18 +60,18 @@ it is recommended that you first install Git, in order to facilitate quick
 updates of the Phamerator program. To install Git on a Debian-based Linux 
 system (including Ubuntu), run the command:
 
-apt-get install git
+> apt-get install git
 
 After installing Git, you can download the latest version of this branch of 
 Phamerator by running this command, which will download to the current working 
 directory:
 
-git clone https://github.com/phamerator/phamerator-dev.git
+> git clone https://github.com/phamerator/phamerator-dev.git
 
 After downloading Phamerator with Git, in order to check for updates, simply 
 change into the new phamerator directory that was downloaded and then run:
 
-git pull
+> git pull
 
 and Git will check for any updates that might have been made since you last 
 downloaded files from the repository.
@@ -88,23 +88,23 @@ First, let’s create the database. During installation of mysql-server you
 should have created a root password for your database through a prompt in the 
 installer. Run this command and enter that root password when prompted:
 
-mysql -u root -p
+> mysql -u root -p
 
 If login is successful, you will be greeted with the MySQL prompt. At the 
 prompt, run these commands to create a new database and grant access to a user 
 for Phamerator:
 
-mysql> CREATE DATABASE $database$;
-mysql> GRANT SELECT, DROP, DELETE, INSERT, CREATE, LOCK TABLES, UPDATE on 
+> mysql> CREATE DATABASE $database$;
+> mysql> GRANT SELECT, DROP, DELETE, INSERT, CREATE, LOCK TABLES, UPDATE on 
 $database$.* to $username$ IDENTIFIED BY “$password$”;
-mysql> FLUSH PRIVILEGES;
+> mysql> FLUSH PRIVILEGES;
 
 Replace $database$ with the name of your new database, $username$ with the name 
 of your new user, and $password$ with the password for your new user. 
 $database$ should be the same in both commands. If no errors result, we can 
 exit the command prompt:
 
-mysql> quit
+> mysql> quit
 
 To finish our database installation, we need to dump the database schema into 
 our new database. The schema for Phamerator is included with the Phamerator 
@@ -113,7 +113,7 @@ $phamerator-repo$ is the name of the folder that you downloaded the Phamerator
 development snapshot repository. In order to install the schema, run this 
 command on the command prompt:
 
-mysql -u root -p $database$ < $phamerator-repo$/phamerator/sql/db_schema.sql
+> mysql -u root -p $database$ < $phamerator-repo$/phamerator/sql/db_schema.sql
 
 $database$ is the name of the database you created earlier, and 
 $phamerator-repo$ is the name of the Phamerator repository directory, as 
@@ -137,7 +137,7 @@ are compliant with the format that Phamerator accepts. To do this, we will use
 the fix_dnaMaster_gb.py script, located in the phamerator/plugins directory. 
 Collect your GenBank files into a directory and run the script on them like so:
 
-./phamerator/plugins/fix_dnaMaster_gb.py /path/to/ImportSequences
+> ./phamerator/plugins/fix_dnaMaster_gb.py /path/to/ImportSequences
 
 where the first and only argument is a path to the directory containing your 
 sequences you would like to import. The script will check the format of all 
@@ -149,7 +149,7 @@ task we will use the phamerator_manage_db.py script, located in the phamerator
 directory. To import the GenBank files we checked in the previous step, run the 
 command
 
-./phamerator/phamerator_manage_db.py -u $username$ -p -s $database-server$ -d 
+> ./phamerator/phamerator_manage_db.py -u $username$ -p -s $database-server$ -d 
 $database$ -i /path/to/ImportSequences
 
 where $username$ is your database username, $database-server$ is the hostname 
@@ -159,7 +159,7 @@ Next it is time to run genome alignments on the newly added data. To do this,
 we will run the phamServer_InnoDB.py script, located in the phamerator 
 directory. First, let’s run the server for ClustalW:
 
-./phamerator/phamServer_InnoDB.py -u $username$ -p -s $database-server$ -n 
+> ./phamerator/phamServer_InnoDB.py -u $username$ -p -s $database-server$ -n 
 localhost -d $database$ -i 1 -l True -a clustalw
 
 where $username$ is your database username, $database-server$ is the hostname 
@@ -169,7 +169,7 @@ sequences, we will then have to connect to the server with a client. To do
 this, open another terminal, leaving the server running in your old one, and 
 run:
 
-./phamerator/phamClient.py -u $username$ -p -n localhost
+> ./phamerator/phamClient.py -u $username$ -p -n localhost
 
 where $username$ is your database username. This script will run alignments 
 that the phamServer deals out.
@@ -178,7 +178,7 @@ In order to run blast jobs, repeat the previous server step, but with
 “blast” for the -a argument on the phamServer_InnoDB.py script. To run 
 blast jobs, use the blastclient.py script, in the phamerator directory, like so:
 
-blastclient.py -u $username$ -p -n localhost -a $path-to-blast$ -d 
+> blastclient.py -u $username$ -p -n localhost -a $path-to-blast$ -d 
 $path-to-blast-data$
 
 where $username$ is your database username, $path-to-blast$ is the path to your 
@@ -194,7 +194,7 @@ that make a protein acceptable to join the Pham being built. Some sample values
 are provided  below. See the script usage for more information. Run the command 
 like this:
 
-./phamerator/phamBuilder4.py -u $username$ -p -s $database-server$ -d 
+> ./phamerator/phamBuilder4.py -u $username$ -p -s $database-server$ -d 
 $database$ -c 0.325 -b 1e-50
 
 where $username$ is your database username, $database-server$ is the hostname 
@@ -208,7 +208,7 @@ get a copy of the CDD database from NCBI
 cddSearch.py script, located in the phamerator/plugins directory. Run the 
 script like so:
 
-./phamerator/plugins/cddSearch.py $database$ $path-to-blast$ $path-to-cdd$ 
+> ./phamerator/plugins/cddSearch.py $database$ $path-to-blast$ $path-to-cdd$ 
 $path-to-fasta$
 
 where $database$ is the name of your database, $path-to-blast$ is the path to 
