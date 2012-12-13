@@ -13,7 +13,7 @@ from types import *
 class options:
   def __init__(self, argv):
     try:
-      opts, args = getopt.getopt(argv, "hpu:a:d:", ["help", "password", "user=", "app-dir=", "data-dir="])
+      opts, args = getopt.getopt(argv, "hpn:u:a:d:", ["help", "password", "nsname=", "user=", "app-dir=", "data-dir="])
     except getopt.GetoptError:
       print 'error running getopt.getopt'
       self.usage()
@@ -24,6 +24,8 @@ class options:
         sys.exit()
       elif opt in ("-p", "--password"):
         self.argDict['password'] = getpass.getpass('password: ')
+      elif opt in ("-n", "--nsname"):
+        self.argDict['nsname'] = arg
       elif opt in ("-u", "--user"):
         self.argDict['user'] = arg
       elif opt in ("-a", "--app-dir"):
@@ -32,7 +34,7 @@ class options:
         self.argDict['data-dir'] = arg
 
     if not self.argDict.has_key('password'): self.argDict['password'] = ''
-    required_args = ('user', 'app-dir', 'data-dir')
+    required_args = ('nsname', 'user', 'app-dir', 'data-dir')
     for a in required_args:
       if a not in self.argDict:
         print "required argument '%s' is missing" % a
@@ -46,7 +48,8 @@ class options:
              -u, --user=<username>: specify a username on the database
              -p, --password: prompt for a password
              -a, --app-dir: location where BLAST is installed
-             -d, --data-dir: location where fasta database should be stored"""
+             -d, --data-dir: location where fasta database should be stored
+             -n, --nsname: PYRO NS name, required"""
 
 class blast:
   def __init__(self, blastDataDir='/tmp/BLAST', blastAppDir='~/Applications/BLAST/bin/'):
@@ -141,7 +144,11 @@ def main(argv):
   opts = options(sys.argv[1:]).argDict
   blaster = blast(blastDataDir=opts['data-dir'], blastAppDir=opts['app-dir'])
   #Pyro.config.PYRO_NS_HOSTNAME='136.142.141.113'
-  Pyro.config.PYRO_NS_HOSTNAME='134.126.95.56'
+  #Pyro.config.PYRO_NS_HOSTNAME='134.126.95.56'
+  if opts['nsname']:
+    Pyro.config.PYRO_NS_HOSTNAME=opts['nsname']
+  else:
+    Pyro.config.PYRO_NS_HOSTNAME='localhost'
   print 'trying to get serverSelector...'
   serverSelector = Pyro.core.getProxyForURI("PYRONAME://serverSelector")
   print 'got serverSelector'
