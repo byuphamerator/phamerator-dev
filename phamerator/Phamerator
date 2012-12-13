@@ -321,8 +321,9 @@ class phageManager:
     self.username = raw_input('database username: ')
     self.password = getpass.getpass('database password: ')
     self.server = raw_input('database server: ')
-    
-    print "THIS IS THE ENTRY POINT --------------------------------"
+    self.database = raw_input('database name: ')    
+
+    #print "THIS IS THE ENTRY POINT --------------------------------"
     
     print 'running ConfigChecker()...'
     ConfigChecker()
@@ -419,13 +420,13 @@ class phageManager:
         except:
           shutil.copyfile(os.path.join('/usr/share/phamerator/config/', 'phamerator.conf.sample'), os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
       cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
-      try:
-        self.database = cfg.get('Phamerator','defaultDatabase')
-      except:
-        self.database = ""
-      if self.database == "":
-        self.database = "SEA"
-        cfg.set('Phamerator','defaultDatabase', 'SEA')
+      #try:
+        #self.database = cfg.get('Phamerator','defaultDatabase')
+      #except:
+        #self.database = ""
+      #if self.database == "":
+        #self.database = "SEA"
+        #cfg.set('Phamerator','defaultDatabase', 'SEA')
       try:
         self.remote_server = cfg.get('Phamerator','defaultServer')
       except:
@@ -2867,3 +2868,4 @@ def main():
 
 if __name__ == "__main__":
   main()
+v
