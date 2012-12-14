@@ -95,8 +95,10 @@ prompt, run these commands to create a new database and grant access to a user
 for Phamerator:
 
 > mysql> CREATE DATABASE $database$;
+
 > mysql> GRANT SELECT, DROP, DELETE, INSERT, CREATE, LOCK TABLES, UPDATE on 
 $database$.* to $username$ IDENTIFIED BY “$password$”;
+
 > mysql> FLUSH PRIVILEGES;
 
 Replace $database$ with the name of your new database, $username$ with the name 
