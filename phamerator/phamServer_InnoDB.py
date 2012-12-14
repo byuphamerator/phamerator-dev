@@ -365,7 +365,7 @@ class phamServer(errorHandler):
 
 def main():
   opts = options(sys.argv[1:]).argDict
-  username, password, database, server = opts['user'], opts['password'], opts['database'], opts['server']
+  username, password, database, server, nsname = opts['user'], opts['password'], opts['database'], opts['server'], opts['nsname']
   alignment_type = opts['alignment_type']
   print 'username :', username
   #print 'password :', password
