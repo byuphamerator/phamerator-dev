@@ -133,7 +133,7 @@ class clustalwServlet(phamServlet, Subscriber, Thread):
     Subscriber.__init__(self)
     #self.setDaemon(1)
     self.server, self.database = server, database
-    self.c = db_conf.db_conf(username=opts['user'], password=opts['password'], server='localhost', db=opts['database']).get_cursor()
+    self.c = db_conf.db_conf(username=opts['user'], password=opts['password'], server=opts['server'], db=opts['database']).get_cursor()
     self.subscribe("clustalw")
     self._logger = logger.logger(logging)
     self.publisher = phamPublisher()
@@ -179,7 +179,7 @@ class blastServlet(phamServlet, Subscriber, Thread):
     Thread.__init__(self)
     phamServlet.__init__(self, logging, c)
     Subscriber.__init__(self)
-    self.c = db_conf.db_conf(username=opts['user'], password=opts['password'], server='localhost', db=opts['database']).get_cursor()
+    self.c = db_conf.db_conf(username=opts['user'], password=opts['password'], server=opts['server'], db=opts['database']).get_cursor()
     self.server, self.database = server, database
     self.subscribe("fasta")
     self.lastAccessed = time.time()
