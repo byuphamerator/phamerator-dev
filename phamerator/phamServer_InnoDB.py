@@ -382,8 +382,8 @@ def main():
   server_instances = int(opts['instances'])
   logging = opts['logging']
 
-  daemon=Pyro.core.Daemon(host=server)
-  ns=Pyro.naming.NameServerLocator().getNS(host=server)
+  daemon=Pyro.core.Daemon(host=nsname)
+  ns=Pyro.naming.NameServerLocator().getNS(host=nsname)
   daemon.useNameServer(ns)
   _logger = logger.logger(logging)
   c =         db_conf.db_conf(username=username, password=password, db=database).get_cursor()
