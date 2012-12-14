@@ -1763,9 +1763,9 @@ def usage():
            exactly one of --list, --import, --add, and --remove"""
 
 def main(argv):
-  if 1 not in argv:
-    usage()
-    sys.exit()
+  #if 1 not in argv:
+  #  usage()
+  #  sys.exit()
   addToDbFromNCBI = []
   addToDbFromFile = []
   removeFromDb = []
