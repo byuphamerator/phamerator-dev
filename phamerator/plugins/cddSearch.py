@@ -128,9 +128,9 @@ class cddSearch:
 
 
 if __name__ == "__main__":
-  print "\n\n\nusage:\ncddSearch.py <sql database> (uses phamerator's blast location, and default fastA file path /tmp/query.fasta and default cdd Database location ~/Databases/Cdd/Cdd)"
-  print "usage:\ncddSearch.py <sql database> <path to rpsblast executable> <path to cdd database> <query fastA file path>"
   if len(sys.argv) == 1:
+    print "\n\n\nusage:\ncddSearch.py <sql database> (uses phamerator's blast location, and default fastA file path /tmp/query.fasta and default cdd Database location ~/Databases/Cdd/Cdd)"
+    print "usage:\ncddSearch.py <sql database> <path to rpsblast executable> <path to cdd database> <query fastA file path>"
     sys.exit()
   elif len(sys.argv) == 2:
     cdd = cddSearch(db=sys.argv[1])
