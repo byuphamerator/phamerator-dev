@@ -1698,11 +1698,12 @@ def get_unique_phams(c):
   return returnList
 
 def reset_blast_table(c):
-  print 'The database changed'
-  # all BLAST alignments need to be recalculated
-  print '..mark BLAST alignments as needing to be redone'
+  print 'Resetting BLAST and ClustalW tables'
+  print 'Alignments will have to be recalculated'
   c.execute("UPDATE gene SET blast_status = 'avail'")
-  c.execute("DELETE FROM scores_summary WHERE blast_score IS NOT NULL")
+  c.execute("UPDATE gene SET clustalw_status = 'avail'")
+  c.execute("TRUNCATE TABLE scores_summary")
+  #c.execute("DELETE FROM scores_summary WHERE blast_score IS NOT NULL")
   c.execute("COMMIT")
   try:
     phamPub = phamPublisher()
@@ -1920,7 +1921,7 @@ def main(argv):
     print "removing phage '" + id + "' from the database"
     remove_phage_from_db(id, c, confirm)
   new_phages = get_phages(c, PhageID='PhageID')
-
+  reset_blast_table(c)
   #if phages_have_changed(original_phages, new_phages): reset_blast_table(c)
   
   #  phamPub.publish_db_update("fasta", 'BLAST database is current') if __name__ == '__main__': main(sys.argv[1:])
