@@ -18,12 +18,12 @@ except:
 
 class cddSearch:
   def __init__(self,db=None,tempfilepath=None,pathtoblast=None,pathtocddDatabase=None,PhageIDs=None):
-    password = getpass.getpass()
-    self.username = "root"
-    self.password = password
-    self.server = "localhost"
-    self.database = db
-    print 'using databse: %s' % db
+    #password = getpass.getpass()
+    self.username = raw_input("Database Username: ")
+    self.password = getpass.getpass("Database Password: ")
+    self.server = raw_input("Database Server: ")
+    self.database = raw_input("Database Name: ")
+    print 'using databse: %s' % self.database
     self.c = db_conf(username=self.username,password=self.password,server=self.server,db=self.database).get_cursor()
     if not PhageIDs:
       PhageIDs = phamerator_manage_db.get_PhageIDs(self.c)
@@ -129,15 +129,12 @@ class cddSearch:
 
 if __name__ == "__main__":
   if len(sys.argv) == 1:
-    print "\n\n\nusage:\ncddSearch.py <sql database> (uses phamerator's blast location, and default fastA file path /tmp/query.fasta and default cdd Database location ~/Databases/Cdd/Cdd)"
-    print "usage:\ncddSearch.py <sql database> <path to rpsblast executable> <path to cdd database> <query fastA file path>"
+    print "usage:\ncddSearch.py <path to rpsblast executable> <path to cdd database> <query fastA file path>"
     sys.exit()
   elif len(sys.argv) == 2:
-    cdd = cddSearch(db=sys.argv[1])
-  elif len(sys.argv) == 3:
-    cdd = cddSearch(db=sys.argv[1], PhageIDs=tuple(sys.argv[2].replace(',', ' ').split()))
-  elif len(sys.argv) == 5:
-    cdd = cddSearch(db=sys.argv[1],tempfilepath=sys.argv[4],pathtoblast=sys.argv[2],pathtocddDatabase=sys.argv[3])
+    cdd = cddSearch(PhageIDs=tuple(sys.argv[2].replace(',', ' ').split()))
+  elif len(sys.argv) == 4:
+    cdd = cddSearch(tempfilepath=sys.argv[4],pathtoblast=sys.argv[2],pathtocddDatabase=sys.argv[3])
   else:
     print "Error, please try again.\n"
     sys.exit()
