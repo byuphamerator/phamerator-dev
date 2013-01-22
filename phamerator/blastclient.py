@@ -120,8 +120,12 @@ class blast:
   def get_blastWorkUnit(self, blastDataDir):
     print 'getting blast work unit...'
     self.blastWorkUnit = self.phamServer.request_seqs(self.client)
-    self.write_blast_db()
-    self.write_blast_query()
+    if hasattr(self.blastWorkUnit, 'database'): # Practical test to see if there is work in the work unit
+    	self.write_blast_db()
+    	self.write_blast_query()
+    	return True
+    else:
+    	return False
 
   def write_blast_db(self):
     print 'writing work unit to file...'
@@ -162,11 +166,13 @@ def main(argv):
   while 1:
     try:
       print 'getting sequences to align'
-      blaster.get_blastWorkUnit(opts['data-dir'])
-      print 'aligning sequences'
-      results = blaster.blast()
-      print 'results:', results
-      blaster.phamServer.report_scores(blaster.blastWorkUnit, results, blaster.client)
+      if blaster.get_blastWorkUnit(opts['data-dir']):
+      	print 'aligning sequences'
+      	results = blaster.blast()
+      	print 'results:', results
+      	blaster.phamServer.report_scores(blaster.blastWorkUnit, results, blaster.client)
+      else:
+      	time.sleep(30)
     except KeyboardInterrupt:
       blaster.phamServer.disconnect(blaster.client)
       print 'exiting cleanly'

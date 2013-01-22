@@ -237,7 +237,7 @@ class checkStaleRows (Thread, errorHandler):
     while 1:
       self._logger.log('looking for stale clustalw alignments...')
       self.c.execute("UPDATE gene SET clustalw_status = 'avail' WHERE clustalw_status = 'stale'")
-      self._logger.log('looking for pending clustalw alignments...')
+      self._logger.log('looking for pending alignments...')
       self.c.execute("UPDATE gene SET clustalw_status = 'stale' WHERE clustalw_status = 'pending'")
       self._logger.log('looking for stale blast alignments...')
       self.c.execute("UPDATE gene SET blast_status = 'avail' WHERE blast_status = 'stale'")
