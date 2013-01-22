@@ -172,6 +172,7 @@ def main(argv):
       	print 'results:', results
       	blaster.phamServer.report_scores(blaster.blastWorkUnit, results, blaster.client)
       else:
+        print 'no work units available...sleeping'
       	time.sleep(30)
     except KeyboardInterrupt:
       blaster.phamServer.disconnect(blaster.client)
