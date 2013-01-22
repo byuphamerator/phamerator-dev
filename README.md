@@ -180,7 +180,7 @@ In order to run blast jobs, repeat the previous server step, but with
 “blast” for the -a argument on the phamServer_InnoDB.py script. To run 
 blast jobs, use the blastclient.py script, in the phamerator directory, like so:
 
-> blastclient.py -u $username$ -p -n localhost -a $path-to-blast$ -d 
+> ./phamerator/blastclient.py -u $username$ -p -n localhost -a $path-to-blast$ -d 
 $path-to-blast-data$
 
 where $username$ is your database username, $path-to-blast$ is the path to your 
