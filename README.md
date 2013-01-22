@@ -32,6 +32,7 @@ For the server backend, you will need
 * Biopython 1.42 or newer (python-biopython)
 * Pyro 3.4 or newer (pyro)
 * ClustalW (clustalw)
+* BLAST (ftp://ftp.ncbi.nih.gov/blast/executables/release/LATEST)
 * Parallel Python (python-pp)
 * MySQL for Python (python-mysqldb)
 * curl
