@@ -136,7 +136,8 @@ if __name__ == "__main__":
   elif len(sys.argv) == 4:
     cdd = cddSearch(tempfilepath=sys.argv[4],pathtoblast=sys.argv[2],pathtocddDatabase=sys.argv[3])
   else:
-    print "Error, please try again.\n"
+    print "Incorrect number of options."
+    print "usage:\ncddSearch.py <path to rpsblast executable> <path to cdd database> <query fastA file path>"
     sys.exit()
   cdd.search()
 
