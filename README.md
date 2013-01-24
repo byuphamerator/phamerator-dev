@@ -181,7 +181,8 @@ In order to run blast jobs, repeat the previous server step, but with
 “blast” for the -a argument on the phamServer_InnoDB.py script. To run 
 blast jobs, use the blastclient.py script, in the phamerator directory, like so:
 
-> ./phamerator/blastclient.py -u $username$ -p -n localhost -a $path-to-blast$ -d 
+> ./phamerator/blastclient.py -u $username$ -p -n localhost -a $path-to-blast$ -
+d 
 $path-to-blast-data$
 
 where $username$ is your database username, $path-to-blast$ is the path to your 
@@ -211,13 +212,15 @@ get a copy of the CDD database from NCBI
 cddSearch.py script, located in the phamerator/plugins directory. Run the 
 script like so:
 
-> ./phamerator/plugins/cddSearch.py $database$ $path-to-blast$ $path-to-cdd$ 
+> ./phamerator/plugins/cddSearch.py $path-to-blast$ $path-to-cdd$ 
 $path-to-fasta$
 
-where $database$ is the name of your database, $path-to-blast$ is the path to 
+where $path-to-blast$ is the path to 
 your RPS Blast binary, $path-to-cdd$ is the path to your CDD database working 
 copy, and $path-to-fasta$ is the path to your FastA query file. Note that 
 currently this script will only run queries on a database local to your machine.
+ After running the script you will be prompted for database connection informati
+on and then the script will run.
 
 Phamerator GUI
 ----------------------------------
