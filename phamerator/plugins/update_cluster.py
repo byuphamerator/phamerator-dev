@@ -68,24 +68,22 @@ def samesies(c, phages):
 
 def usage():
   '''Prints program usage information'''
-  print """phamerator_manage_db [OPTION] [ARGUMENT]
+  print """update_cluster [OPTION] [ARGUMENT]
            -h, --help: print this usage information
-           -l, --list: list phages in the database
            -u, --username: database username
            -p, --password: prompt for a database password
            -s, --server: address of the database server
            -d, --database: name of the database on the server
-           -i, --import: import a phage into the database from a GenBank file
-           -a, --add phage_name: add phage 'phage_name' to the database
-           -r, --remove phage_name: remove phage 'phage_name' from the database
-           -c, --create: create a new database
-               --clone: used with --create to make the new database a copy of an existing one
                --update_cluster: update the cluster info from a csv file
                --samesies: check to see if two phages are the same
            --username, --server, and --database are required, and you must specify
            exactly one of --list, --import, --add, and --remove"""
 
 def main(argv):
+  if len(sys.argv) == 1:
+    usage()
+    sys.exit()
+  
   addToDbFromNCBI = []
   addToDbFromFile = []
   removeFromDb = []
