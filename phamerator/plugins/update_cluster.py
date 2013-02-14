@@ -76,8 +76,8 @@ def usage():
            -d, --database: name of the database on the server
                --update_cluster: update the cluster info from a csv file
                --samesies: check to see if two phages are the same
-           --username, --server, and --database are required, and you must specify
-           exactly one of --list, --import, --add, and --remove"""
+           --username, --server, and --database are required. Specify --update_cluster to import a
+		.csv file as a cluster specification."""
 
 def main(argv):
   if len(sys.argv) == 1:
