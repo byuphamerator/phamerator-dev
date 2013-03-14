@@ -209,18 +209,8 @@ Finally, you have the option of determining conserved domains for the Phams in
 the database using the NCBI CDD database. For this to work, you will need to 
 get a copy of the CDD database from NCBI 
 (http://www.ncbi.nlm.nih.gov/Structure/cdd/cdd.shtml). To run a search, use the 
-cddSearch.py script, located in the phamerator/plugins directory. Run the 
-script like so:
-
-> ./phamerator/plugins/cddSearch.py $path-to-blast$ $path-to-cdd$ 
-$path-to-fasta$
-
-where $path-to-blast$ is the path to 
-your RPS Blast binary, $path-to-cdd$ is the path to your CDD database working 
-copy, and $path-to-fasta$ is the path to your FastA query file. Note that 
-currently this script will only run queries on a database local to your machine.
- After running the script you will be prompted for database connection informati
-on and then the script will run.
+cddSearch.py script, located in the phamerator/plugins directory. For usage, please
+run the script with no options.
 
 Phamerator GUI
 ----------------------------------
