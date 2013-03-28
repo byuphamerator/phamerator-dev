@@ -31,7 +31,7 @@ For the server backend, you will need
 * Python
 * Biopython 1.42 or newer (python-biopython)
 * Pyro 3.4 or newer (pyro)
-* ClustalW (clustalw)
+* ClustalW (clustalw) - this package is located in non-free for Debian distributions
 * BLAST (ftp://ftp.ncbi.nih.gov/blast/executables/release/LATEST)
 * Parallel Python (python-pp)
 * MySQL for Python (python-mysqldb)
