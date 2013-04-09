@@ -86,14 +86,14 @@ class clustalwAligner(Subscriber):
     """works with biopython version 1.56 or newer"""
     from Bio.Align.Applications import ClustalOmegaCommandline
     from Bio import AlignIO
-    
+    from Bio import SeqIO    
  #   cline = ClustalOmegaCommandline("clustalo", infile = clustalw_infile)
     # rewrite the recieved fasta as a clustal file for clustalo
     clustalw_infile_corrected = clustalw_infile + ".corrected"
     input = open(clustalw_infile, "rU")
     output = open(clustalw_infile_corrected, "w")
-    rewriter = AlignIO.parse(input, "fasta")
-    AlignIO.write(rewriter, output, "clustal")
+    rewriter = SeqIO.parse(input, "fasta")
+    SeqIO.write(rewriter, output, "clustal")
     input.close()
     output.close()
     
