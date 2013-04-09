@@ -89,18 +89,18 @@ class clustalwAligner(Subscriber):
     from Bio import SeqIO    
  #   cline = ClustalOmegaCommandline("clustalo", infile = clustalw_infile)
     # rewrite the recieved fasta as a clustal file for clustalo
-    clustalw_infile_corrected = clustalw_infile + ".corrected"
-    input = open(clustalw_infile, "rU")
-    output = open(clustalw_infile_corrected, "w")
-    rewriter = SeqIO.parse(input, "fasta")
-    SeqIO.write(rewriter, output, "clustal")
-    input.close()
-    output.close()
+    #clustalw_infile_corrected = clustalw_infile + ".corrected"
+    #input = open(clustalw_infile, "rU")
+    #output = open(clustalw_infile_corrected, "w")
+    #rewriter = SeqIO.parse(input, "fasta")
+    #SeqIO.write(rewriter, output, "clustal")
+    #input.close()
+    #output.close()
     
     # create command line wrapper and align 
-    cline = ClustalOmegaCommandline(infile = clustalw_infile_corrected, outfile=clustalw_outfile)
+    cline = ClustalOmegaCommandline(infile = clustalw_infile, outfile=clustalw_outfile)
     stdout, stderr = cline()
-    alignment = AlignIO.read(clustalw_outfile.replace('.fasta', '.aln'), "clustal")
+    alignment = AlignIO.read(clustalw_outfile.replace('.fa', '.aln'), "clustal")
     return (qid, sid, alignment)
  
   def run_clustalw_old(qid, sid, cline):
@@ -207,7 +207,7 @@ class clustalwAligner(Subscriber):
         f.write('>%s\n%s\n>%s\n%s\n' % (query_id, query_translation, subject_id, subject_translation))
         f.close()
 
-        clustalw_infile = os.path.join(self.rootdir, 'temp' + str(query_id) + '_' + str(subject_id) + '.fasta')
+        clustalw_infile = os.path.join(self.rootdir, 'temp' + str(query_id) + '_' + str(subject_id) + '.fa')
 	clustalw_outfile = os.path.join(self.rootdir, 'temp' + str(query_id) + '_' + str(subject_id) + '.aln')
 
         if float(Bio.__version__) >= 1.56:
