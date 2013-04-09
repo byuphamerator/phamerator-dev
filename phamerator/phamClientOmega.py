@@ -98,7 +98,7 @@ class clustalwAligner(Subscriber):
     #output.close()
     
     # create command line wrapper and align 
-    cline = ClustalOmegaCommandline(infile = clustalw_infile, outfile=clustalw_outfile, outfmt=clustal)
+    cline = ClustalOmegaCommandline(infile = clustalw_infile, outfile=clustalw_outfile, outfmt="clustal")
     stdout, stderr = cline()
     alignment = AlignIO.read(clustalw_outfile.replace('.fa', '.aln'), "clustal")
     return (qid, sid, alignment)
