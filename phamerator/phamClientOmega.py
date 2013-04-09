@@ -87,7 +87,17 @@ class clustalwAligner(Subscriber):
     from Bio.Align.Applications import ClustalOmegaCommandline
     from Bio import AlignIO
  #   cline = ClustalOmegaCommandline("clustalo", infile = clustalw_infile)
-    cline = ClustalOmegaCommandline(infile = clustalw_infile, outfile=clustalw_outfile)
+    # rewrite the recieved fasta as a clustal file for clustalo
+    clustalw_infile_corrected = os.path.join(self.rootdir, 'temp' + str(query_id) + '_' + str(subject_id) + "_cor" + '.aln')
+    input = open(clustalw_infile, "rU")
+    output = open(clustalw_infile_corrected, "w")
+    rewriter = AlignIO.parse(input, "fasta")
+    AlignIO.write(rewriter, output, "clustal")
+    input.close()
+    output.close()
+    
+    # create command line wrapper and align 
+    cline = ClustalOmegaCommandline(infile = clustalw_infile_corrected, outfile=clustalw_outfile)
     stdout, stderr = cline()
     alignment = AlignIO.read(clustalw_outfile.replace('.fasta', '.aln'), "clustal")
     return (qid, sid, alignment)
