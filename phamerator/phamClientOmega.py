@@ -202,7 +202,7 @@ class clustalwAligner(Subscriber):
         fname = os.path.join(self.rootdir, 'temp' + query_id + '_' + subject_id + '.fa')
         f = open(fname, 'w')
         open_files.append(fname)
-        open_files.append(fname.replace('.fa','.dnd'))
+        #open_files.append(fname.replace('.fa','.dnd'))
         open_files.append(fname.replace('.fa','.aln'))
         f.write('>%s\n%s\n>%s\n%s\n' % (query_id, query_translation, subject_id, subject_translation))
         f.close()
