@@ -82,14 +82,14 @@ class clustalwAligner(Subscriber):
     if event.subject == 'clustalw' and event.msg == 'update available':
       self.align()
   
-  def run_clustalw(clustalw_infile, qid, sid):
+  def run_clustalw(clustalw_infile, clustalw_outfile, qid, sid):
     """works with biopython version 1.56 or newer"""
     from Bio.Align.Applications import ClustalOmegaCommandline
     from Bio import AlignIO
  #   cline = ClustalOmegaCommandline("clustalo", infile = clustalw_infile)
-    cline = ClustalOmegaCommandline(infile = clustalw_infile)
+    cline = ClustalOmegaCommandline(infile = clustalw_infile, outfile=clustalw_outfile)
     stdout, stderr = cline()
-    alignment = AlignIO.read(clustalw_infile.replace('.fasta', '.aln'), "clustal")
+    alignment = AlignIO.read(clustalw_outfile.replace('.fasta', '.aln'), "clustal")
     return (qid, sid, alignment)
  
   def run_clustalw_old(qid, sid, cline):
@@ -197,10 +197,11 @@ class clustalwAligner(Subscriber):
         f.close()
 
         clustalw_infile = os.path.join(self.rootdir, 'temp' + str(query_id) + '_' + str(subject_id) + '.fasta')
+	clustalw_outfile = os.path.join(self.rootdir, 'temp' + str(query_id) + '_' + str(subject_id) + '.aln')
 
         if float(Bio.__version__) >= 1.56:
           # pass the query id (qid) and the subject id (sid) to run_clustalw
-          jobs.append(job_server.submit(clustalwAligner.run_clustalw, (clustalw_infile, query_id, subject_id), (), ()))
+          jobs.append(job_server.submit(clustalwAligner.run_clustalw, (clustalw_infile, clustalw_outfile, query_id, subject_id), (), ()))
         else:
           cline = MultipleAlignCL(clustalw_infile)
           cline.set_output(os.path.join(self.rootdir, 'temp' + str(query_id) + '_' + str(subject_id) + '.aln'))
