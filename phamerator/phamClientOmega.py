@@ -86,7 +86,8 @@ class clustalwAligner(Subscriber):
     """works with biopython version 1.56 or newer"""
     from Bio.Align.Applications import ClustalOmegaCommandline
     from Bio import AlignIO
-    cline = ClustalOmegaCommandline("clustalo", infile = clustalw_infile)
+ #   cline = ClustalOmegaCommandline("clustalo", infile = clustalw_infile)
+    cline = ClustalOmegaCommandline(infile = clustalw_infile)
     stdout, stderr = cline()
     alignment = AlignIO.read(clustalw_infile.replace('.fasta', '.aln'), "clustal")
     return (qid, sid, alignment)
