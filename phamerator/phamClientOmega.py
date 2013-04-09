@@ -199,11 +199,11 @@ class clustalwAligner(Subscriber):
       counter = 0
       for record in clustalw_work_unit.database:
         subject_id, subject_translation = record.id, record.translation
-        fname = os.path.join(self.rootdir, 'temp' + query_id + '_' + subject_id + '.fasta')
+        fname = os.path.join(self.rootdir, 'temp' + query_id + '_' + subject_id + '.fa')
         f = open(fname, 'w')
         open_files.append(fname)
-        open_files.append(fname.replace('.fasta','.dnd'))
-        open_files.append(fname.replace('.fasta','.aln'))
+        open_files.append(fname.replace('.fa','.dnd'))
+        open_files.append(fname.replace('.fa','.aln'))
         f.write('>%s\n%s\n>%s\n%s\n' % (query_id, query_translation, subject_id, subject_translation))
         f.close()
 
