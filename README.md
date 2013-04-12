@@ -32,6 +32,7 @@ For the server backend, you will need
 * Biopython 1.42 or newer (python-biopython)
 * Pyro 3.4 or newer (pyro)
 * ClustalW (clustalw) - this package is located in non-free for Debian distributions
+* ClustalOmega (clustalo) - also non-free, only required if using phamClientOmega.py
 * BLAST (ftp://ftp.ncbi.nih.gov/blast/executables/release/LATEST)
 * Parallel Python (python-pp)
 * MySQL for Python (python-mysqldb)
@@ -173,6 +174,10 @@ this, open another terminal, leaving the server running in your old one, and
 run:
 
 > ./phamerator/phamClient.py -u $username$ -p -n localhost
+
+If you would like to use the new Clustal Omega implementation, do
+
+> ./phamerator/phamClientOmega.py -u $username$ -p -n localhost
 
 where $username$ is your database username. This script will run alignments 
 that the phamServer deals out.
