@@ -90,15 +90,6 @@ class clustalwAligner(Subscriber):
     from Bio.Align.Applications import ClustalOmegaCommandline
     from Bio import AlignIO
     from Bio import SeqIO    
- #   cline = ClustalOmegaCommandline("clustalo", infile = clustalw_infile)
-    # rewrite the recieved fasta as a clustal file for clustalo
-    #clustalw_infile_corrected = clustalw_infile + ".corrected"
-    #input = open(clustalw_infile, "rU")
-    #output = open(clustalw_infile_corrected, "w")
-    #rewriter = SeqIO.parse(input, "fasta")
-    #SeqIO.write(rewriter, output, "clustal")
-    #input.close()
-    #output.close()
     
     # create command line wrapper and align 
     cline = ClustalOmegaCommandline(infile = clustalw_infile, outfile=clustalw_outfile, outfmt="clustal", threads=numcpus)
