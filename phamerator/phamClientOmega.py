@@ -85,7 +85,7 @@ class clustalwAligner(Subscriber):
     if event.subject == 'clustalw' and event.msg == 'update available':
       self.align()
   
-  def run_clustalw(clustalw_infile, clustalw_outfile, qid, sid):
+  def run_clustalw(clustalw_infile, clustalw_outfile, qid, sid, numcpus):
     """works with biopython version 1.56 or newer"""
     from Bio.Align.Applications import ClustalOmegaCommandline
     from Bio import AlignIO
@@ -101,7 +101,7 @@ class clustalwAligner(Subscriber):
     #output.close()
     
     # create command line wrapper and align 
-    cline = ClustalOmegaCommandline(infile = clustalw_infile, outfile=clustalw_outfile, outfmt="clustal")
+    cline = ClustalOmegaCommandline(infile = clustalw_infile, outfile=clustalw_outfile, outfmt="clustal", threads=numcpus)
     stdout, stderr = cline()
     alignment = AlignIO.read(clustalw_outfile.replace('.fa', '.aln'), "clustal")
     return (qid, sid, alignment)
@@ -190,8 +190,8 @@ class clustalwAligner(Subscriber):
       # Creates jobserver with automatically detected number of workers
 
       #grab number of processors if thread count not set
-      if opts['threads']:
-      	numcpus = opts['threads']
+      if 'threads' in opts:
+      	numcpus = int(opts['threads'])
       else:
       	numcpus = job_server.get_ncpus()
       print "numcpus =",numcpus
@@ -218,7 +218,7 @@ class clustalwAligner(Subscriber):
 
         if float(Bio.__version__) >= 1.56:
           # pass the query id (qid) and the subject id (sid) to run_clustalw
-          jobs.append(job_server.submit(clustalwAligner.run_clustalw, (clustalw_infile, clustalw_outfile, query_id, subject_id, numcpu), (), ()))
+          jobs.append(job_server.submit(clustalwAligner.run_clustalw, (clustalw_infile, clustalw_outfile, query_id, subject_id, numcpus), (), ()))
         else:
           cline = MultipleAlignCL(clustalw_infile)
           cline.set_output(os.path.join(self.rootdir, 'temp' + str(query_id) + '_' + str(subject_id) + '.aln'))
