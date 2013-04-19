@@ -15,7 +15,7 @@ from db_conf import db_conf
 class options:
   def __init__(self, argv):
     try:
-      opts, args = getopt.getopt(argv, "hpu:n:", ["help", "password", "user=", "nsname="])
+      opts, args = getopt.getopt(argv, "hpu:t:n:", ["help", "password", "user=", "threads=", "nsname="])
     except getopt.GetoptError:
       print 'error running getopt.getopt'
       self.usage()
@@ -28,6 +28,8 @@ class options:
         self.argDict['password'] = getpass.getpass('password: ')
       elif opt in ("-u", "--user"):
         self.argDict['user'] = arg
+      elif opt in ("-t", "--threads"):
+      	self.argDict['threads'] = arg
       elif opt in ("-n", "--nsname"):
       	self.argDict['nsname'] = arg
     if not self.argDict.has_key('password'): self.argDict['password'] = ''
@@ -44,6 +46,7 @@ class options:
              -h, --help: print this usage information
              -u, --user=<username>: specify a username on the database
              -p, --password: prompt for a password
+             -t, --threads=<numthreads>: number of threads
              -n, --nsname=<nsname>: nsname of PYRO server, required
 """
 
@@ -186,8 +189,11 @@ class clustalwAligner(Subscriber):
 
       # Creates jobserver with automatically detected number of workers
 
-      #grab number of processors
-      numcpus = job_server.get_ncpus()
+      #grab number of processors if thread count not set
+      if opts['threads']:
+      	numcpus = opts['threads']
+      else:
+      	numcpus = job_server.get_ncpus()
       print "numcpus =",numcpus
       
       #for n, person in enumerate(people):
@@ -212,7 +218,7 @@ class clustalwAligner(Subscriber):
 
         if float(Bio.__version__) >= 1.56:
           # pass the query id (qid) and the subject id (sid) to run_clustalw
-          jobs.append(job_server.submit(clustalwAligner.run_clustalw, (clustalw_infile, clustalw_outfile, query_id, subject_id), (), ()))
+          jobs.append(job_server.submit(clustalwAligner.run_clustalw, (clustalw_infile, clustalw_outfile, query_id, subject_id, numcpu), (), ()))
         else:
           cline = MultipleAlignCL(clustalw_infile)
           cline.set_output(os.path.join(self.rootdir, 'temp' + str(query_id) + '_' + str(subject_id) + '.aln'))
