@@ -1921,8 +1921,8 @@ def main(argv):
     print "removing phage '" + id + "' from the database"
     remove_phage_from_db(id, c, confirm)
   new_phages = get_phages(c, PhageID='PhageID')
-  reset_blast_table(c)
-  #if phages_have_changed(original_phages, new_phages): reset_blast_table(c)
+  #reset_blast_table(c)
+  if phages_have_changed(original_phages, new_phages): reset_blast_table(c)
   
   #  phamPub.publish_db_update("fasta", 'BLAST database is current') if __name__ == '__main__': main(sys.argv[1:])
 
