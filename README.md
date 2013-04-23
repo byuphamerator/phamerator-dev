@@ -43,6 +43,7 @@ In addition, for the GUI you will need
 
 * Python GooCanvas Bindings (python-pygoocanvas)
 * Python Webkit Bindings (python-webkit)
+* Python Gnome configuration Bindings (python-gconf)
 * GTK+ 3 or newer
 
 Phamerator Quick-Start Guide
