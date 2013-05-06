@@ -30,7 +30,7 @@ For the server backend, you will need
 
 * Python
 * Biopython 1.42 or newer (python-biopython)
-* Pyro 3.4 or newer (pyro)
+* Pyro 3.4 or newer (pyro) (Pyro 4 does not work)
 * ClustalW (clustalw) - this package is located in non-free for Debian distributions
 * ClustalOmega (clustalo) - also non-free, only required if using phamClientOmega.py
 * BLAST (ftp://ftp.ncbi.nih.gov/blast/executables/release/LATEST)
