@@ -35,7 +35,7 @@ Pyro.config.PYRO_NS_HOSTNAME='localhost'
 class options:
   def __init__(self, argv):
     try:
-      opts, args = getopt.getopt(argv, "hps:n:u:d:i:l:a:", ["help", "password", "server=", "nsname=", "user=","database=","instances=","logging=","alignment_type="])
+      opts, args = getopt.getopt(argv, "hp:s:n:u:d:i:l:a:", ["help", "password=", "server=", "nsname=", "user=","database=","instances=","logging=","alignment_type="])
     except getopt.GetoptError:
       print 'error running getopt.getopt'
       self.usage()
@@ -45,7 +45,10 @@ class options:
         self.usage()
         sys.exit()
       elif opt in ("-p", "--password"):
-        self.argDict['password'] = getpass.getpass('password: ')
+        if not arg:
+          self.argDict['password'] = getpass.getpass('password: ')
+        else:
+          self.argDict['password'] = arg
       elif opt in ("-s", "--server"):
       	self.argDict['server'] = arg
       elif opt in ("-n", "--nsname"):
@@ -73,7 +76,7 @@ class options:
     print """phamServer_InnoDB.py [OPTION] [ARGUMENT]
              -h, --help: print this usage information
              -u, --user=<username>: specify a username on the database
-             -p, --password: prompt for a password
+             -p, --password: specify a password, or prompt for a password if blank
              -d, --database=<database name>: specify the name of the database to access
              -i, --instances=<number_of_instances>: number of server instances to run (default=1)
              -l, --logging={True or False}: whether to print out debugging info (default is True)

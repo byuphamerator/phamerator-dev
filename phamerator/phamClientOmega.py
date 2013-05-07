@@ -15,7 +15,7 @@ from db_conf import db_conf
 class options:
   def __init__(self, argv):
     try:
-      opts, args = getopt.getopt(argv, "hpu:t:n:", ["help", "password", "user=", "threads=", "nsname="])
+      opts, args = getopt.getopt(argv, "hp:u:t:n:", ["help", "password=", "user=", "threads=", "nsname="])
     except getopt.GetoptError:
       print 'error running getopt.getopt'
       self.usage()
@@ -25,7 +25,10 @@ class options:
         self.usage()
         sys.exit()
       elif opt in ("-p", "--password"):
-        self.argDict['password'] = getpass.getpass('password: ')
+        if not arg:
+          self.argDict['password'] = getpass.getpass('password: ')
+        else:
+          self.argDict['password'] = arg
       elif opt in ("-u", "--user"):
         self.argDict['user'] = arg
       elif opt in ("-t", "--threads"):
@@ -45,7 +48,7 @@ class options:
     print """phamClient.py [OPTION] [ARGUMENT]
              -h, --help: print this usage information
              -u, --user=<username>: specify a username on the database
-             -p, --password: prompt for a password
+             -p, --password: specify a password, or prompt for a password if blank
              -t, --threads=<numthreads>: number of threads
              -n, --nsname=<nsname>: nsname of PYRO server, required
 """
