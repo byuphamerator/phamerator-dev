@@ -35,7 +35,7 @@ Pyro.config.PYRO_NS_HOSTNAME='localhost'
 class options:
   def __init__(self, argv):
     try:
-      opts, args = getopt.getopt(argv, "hp:s:n:u:d:i:l:a:", ["help", "password=", "server=", "nsname=", "user=","database=","instances=","logging=","alignment_type="])
+      opts, args = getopt.getopt(argv, "hps:n:u:d:i:l:a:", ["help", "password=", "server=", "nsname=", "user=","database=","instances=","logging=","alignment_type="])
     except getopt.GetoptError:
       print 'error running getopt.getopt'
       self.usage()
