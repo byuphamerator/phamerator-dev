@@ -15,7 +15,7 @@ from db_conf import db_conf
 class options:
   def __init__(self, argv):
     try:
-      opts, args = getopt.getopt(argv, "hp:u:t:n:", ["help", "password=", "user=", "threads=", "nsname="])
+      opts, args = getopt.getopt(argv, "hpq:u:t:n:", ["help", "prompt", "password=", "user=", "threads=", "nsname="])
     except getopt.GetoptError:
       print 'error running getopt.getopt'
       self.usage()
@@ -24,11 +24,10 @@ class options:
       if opt in ("-h", "--help"):
         self.usage()
         sys.exit()
-      elif opt in ("-p", "--password"):
-        if not arg:
+      elif opt in ("-p", "--prompt"):
           self.argDict['password'] = getpass.getpass('password: ')
-        else:
-          self.argDict['password'] = arg
+      elif opt in ("-q", "--password"):
+        self.argDict['password'] = arg
       elif opt in ("-u", "--user"):
         self.argDict['user'] = arg
       elif opt in ("-t", "--threads"):
@@ -48,7 +47,8 @@ class options:
     print """phamClient.py [OPTION] [ARGUMENT]
              -h, --help: print this usage information
              -u, --user=<username>: specify a username on the database
-             -p, --password: specify a password, or prompt for a password if blank
+             -p, --prompt: prompt for a password
+             -q, --password=<pass>: enter a password on the command line, overrides -p
              -t, --threads=<numthreads>: number of threads
              -n, --nsname=<nsname>: nsname of PYRO server, required
 """
