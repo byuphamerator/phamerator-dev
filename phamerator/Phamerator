@@ -149,7 +149,7 @@ class downloadBlastThread(threading.Thread):
     cfg = ConfigParser.RawConfigParser()
     cfg.read(os.path.join(os.environ['HOME'], '.phamerator', 'phamerator.conf'))
     blast_dir = cfg.get('Phamerator','BLAST_dir')
-    blast_version = '2.2.21'
+    blast_version = '2.2.26'
     blast_dir_original = blast_dir
     blast_dir = blast_dir.rstrip('/"').lstrip('"')
     if blast_dir[0] == '~':
