@@ -2529,9 +2529,9 @@ class phageManager:
               clustalwScore = do_pairwise_alignment(c, sel, subject)
               if not cache.has_key(sel): cache[sel] = {}
               cache[sel][subject] = clustalwScore
-            except AttributeError:
-              print 'error with alignment, setting score to -1'
-              clustalwScore = -0.01
+            #except AttributeError:
+            #  print 'error with alignment, setting score to -1'
+            #  clustalwScore = -0.01
         clustalwScore = clustalwScore * 100.0
         if store.get_value(treeiter, 4) != clustalwScore:
           print 'trying to set value -- sel: %s -- subject: %s -- score: %s' % (sel, subject, clustalwScore)
