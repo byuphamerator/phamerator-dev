@@ -2525,7 +2525,7 @@ class phageManager:
           try:
             clustalwScore = cache[sel][subject]
           except KeyError:
-            try:
+            #try:
               clustalwScore = do_pairwise_alignment(c, sel, subject)
               if not cache.has_key(sel): cache[sel] = {}
               cache[sel][subject] = clustalwScore
