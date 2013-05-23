@@ -58,6 +58,7 @@ class clustalwAligner(Subscriber):
     self.username = username
     self.password = password
     #Pyro.config.PYRO_NS_HOSTNAME='136.142.141.113' #djs
+    Pyro.config.PYRO_DNS_URI = 1
     if opts['nsname']:
       Pyro.config.PYRO_NS_HOSTNAME=opts['nsname']
     else:
