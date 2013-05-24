@@ -3,7 +3,7 @@
 import Bio
 from Bio import GenBank
 from Bio import SeqIO
-#from Bio.Clustalw import MultipleAlignCL
+from BIO import AlignIO
 from Bio.Align.Applications import ClustalwCommandline
 from Bio.Seq import Seq, translate
 import getopt, getpass, signal, sys, os, MySQLdb, re, query, db_conf, time, string
@@ -1440,10 +1440,15 @@ def do_pairwise_alignment(c, query, subject):
   f = open(os.path.join('/tmp', 'temp' + '.fasta'), 'w')
   f.write('>' + 'a' + '\n' + querySeq + '\n>' + 'b' + '\n' + subjectSeq + '\n')
   f.close()
-  #cline = MultipleAlignCL(os.path.join('/tmp', 'temp' + '.fasta'))
-  cline = ClustalwCommandline(os.path.join('/tmp', 'temp' + '.fasta'))
-  cline.set_output(os.path.join('/tmp', 'temp' + '.aln'))
-  alignment = Bio.Clustalw.do_alignment(cline)
+  output_path = os.path.join('/tmp', 'temp' + '.aln')
+  #cline = ClustalwCommandline(os.path.join('/tmp', 'temp' + '.fasta'))
+  cline = ClustalwCommandline("clustalw", infile=os.path.join('/tmp', 'temp' + '.fasta'), outfile=output_path)
+  #cline.set_output(os.path.join('/tmp', 'temp' + '.aln'))
+  cline()
+  
+  alignment = AlignIO.read(output_path, "clustal")
+  
+  
   length = alignment.get_alignment_length()
   star = alignment._star_info.count('*')
   score = float(star)/length
