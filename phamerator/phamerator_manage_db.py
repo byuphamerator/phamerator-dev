@@ -3,7 +3,7 @@
 import Bio
 from Bio import GenBank
 from Bio import SeqIO
-from BIO import AlignIO
+from Bio import AlignIO
 from Bio.Align.Applications import ClustalwCommandline
 from Bio.Seq import Seq, translate
 import getopt, getpass, signal, sys, os, MySQLdb, re, query, db_conf, time, string
