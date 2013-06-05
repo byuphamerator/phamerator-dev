@@ -94,7 +94,7 @@ class clustalwAligner(Subscriber):
     from Bio import SeqIO    
     
     # create command line wrapper and align 
-    cline = ClustalOmegaCommandline(infile = clustalw_infile, outfile=clustalw_outfile, outfmt="clustal", threads=numcpus)
+    cline = ClustalOmegaCommandline(infile = clustalw_infile, outfile=clustalw_outfile, outfmt="clustal", threads=numcpus, force=True)
     stdout, stderr = cline()
     alignment = AlignIO.read(clustalw_outfile.replace('.fa', '.aln'), "clustal")
     return (qid, sid, alignment)
