@@ -4,7 +4,7 @@ Phamerator
 Overview
 --------
 ****
-This is a fork being worked on by Brigham Young University and is NOT the 
+This is a fork being worked on by Brigham Young University Life Sciences and is NOT the 
 official Phamerator repository.
 ****
 Phamerator is a set of computer programs that is useful for genomic analysis
@@ -14,7 +14,8 @@ for this purpose.
 Phamerator is released under a free software license.  See LICENSE.txt for
 more details.
 
-Documentation for this project can be found in the doc directory.
+Documentation for this project can be found in the doc directory. A quick start guide is
+included in this README file.
 
 (C) 2006-2008 Steve Cresawn <scresawn@gmail.com>
 (C) 2006-2008 Matt Bogel <dabogsta@gmail.com>
