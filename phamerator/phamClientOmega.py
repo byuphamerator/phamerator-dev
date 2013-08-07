@@ -5,8 +5,8 @@ import Pyro.core
 from Pyro.EventService.Clients import Subscriber
 from Bio.Align.Applications import ClustalwCommandline
 import Bio
-from Bio.Clustalw import MultipleAlignCL
-from Bio import Clustalw
+#from Bio.Clustalw import MultipleAlignCL
+#from Bio import Clustalw
 import logger
 import pp
 from db_conf import db_conf
@@ -209,13 +209,13 @@ class clustalwAligner(Subscriber):
 	clustalw_outfile = os.path.join(self.rootdir, 'temp' + str(query_id) + '_' + str(subject_id) + '.aln')
 
         #if float(Bio.__version__) >= 1.56:
-        #  # pass the query id (qid) and the subject id (sid) to run_clustalw
-        #  jobs.append(job_server.submit(clustalwAligner.run_clustalw, (clustalw_infile, clustalw_outfile, query_id, subject_id, numcpus), (), ()))
-        #else:
-        cline = MultipleAlignCL(clustalw_infile)
-        cline.set_output(os.path.join(self.rootdir, 'temp' + str(query_id) + '_' + str(subject_id) + '.aln'))
         # pass the query id (qid) and the subject id (sid) to run_clustalw
-        jobs.append(job_server.submit(clustalwAligner.run_clustalw_old, (query_id, subject_id,cline), (), ("Bio.Clustalw",)))
+        jobs.append(job_server.submit(clustalwAligner.run_clustalw, (clustalw_infile, clustalw_outfile, query_id, subject_id, numcpus), (), ()))
+        #else:
+        #cline = MultipleAlignCL(clustalw_infile)
+        #cline.set_output(os.path.join(self.rootdir, 'temp' + str(query_id) + '_' + str(subject_id) + '.aln'))
+        # pass the query id (qid) and the subject id (sid) to run_clustalw
+        #jobs.append(job_server.submit(clustalwAligner.run_clustalw_old, (query_id, subject_id,cline), (), ("Bio.Clustalw",)))
 
         counter = counter + 3
         if counter > 50:
