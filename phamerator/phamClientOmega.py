@@ -5,9 +5,9 @@ import Pyro.core
 from Pyro.EventService.Clients import Subscriber
 from Bio.Align.Applications import ClustalwCommandline
 import Bio
-if float(Bio.__version__) < 1.56:
-  from Bio.Clustalw import MultipleAlignCL
-  from Bio import Clustalw
+#if float(Bio.__version__) < 1.56:
+#  from Bio.Clustalw import MultipleAlignCL
+#  from Bio import Clustalw
 import logger
 import pp
 from db_conf import db_conf
