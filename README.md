@@ -17,8 +17,7 @@ more details.
 Documentation for this project can be found in the doc directory. A quick start guide is
 included in this README file.
 
-(C) 2006-2008 Steve Cresawn <scresawn@gmail.com>
-(C) 2006-2008 Matt Bogel <dabogsta@gmail.com>
+(C) 2006-2008 Steve Cresawn <scresawn@gmail.com> and Matt Bogel <dabogsta@gmail.com>
 
 Homepage: http://phage.cisat.jmu.edu
 
