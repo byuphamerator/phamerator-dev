@@ -14,12 +14,12 @@ class PhamCircle:
   def __init__(self, phamName, c,**kargs):
     
     """initializes circle center and radius"""
-    print 'creating PhamCirlce...'
+    print 'creating PhamCircle...'
     try:
         self.radius = kargs["radius"]
     except:
         self.radius = 750
-    self.h, self.k = self.radius + 120,self.radius + 120
+    self.h, self.k = self.radius + 400,self.radius + 240
     
     self.c = c
     self.phamName = phamName
