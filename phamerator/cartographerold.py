@@ -1,4 +1,3 @@
-import pdb
 import os, sys, colorsys
 from os.path import join, getsize
 import ConfigParser
@@ -349,7 +348,7 @@ class ColorConverter:
 
 class BlastAlignmentModel:
   def __init__(self, group, query, query_start, query_end, subject, subject_start, subject_end,
-               e_value, percent_identity, zoomFactor, height):
+               e_value, zoomFactor, height):
     #print 'adding blast result at %s, %s, %s, %s, %s, %s' % (query_start, query_end, subject_start, subject_end, zoomFactor, height)
     #print 'query: %s :: subject: %s' % (query, subject)
     #parent = group
@@ -396,7 +395,7 @@ class BlastAlignmentModel:
                                             line_width=line_width)
 
 
-    self.blastAlignmentLabel = BlastAlignmentLabel(parent=group, text='%s (%s%%)' % (e_value, percent_identity),
+    self.blastAlignmentLabel = BlastAlignmentLabel(parent=group, text='%s' % (e_value),
                                x=(top_right['x']+top_left['x']+bottom_left['x']+bottom_right['x'])/4.0,
                                y=(top_right['y']+top_left['y']+bottom_left['y']+bottom_right['y'])/4.0,
                                anchor=gtk.ANCHOR_CENTER,
@@ -472,8 +471,7 @@ class BLAST2Seq:
     for match in self.matches:
       if float(match.properties['e_value']) <= self.threshold:
         self.formatted_matches.append((int(match.properties['q_start']), int(match.properties['q_end']),
-        int(match.properties['s_start']), int(match.properties['s_end']), float(match.properties['e_value']), \
-        float(match.properties['percent_identity'])),)
+        int(match.properties['s_start']), int(match.properties['s_end']), float(match.properties['e_value'])),)
     return self.formatted_matches
 
 class Phage:
@@ -760,7 +758,6 @@ class CanvasInterface:
              subject_start=match[2],
              subject_end=match[3],
              e_value=match[4],
-             percent_identity=match[5],
              zoomFactor=20.0,
              height=vert+(0)+(4*line_width))
           else:
@@ -771,8 +768,7 @@ class CanvasInterface:
                                      subject=None,
                                      subject_start=match[2]+subject_offset*zoomFactor,
                                      subject_end=match[3]+subject_offset*zoomFactor,
-                                     e_value=match[4],
-                                     percent_identity=match[5],      
+                                           e_value=match[4],
                                      zoomFactor=20.0,
                                      #height=vert+(35)+(4*line_width))
                                      height= 50 - spacer)
@@ -886,17 +882,8 @@ class CanvasInterface:
         x=0, y=0,
         anchor=phamAnchor,
         font="Arial 4")
-      item.set_data('type', 'phamNameLabelModel')
+      item.set_data('type', 'pham')
       item.set_data('text', p)
-      phamClusters = get_clusters_from_pham(self.db.c, p)
-      phageIDMembers = get_PhageID_members_of_pham(self.db.c, p)
-      phageNameMembers = []
-
-      for PhageID in phageIDMembers: 
-        x = get_name_from_PhageID(self.db.c, PhageID)
-        phageNameMembers.append(x)
-
-      item.set_data('phamDataModel', (phamClusters, phageNameMembers))
       if translation_length < 120:
         #print 'rotating label for pham', p, "(270, %s, %s)" % (px,py)
         item.rotate(270,px, py)
@@ -1031,8 +1018,6 @@ class CanvasInterface:
         item.get_model().set_data('height', b.y2 - b.y1)
         print 'adding domain label...'
         item.get_model().set_data('domainLabel', item)
-      if item.get_model().get_data('type') == 'phamDataLabelModel':
-        item.get_model().set_data('phamDataLabel', item)        
     if isinstance(item, goocanvas.Rect):
       item.connect("button-press-event", self.on_rect_button_press)
       item.connect("button-release-event", self.on_rect_button_release)
@@ -1142,7 +1127,6 @@ class CanvasInterface:
         print 'got phageGroup!'
       else:
         print view.get_model().props.text
-        return
     self.canvas.pointer_grab (view, gtk.gdk.POINTER_MOTION_MASK | gtk.gdk.BUTTON_RELEASE_MASK, cursor, event.time)
     return False
 
@@ -1193,81 +1177,6 @@ class CanvasInterface:
       except:
         pass
       #itemModel.props.ellipsize = pango.ELLIPSIZE_NONE
-    
-    #if view.get_model().get_data('type') == 'phamNameLabel':
-    #    return
-    
-    def add_tooltip(group, labelModel, view, x, y, width, height):
-      print 'adding pham tooltip...'
-      padding = 5.0
-      x = x-(padding/2)
-      y = y-(padding/2)
-      width = width+padding
-      height = height+padding
-      tooltipBox = goocanvas.RectModel(x=x,y=y,width=width, height=height,
-                   line_width=0,
-                   radius_x=2.5,
-                   radius_y=2.5,
-                   stroke_color = 'black',
-                   fill_color_rgba=0xAAEEAAEE)
-
-      view.get_model().set_data('tooltip', tooltipBox)
-      self.canvas.get_root_item_model().add_child(tooltipBox, -1)
-      tooltipBox.lower(below=labelModel)
-      return False
-    #print 'view type: %s' % view.get_data('type')
-    #print 'view model type: %s' % view.get_model().get_data('type')
-    
-    if view.get_model().get_data('type') == 'phamNameLabelModel':
-      #domainGroupModel = item.get_model().get_data('domainGroupModel')
-      phamData = view.get_model().get_data('phamDataModel')
-      #print 'phamData: ', phamData
-      phamClusters, phamMembers = phamData[0], phamData[1]
-      phamDataModel = view.get_model().get_data('phamDataModel')
-      phamDataLabelModel = view.get_model().get_data('phamDataLabelModel')
-      if phamDataLabelModel: phamDataLabelModel.remove()
-      size = "Arial %s" % str(round(10.0*(1/self.canvas.get_scale())))
-      width = 400.0/self.canvas.get_scale()
-
-      import string
-      phamClusters = phamClusters[1] + phamClusters[0]
-      text = string.join(phamClusters, ', ')
-      text = text + '\n\n'
-      text2 = string.join(phamMembers, ', ')
-      text = text + text2
-
-      #print 'phamMembers: %s' % phamMembers
-      #print 'phamClusters: %s' % phamClusters
-      
-      phamDataLabelModel = goocanvas.TextModel(text=text,
-        x=0, y=0,
-        width = width,
-        anchor=gtk.ANCHOR_NORTH_WEST,
-        font=size)
-      view.get_model().set_data('phamDataLabelModel', phamDataLabelModel)
-      phamDataLabelModel.set_data('type', 'phamDataLabelModel')
-      self.canvas.get_root_item_model().add_child(phamDataLabelModel, -1)
-
-      phageGroup = view.get_parent().get_parent()
-      zoomFactor = self.root.get_data('zoomFactor')
-      if not zoomFactor: zoomFactor = 20.0
-
-      tx, ty = (phageGroup.get_model().get_simple_transform()[0]+300)/zoomFactor, phageGroup.get_model().get_simple_transform()[1]
-      phamDataLabelModel.translate(tx, ty)
-      phamDataLabel = phamDataLabelModel.get_data('phamDataLabel')
-      
-      if phamDataLabelModel:
-        phamDataLabelModel.translate(view.get_simple_transform()[0], view.get_simple_transform()[1])
-        b = phamDataLabel.get_bounds()
-        t = phamDataLabel.get_simple_transform()
-        y = t[1]
-        x = b.x1
-        width = b.x2-b.x1
-        height = b.y2-b.y1
-        group = phamDataLabel.get_parent()
-        add_tooltip(group, phamDataLabelModel, view, x, y, width, height)
-      
-      return True
 
   def on_text_leave(self, view, target_view, event):
     itemModel = view.get_model()
@@ -1277,12 +1186,6 @@ class CanvasInterface:
       #backRect.props.visibility = False
       #backRect.remove()
       #itemModel.props.ellipsize = pango.ELLIPSIZE_END
-    elif itemModel.get_data('type') == 'phamNameLabelModel':
-      phamDataLabelModel = itemModel.get_data('phamDataLabelModel')
-      #itemModel.get_data('tooltip').animate(0, 0, 0, 0, False, 300, 3, goocanvas.ANIMATE_FREEZE)
-      itemModel.get_data('tooltip').remove()
-      #phamDataLabelModel.animate(0, 0, 0, 0, False, 300, 3, goocanvas.ANIMATE_FREEZE)
-      phamDataLabelModel.remove()
 
   def color_by_has_changed(self, client, *args, **kwargs):
     print 'color_by_has_changed'
