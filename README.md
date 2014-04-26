@@ -21,8 +21,7 @@ included in this README file.
 
 Homepage: http://phage.cisat.jmu.edu
 
-This project was forked under GNU License v2 section 2 as above, and is currently
-maintained by Byron Doyle <bdoyle@ls.byu.edu> at BYU Life Sciences Information Technology.
+This project was forked under GNU License v2 section 2 as above, BYU Life Sciences Information Technology.
 
 Requirements
 ------------
