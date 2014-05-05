@@ -491,7 +491,7 @@ class phageManager:
       pbar.pulse()
       return True
 
-    pbar.show()
+    #pbar.show()
     glib.timeout_add(10, pulse,pbar)
 
     glib.timeout_add(500, self.check_db_update_done, current_db_status)
