@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
-import os, sys, time, socket, getopt, getpass
+import os, sys, time, socket, getopt, getpass, subprocess
 import Pyro.core
 import shutil
 import time
 import getopt
 from Bio.Blast import NCBIStandalone
 from Bio.Blast import NCBIXML
+from Bio.Blast.Applications import NcbiblastpCommandline
+from StringIO import StringIO
 #from Bio import Fasta
 from types import *
 
@@ -69,6 +71,7 @@ class blast:
     blastAppDir = self.blastAppDir
     blastDB = os.path.join(self.blastDataDir, 'blastDB.fasta')
     blastQueryFile = os.path.join(self.blastDataDir, 'filetoblast.txt')
+    blast_out = os.path.join(self.blastDataDir, 'blast_out.xml')
     print 'path to filetoblast.txt:', blastQueryFile
     if sys.platform == 'win32':
       blastall_name = 'Blastall.exe'
@@ -80,10 +83,11 @@ class blast:
        blastDB = win32api.GetShortPathName(blast_db)
        blastQueryFile = win32api.GetShortPathName(blastQueryFile)
        blast_exe = win32api.GetShortPathName(blast_exe)
-    blast_out, error_info = NCBIStandalone.blastall(blast_exe, 'blastp', blastDB, blastQueryFile, align_view=7)
+    # blast_out, error_info = NCBIStandalone.blastall(blast_exe, 'blastp', blastDB, blastQueryFile, align_view=7)
+    blast_out = NcbiblastpCommandline(query=blastQueryFile, db=blastDB, outfmt=5)()[0]
     #print error_info.read()
     #print blast_out.read()
-    blast_records = NCBIXML.parse(blast_out)
+    blast_records = NCBIXML.parse(StringIO(blast_out))
     results = []
     recordnumber = 0
     nonmatchingQueries = []
