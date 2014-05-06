@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-import os, sys, time, socket, getopt, getpass, subprocess
+import os, sys, time, socket, getopt, getpass
 import Pyro.core
 import shutil
 import time
 import getopt
-from Bio.Blast import NCBIStandalone
+# from Bio.Blast import NCBIStandalone
 from Bio.Blast import NCBIXML
 from Bio.Blast.Applications import NcbiblastpCommandline
 from StringIO import StringIO

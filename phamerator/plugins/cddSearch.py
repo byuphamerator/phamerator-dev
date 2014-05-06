@@ -68,12 +68,16 @@ class cddSearch:
     f.write(fasta)
     f.close()
     E_VALUE_THRESH = 0.001 #Adjust the expectation cut-off here
-    from Bio.Blast import NCBIStandalone
-    output_handle, error_handle = NCBIStandalone.rpsblast(self.rpsblast_exe,self.rpsblast_db, self.query_filename, expectation=E_VALUE_THRESH)
+    # from Bio.Blast import NCBIStandalone
+    # output_handle, error_handle = NCBIStandalone.rpsblast(self.rpsblast_exe,self.rpsblast_db, self.query_filename, expectation=E_VALUE_THRESH)
+
+    from Bio.Blast.Applications import NcbirpsblastCommandline
+    from StringIO import StringIO
+    output_handle = NcbirpsblastCommandline(query=self.query_filename, db=self.rpsblast_db, evalue=E_VALUE_THRESH, outfmt=5)()[0]
     #errors = error_handle.read()
     #if errors: print 'Errors: %s' % errors
     from Bio.Blast import NCBIXML
-    for record in NCBIXML.parse(output_handle):
+    for record in NCBIXML.parse(StringIO(output_handle)):
       #We want to ignore any queries with no search results:
       if record.alignments:
 	print "QUERY: %s..." % record.query.split(':')[0]
