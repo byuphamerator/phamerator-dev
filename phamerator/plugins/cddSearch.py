@@ -133,15 +133,17 @@ class cddSearch:
 
 if __name__ == "__main__":
   if len(sys.argv) == 1:
-    print "usage:\ncddSearch.py <path to rpsblast executable> <path to cdd database> <query fastA file path>"
+    print "usage:\ncddSearch.py <path to cdd database> <query fastA file path>"
     sys.exit()
   elif len(sys.argv) == 2:
     cdd = cddSearch(PhageIDs=tuple(sys.argv[1].replace(',', ' ').split()))
-  elif len(sys.argv) == 4:
-    cdd = cddSearch(tempfilepath=sys.argv[3],pathtoblast=sys.argv[1],pathtocddDatabase=sys.argv[2])
+  elif len(sys.argv) == 3:
+  # elif len(sys.argv) == 4:
+    # cdd = cddSearch(tempfilepath=sys.argv[3],pathtoblast=sys.argv[1],pathtocddDatabase=sys.argv[2])
+    cdd = cddSearch(tempfilepath=sys.argv[2],pathtocddDatabase=sys.argv[1])
   else:
     print "Incorrect number of options."
-    print "usage:\ncddSearch.py <path to rpsblast executable> <path to cdd database> <query fastA file path>"
+    print "usage:\ncddSearch.py <path to cdd database> <query fastA file path>"
     sys.exit()
   cdd.search()
 
