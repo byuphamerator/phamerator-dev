@@ -34,6 +34,7 @@ For the server backend, you will need
 * ClustalW (clustalw) - this package is located in non-free for Debian distributions
 * ClustalOmega (clustalo) - also non-free, only required if using phamClientOmega.py
 * BLAST (ftp://ftp.ncbi.nih.gov/blast/executables/release/LATEST)
+* BLAST+ (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/)
 * Parallel Python (python-pp)
 * MySQL for Python (python-mysqldb)
 * curl
