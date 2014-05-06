@@ -71,7 +71,6 @@ class blast:
     blastAppDir = self.blastAppDir
     blastDB = os.path.join(self.blastDataDir, 'blastDB.fasta')
     blastQueryFile = os.path.join(self.blastDataDir, 'filetoblast.txt')
-    blast_out = os.path.join(self.blastDataDir, 'blast_out.xml')
     print 'path to filetoblast.txt:', blastQueryFile
     if sys.platform == 'win32':
       blastall_name = 'Blastall.exe'
