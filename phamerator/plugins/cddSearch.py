@@ -68,12 +68,16 @@ class cddSearch:
     f.write(fasta)
     f.close()
     E_VALUE_THRESH = 0.001 #Adjust the expectation cut-off here
-    from Bio.Blast import NCBIStandalone
-    output_handle, error_handle = NCBIStandalone.rpsblast(self.rpsblast_exe,self.rpsblast_db, self.query_filename, expectation=E_VALUE_THRESH)
+    # from Bio.Blast import NCBIStandalone
+    # output_handle, error_handle = NCBIStandalone.rpsblast(self.rpsblast_exe,self.rpsblast_db, self.query_filename, expectation=E_VALUE_THRESH)
+
+    from Bio.Blast.Applications import NcbirpsblastCommandline
+    from StringIO import StringIO
+    output_handle = NcbirpsblastCommandline(cmd='rpsblast+', query=self.query_filename, db=self.rpsblast_db, evalue=E_VALUE_THRESH, outfmt=5)()[0]
     #errors = error_handle.read()
     #if errors: print 'Errors: %s' % errors
     from Bio.Blast import NCBIXML
-    for record in NCBIXML.parse(output_handle):
+    for record in NCBIXML.parse(StringIO(output_handle)):
       #We want to ignore any queries with no search results:
       if record.alignments:
 	print "QUERY: %s..." % record.query.split(':')[0]
@@ -129,15 +133,17 @@ class cddSearch:
 
 if __name__ == "__main__":
   if len(sys.argv) == 1:
-    print "usage:\ncddSearch.py <path to rpsblast executable> <path to cdd database> <query fastA file path>"
+    print "usage:\ncddSearch.py <path to cdd database> <query fastA file path>"
     sys.exit()
   elif len(sys.argv) == 2:
     cdd = cddSearch(PhageIDs=tuple(sys.argv[1].replace(',', ' ').split()))
-  elif len(sys.argv) == 4:
-    cdd = cddSearch(tempfilepath=sys.argv[3],pathtoblast=sys.argv[1],pathtocddDatabase=sys.argv[2])
+  elif len(sys.argv) == 3:
+  # elif len(sys.argv) == 4:
+    # cdd = cddSearch(tempfilepath=sys.argv[3],pathtoblast=sys.argv[1],pathtocddDatabase=sys.argv[2])
+    cdd = cddSearch(tempfilepath=sys.argv[2],pathtocddDatabase=sys.argv[1])
   else:
     print "Incorrect number of options."
-    print "usage:\ncddSearch.py <path to rpsblast executable> <path to cdd database> <query fastA file path>"
+    print "usage:\ncddSearch.py <path to cdd database> <query fastA file path>"
     sys.exit()
   cdd.search()
 
