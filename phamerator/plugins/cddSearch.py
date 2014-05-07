@@ -73,7 +73,7 @@ class cddSearch:
 
     from Bio.Blast.Applications import NcbirpsblastCommandline
     from StringIO import StringIO
-    output_handle = NcbirpsblastCommandline(query=self.query_filename, db=self.rpsblast_db, evalue=E_VALUE_THRESH, outfmt=5)()[0]
+    output_handle = NcbirpsblastCommandline(cmd='rpsblast+', query=self.query_filename, db=self.rpsblast_db, evalue=E_VALUE_THRESH, outfmt=5)()[0]
     #errors = error_handle.read()
     #if errors: print 'Errors: %s' % errors
     from Bio.Blast import NCBIXML
