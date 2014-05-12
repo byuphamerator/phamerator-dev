@@ -35,7 +35,6 @@ For the server backend, you will need
 * ClustalOmega (clustalo) - also non-free, only required if using phamClientOmega.py
 * BLAST (ftp://ftp.ncbi.nih.gov/blast/executables/release/LATEST)
 * BLAST+ (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/)
-* rpsblast (blast2)
 * Parallel Python (python-pp)
 * MySQL for Python (python-mysqldb)
 * curl
