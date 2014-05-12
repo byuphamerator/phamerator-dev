@@ -28,7 +28,7 @@ Requirements
 
 For the server backend, you will need
 
-* Python 2.7
+* Python 2.7.5+
 * Biopython 1.56 or newer (python-biopython)
 * Pyro 3.14 (pyro) (note that version 4.x does not work as it is for Python 3.x)
 * ClustalW (clustalw) - this package is located in non-free for Debian distributions
