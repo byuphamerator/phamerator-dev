@@ -20,7 +20,8 @@ class PhamCircle:
     except:
         self.radius = 750
     self.h, self.k = self.radius + 400,self.radius + 240
-    
+    """the above numbers determine where the phamily circle is displayed on the page"""
+	
     self.c = c
     self.phamName = phamName
     if 'verbose' in kargs.keys(): 
@@ -129,6 +130,7 @@ class PhamCircle:
           x=self.h, y=self.k/15.0, #(self.k - self.radius),
           anchor=gtk.ANCHOR_CENTER,
           font="Arial " + bigFont)
+		  """the above code determines the position of the Pham name label"""
     self.polygon_n_labels.add_child(item, -1)
     #########################################
     
