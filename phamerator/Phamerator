@@ -494,8 +494,8 @@ class phageManager:
     #pbar.show()
     glib.timeout_add(10, pulse,pbar)
 
-    glib.timeout_add(500, self.check_db_update_done, current_db_status)
-    self.update_database(current_db_status)
+    #glib.timeout_add(500, self.check_db_update_done, current_db_status)
+    #self.update_database(current_db_status)
     if result == gtk.RESPONSE_CANCEL: 
       pass
 
@@ -629,17 +629,17 @@ class phageManager:
     except:
       pass
     gtk.main_quit()
-  def update_database(self, shared, force=False):
+  #def update_database(self, shared, force=False):
 
-    self.shared = shared
-    status = db_status.dbStatus(self.username, self.password, self.remote_server, self.database, shared, force=force)
-    result = status.start()
+    #self.shared = shared
+    #status = db_status.dbStatus(self.username, self.password, self.remote_server, self.database, shared, force=force)
+    #result = status.start()
     #self.dbStatsDialogwTree = gtk.glade.XML(self.gladefile, root='dbStatusDialog')
-    self.dbStatsDialogwTree = gtk.Builder()
-    self.dbStatsDialogwTree.add_objects_from_file(self.gladefile, ['dbStatusDialog'])
-    dbDialog = self.dbStatsDialogwTree.get_object('dbStatusDialog')
-    dbStatusLabel = self.dbStatsDialogwTree.get_object('dbStatusLabel')
-    pbar = self.dbStatsDialogwTree.get_object('dbStatusProgressBar')
+    #self.dbStatsDialogwTree = gtk.Builder()
+    #self.dbStatsDialogwTree.add_objects_from_file(self.gladefile, ['dbStatusDialog'])
+    #dbDialog = self.dbStatsDialogwTree.get_object('dbStatusDialog')
+    #dbStatusLabel = self.dbStatsDialogwTree.get_object('dbStatusLabel')
+    #pbar = self.dbStatsDialogwTree.get_object('dbStatusProgressBar')
     # update progressbar here
     #def pulse(pbar):
     #  pbar.pulse()
@@ -653,36 +653,36 @@ class phageManager:
     #  evnt.wait(0.1)
     #dbDialog.hide()
     
-  def check_db_update_done(self, shared):
+  #def check_db_update_done(self, shared):
     #self.logger.log('checking for database update...')
-    statusbar = self.wTree.get_object('statusbar1')
-    context_id = self.statusbar.get_context_id('database update')
-    if context_id: self.statusbar.pop(context_id)
-    self.statusbar.push(context_id, self.shared.text)
-    pbar = self.wTree.get_object('progressbar1')
+    #statusbar = self.wTree.get_object('statusbar1')
+    #context_id = self.statusbar.get_context_id('database update')
+    #if context_id: self.statusbar.pop(context_id)
+    #self.statusbar.push(context_id, self.shared.text)
+    #pbar = self.wTree.get_object('progressbar1')
 
-    if shared.text in ('Downloading updates...', 'Applying updates...'):
+    #if shared.text in ('Downloading updates...', 'Applying updates...'):
       # update progressbar here
-      pass
-    elif shared.text == 'database update complete':
-      pbar.hide()
-      self.logger.log('database update complete')
-      dlg = NewDatabaseAvailableDialog()
-      result = dlg.run()
-      have_root_credentials = False
-      if result == -5:
-        updater = db_status.dbUpdater(self.database)
-        updater.apply()
-        self.on_logOutMenuItem_activate()
-        return False
-      elif result == -6:        
-        self.updater = db_status.dbUpdater(self.database)
-        return False
-    elif shared.text == 'database is already the newest version':
-      pbar.hide()
-      return False
+      #pass
+    #elif shared.text == 'database update complete':
+      #pbar.hide()
+      #self.logger.log('database update complete')
+      #dlg = NewDatabaseAvailableDialog()
+      #result = dlg.run()
+      #have_root_credentials = False
+      #if result == -5:
+        #updater = db_status.dbUpdater(self.database)
+        #pdater.apply()
+        #self.on_logOutMenuItem_activate()
+        #return False
+      #elif result == -6:        
+        #self.updater = db_status.dbUpdater(self.database)
+        #return False
+    #elif shared.text == 'database is already the newest version':
+      #pbar.hide()
+      #return False
     #self.logger.log('database update in progress')
-    return True
+    #return True
 
   def check_for_blast(self):
     print "checking for blast binary files..."
