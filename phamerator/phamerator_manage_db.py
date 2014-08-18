@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
+import pdb
 import Bio
 from Bio import GenBank
 from Bio import SeqIO
 from Bio import AlignIO
 from Bio.Align.Applications import ClustalwCommandline
 from Bio.Seq import Seq, translate
-import getopt, getpass, signal, sys, os, MySQLdb, re, query, db_conf, time, string
+import getopt, getpass, signal, sys, os, MySQLdb, re, query, db_conf, time, string, pickle
 import Pyro.EventService.Clients
 import ConfigParser
 
@@ -765,10 +766,13 @@ def query_NCBI(query):
   else:
     selection = 0
     
-  feature_parser = GenBank.FeatureParser()
-  ncbi_dict = GenBank.NCBIDictionary('nucleotide', 'genbank', parser = feature_parser)
-  gb_seqrecord = ncbi_dict[gi_list[selection]]
-  return gb_seqrecord
+  #feature_parser = GenBank.FeatureParser()
+  #ncbi_dict = GenBank.NCBIDictionary('nucleotide', 'genbank', parser = feature_parser)
+  #gb_seqrecord = ncbi_dict[gi_list[selection]]
+  #return gb_seqrecord
+  from Bio import Entrez, SeqIO
+  handle = Entrez.efetch(db='nucleotide', id=result, rettype='gb')
+  return SeqIO.read(handle, 'genbank')
 
 def parse_GenBank_file(gb_file):
   '''Parses a GenBank file using the Biopython.GenBank parser'''
@@ -1870,8 +1874,11 @@ def main(argv):
     NcbiQuery = query.query(queryString, allowRefSeqs=refseq)
     NcbiQuery.run()
     ###
-    feature_parser = GenBank.FeatureParser()
-    ncbi_dict = GenBank.NCBIDictionary('nucleotide', 'genbank', parser = feature_parser)
+    #feature_parser = GenBank.FeatureParser()
+    #ncbi_dict = GenBank.NCBIDictionary('nucleotide', 'genbank', parser = feature_parser)
+    from Bio import Entrez, SeqIO
+    handle = Entrez.efetch(db='nucleotide', id=queryString, rettype='gb', retmode='text')
+    results = SeqIO.read(handle, 'gb')
     if len(NcbiQuery.results) > 1:
       selection = -1
       for i in range(len(NcbiQuery.results)):
@@ -1928,7 +1935,13 @@ def main(argv):
     remove_phage_from_db(id, c, confirm)
   new_phages = get_phages(c, PhageID='PhageID')
   #reset_blast_table(c)
-  #if phages_have_changed(original_phages, new_phages): reset_blast_table(c)
+  if phages_have_changed(original_phages, new_phages):
+    print 'Deleting BLAST and ClustalW scores means that the database will need to be recomputed. If you choose to NOT delete these scores, only undone alignments will be computed the next time you run ClustalW or BLAST.'
+    go = raw_input("Do you want to delete all BLAST and ClustalW scores [y/N]: ").upper()
+    if go == 'Y': reset_blast_table(c)
+    else:
+      print 'BLAST and ClustalW scores were not deleted.'
+      return
   
   #  phamPub.publish_db_update("fasta", 'BLAST database is current') if __name__ == '__main__': main(sys.argv[1:])
 
