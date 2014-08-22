@@ -782,8 +782,8 @@ def parse_GenBank_file(gb_file):
   gb_handle = open(gb_file, 'rU')
   feature_parser = GenBank.FeatureParser()
   gb_iterator = GenBank.Iterator(gb_handle, feature_parser)
-  gb_seqrecord = gb_iterator.next()
-  #gb_seqrecord = SeqIO.read(gb_handle, "genbank")
+  #gb_seqrecord = gb_iterator.next()
+  gb_seqrecord = SeqIO.read(gb_handle, "genbank")
   return gb_seqrecord
 
 def get_phages(c, PhageID=None, name=None):
