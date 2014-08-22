@@ -979,19 +979,45 @@ def get_clusters(c, include_unclustered=False):
     for error in errors: print error
   return clusters + unclustered
 
-def get_clusters_from_pham(c, phamName):
+def get_clusters_from_pham(c, phamName, db=None):
   '''returns a list of the cluster(s) containing a phage with a member of the given pham'''
-  PhageIDs = get_PhageID_members_of_pham(c, phamName)
-  clusters = []
-  unclustered = []
-  for PhageID in PhageIDs:
-    cluster = get_cluster_from_PhageID(c, PhageID)
-    # for unclustered phages, add the phage's name instead of 'None'
-    if not cluster: unclustered.append(get_phage_name_from_PhageID(c, PhageID))
-    elif cluster and cluster not in clusters:
-      clusters.append(cluster)
-  clusters.sort() 
-  unclustered.sort()
+
+  if os.path.exists('/tmp/%s/%s/phams/%s/clusters' % (os.environ['USER'], db, phamName)) \
+    and os.path.exists('/tmp/%s/%s/phams/%s/unclustered' % (os.environ['USER'], db, phamName)):
+    pkl_file = open('/tmp/%s/%s/phams/%s/clusters' % (os.environ['USER'], db, phamName), 'rb')
+    clusters = pickle.load(pkl_file)
+    pkl_file.close()
+    pkl_file = open('/tmp/%s/%s/phams/%s/unclustered' % (os.environ['USER'], db, phamName), 'rb')
+    unclustered = pickle.load(pkl_file)
+    pkl_file.close()
+    
+  else:
+    PhageIDs = get_PhageID_members_of_pham(c, phamName)
+    clusters = []
+    unclustered = []
+    for PhageID in PhageIDs:
+      cluster = get_cluster_from_PhageID(c, PhageID)
+      # for unclustered phages, add the phage's name instead of 'None'
+      if not cluster: unclustered.append(get_phage_name_from_PhageID(c, PhageID))
+      elif cluster and cluster not in clusters:
+        clusters.append(cluster)
+    clusters.sort() 
+    unclustered.sort()
+    if not os.path.exists('/tmp/%s/%s/' % (os.environ['USER'], db)):
+      os.mkdir('/tmp/%s/%s/' % (os.environ['USER'], db))
+    if not os.path.exists('/tmp/%s/%s/phams/' % (os.environ['USER'], db)):
+      os.mkdir('/tmp/%s/%s/phams/' % (os.environ['USER'], db))
+    if not os.path.exists('/tmp/%s/%s/phams/%s' % (os.environ['USER'], db, phamName)):
+      os.mkdir('/tmp/%s/%s/phams/%s' % (os.environ['USER'], db, phamName))
+    if not os.path.exists('/tmp/%s/%s/phams/%s/clusters' % (os.environ['USER'], db, phamName)):
+      output = open('/tmp/%s/%s/phams/%s/clusters' % (os.environ['USER'], db, phamName), 'wb')
+      pickle.dump(clusters, output)
+      output.close()
+    if not os.path.exists('/tmp/%s/%s/phams/%s/unclustered' % (os.environ['USER'], db, phamName)):
+      output = open('/tmp/%s/%s/phams/%s/unclustered' % (os.environ['USER'], db, phamName), 'wb')
+      pickle.dump(unclustered, output)
+      output.close()
+
   return clusters, unclustered
 
 def get_cluster_from_PhageID(c, PhageID):
@@ -1243,19 +1269,42 @@ def get_pham_names(c):
   results = c.fetchall()
   return results
 
-def get_number_of_pham_members(c, phamName, PhageID=None):
+def get_number_of_pham_members(c, phamName, PhageID=None, db=None):
   '''returns an int that is the number of members of a pham, or None if the pham does not exist. If specified only report members from given genome'''
-  try:
-    if PhageID:
-      sqlQuery = "SELECT COUNT(*) FROM pham, gene, phage WHERE pham.name = '%s' AND phage.PhageID = '%s' AND pham.GeneID = gene.GeneID and gene.PhageID = phage.PhageID" % (phamName, PhageID)
-    else:
-      sqlQuery = "SELECT COUNT(*) FROM pham WHERE pham.name = '%s'" % phamName
+  if PhageID:
+    print 'using phageid %s' % PhageID
+    sqlQuery = "SELECT COUNT(*) FROM pham, gene, phage WHERE pham.name = '%s' AND phage.PhageID = '%s' AND pham.GeneID = gene.GeneID and gene.PhageID = phage.PhageID" % (phamName, PhageID)
     c.execute(sqlQuery)
     count = c.fetchone()[0]
     return count
-  except:
-    print sqlQuery
-    sys.exit()
+    
+  if os.path.exists('/tmp/%s/%s/phams/%s/size' % (os.environ['USER'], db, phamName)):
+    pkl_file = open('/tmp/%s/%s/phams/%s/size' % (os.environ['USER'], db, phamName), 'rb')
+    size = pickle.load(pkl_file)
+    print 'using cached size %s' % size
+    pkl_file.close()
+    return size
+  else:
+    #try:
+    sqlQuery = "SELECT COUNT(*) FROM pham WHERE pham.name = '%s'" % phamName
+    c.execute(sqlQuery)
+    count = c.fetchone()[0]
+    if not os.path.exists('/tmp/%s/' % (os.environ['USER'])):
+      os.mkdir('/tmp/%s/' % (os.environ['USER']))
+    if not os.path.exists('/tmp/%s/%s' % (os.environ['USER'], db)):
+      os.mkdir('/tmp/%s/%s' % (os.environ['USER'], db))
+    if not os.path.exists('/tmp/%s/%s/phams/' % (os.environ['USER'], db)):
+      os.mkdir('/tmp/%s/%s/phams' % (os.environ['USER'], db))
+    if not os.path.exists('/tmp/%s/%s/phams/%s' % (os.environ['USER'], db, phamName)):
+      os.mkdir('/tmp/%s/%s/phams/%  s' % (os.environ['USER'], db, phamName))
+    output = open('/tmp/%s/%s/phams/%s/size' % (os.environ['USER'], db, phamName), 'wb')
+    print 'caching size %s for pham %s' % (count, phamName)
+    pickle.dump(count, output)
+    output.close()
+    return count
+    #except:
+    #  print sqlQuery
+    #  sys.exit()
 
 def get_translation_from_GeneID(c, GeneID):
   '''returns a translated sequence from a GeneID'''

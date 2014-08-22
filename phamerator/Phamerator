@@ -61,7 +61,7 @@ except:
   print "can't import gtk"
   sys.exit()
 
-from pickle import *
+import pickle
 
 class phageOpener(threading.Thread):
   def __init__(self, evnt, fname, progressQueue, c):
@@ -322,7 +322,9 @@ class phageManager:
     self.password = getpass.getpass('database password: ')
     self.server = raw_input('database server: ')
     self.database = raw_input('database name: ')    
-
+    db = self.database
+    global dbname2
+    dbname2 = self.database
     #print "THIS IS THE ENTRY POINT --------------------------------"
     
     print 'running ConfigChecker()...'
@@ -1962,11 +1964,12 @@ class phageManager:
           threading.Thread.__init__(self)
           self.c = c
           self.evnt = evnt
+          self.db = dbname2
         def run(self):
           shared.phams = get_phams(self.c)
           for phamName, GeneID in shared.phams:
             if phamName not in shared.iters.keys():
-              shared.count[phamName] = get_number_of_pham_members(self.c, phamName)
+              shared.count[phamName] = get_number_of_pham_members(self.c, phamName, PhageID=None, db=self.db)
           evnt.set()
 
       getter = phamsGetter(self.c, shared, evnt)
@@ -1982,7 +1985,7 @@ class phageManager:
       meanTranslationTable = get_mean_translation_size_for_all_phams(self.c)
       for phamName, GeneID in phams:
         if phamName not in shared.iters.keys():
-          clusters, unclustered = get_clusters_from_pham(self.c, phamName)
+          clusters, unclustered = get_clusters_from_pham(self.c, phamName, dbname2)
           allClusters = clusters + unclustered
           phageNames = get_phage_name_from_pham(self.c, phamName)
           shared.iters[phamName] = self.dataTreeStore.append(None, (int(phamName), shared.count[phamName], string.join(allClusters, ', '),len(allClusters), meanTranslationTable[int(phamName)], string.join(phageNames, ', ')))
