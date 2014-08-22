@@ -1659,17 +1659,26 @@ class phageManager:
     totalPhages = get_PhageIDs(c)
     for p in totalPhages:
       if p not in memberPhages: self.nonMemberPhages.append(get_phage_name_from_PhageID(c, p))
-    self.l = []
-    self.genes = []
+
+    if os.path.exists('/tmp/%s/%s/%s.phamlabels' % (os.environ['USER'], self.database, phamName)):
+      pkl_file = open('/tmp/%s/%s/%s.phamlabels' % (os.environ['USER'], self.database, phamName), 'rb')
+      self.l = pickle.load(pkl_file)
+      pkl_file.close()
+    else:
+      self.l = []
+      self.genes = []
+
+      for a in GeneIDs:
+        clustalwScores, blastScores = get_pham_scores(c, a)
+        for cs in clustalwScores:
+          if cs[2] >= 0.325: self.l.append((cs[0], cs[1], 'clustalw',cs[2]))
+        for bs in blastScores:
+          if bs[2] <= 1e-50: self.l.append((bs[0], bs[1], 'blast',bs[2]))
+      output = open('/tmp/%s/%s/%s.phamlabels' % (os.environ['USER'], self.database, phamName), 'wb')
+      pickle.dump(self.l, output)
+      output.close()
 
     self.genes = GeneIDs
-    for a in GeneIDs:
-      clustalwScores, blastScores = get_pham_scores(c, a)
-      for cs in clustalwScores:
-        if cs[2] >= 0.275: self.l.append((cs[0], cs[1], 'clustalw',cs[2]))
-      for bs in blastScores:
-        if bs[2] <= 0.0001: self.l.append((bs[0], bs[1], 'blast',bs[2]))
-
     self.phamCircle = PhamDisplay.PhamCircle(phamName, self.c)
     adjustment = 0.275
     conf = config.PhameratorConfiguration()
