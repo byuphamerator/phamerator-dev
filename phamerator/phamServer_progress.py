@@ -67,7 +67,7 @@ def main():
       pbar.write(str(percent)+'\n')
       timer = 0
     refresh = str(abs((int(timer)-int(poll))))
-    pbar.write('#'+str(count)+'/'+str(total)+' genes processed.  '+table+' is ' +str(percent)+'% completed.'+'\n'+'Refreshing in '+refresh+' seconds...'+'\n')
+    pbar.write('#'+str(count)+'/'+str(total)+' genes processed.  '+table+' is ' +str(percent)+'% completed.  Refreshing in '+refresh+' seconds...'+'\n')
     timer = timer + 1
     time.sleep(1)
     
