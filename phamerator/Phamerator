@@ -16,6 +16,8 @@
 #
 # Copyright Steve Cresawn, 2006-2012
 
+import pdb
+import time
 try:
   import dialogs
   from phamerator import logger, cartographer, PhamDisplay, pham, phamerator_manage_db, config, getopt, db_status
@@ -1987,7 +1989,7 @@ class phageManager:
         if phamName not in shared.iters.keys():
           clusters, unclustered = get_clusters_from_pham(self.c, phamName, dbname2)
           allClusters = clusters + unclustered
-          phageNames = get_phage_name_from_pham(self.c, phamName)
+          phageNames = get_phage_name_from_pham(self.c, dbname2, phamName)
           shared.iters[phamName] = self.dataTreeStore.append(None, (int(phamName), shared.count[phamName], string.join(allClusters, ', '),len(allClusters), meanTranslationTable[int(phamName)], string.join(phageNames, ', ')))
       self.busy(False)
 

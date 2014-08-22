@@ -1718,14 +1718,22 @@ def get_phageID_from_pham(c,phamName):
     if phageID not in phageIDs:
       phageIDs.append(phageID)
   return phageIDs
-  
-def get_phage_name_from_pham(c, phamName):
-  genes = get_members_of_pham(c, phamName)
-  phageNames = []
-  for gene in genes:
-    phageName = get_phage_name_from_GeneID(c,gene)
-    if phageName not in phageNames:
-      phageNames.append(phageName)
+
+def get_phage_name_from_pham(c, db, phamName):
+  if os.path.exists('/tmp/%s/%s/phams/%s/phageNames' % (os.environ['USER'], db, phamName)):
+    pkl_file = open('/tmp/%s/%s/phams/%s/phageNames' % (os.environ['USER'], db, phamName), 'rb')
+    phageNames = pickle.load(pkl_file)
+    pkl_file.close()
+  else:
+    genes = get_members_of_pham(c, phamName)
+    phageNames = []
+    for gene in genes:
+      phageName = get_phage_name_from_GeneID(c,gene)
+      if phageName not in phageNames:
+        phageNames.append(phageName)
+    output = open('/tmp/%s/%s/phams/%s/phageNames' % (os.environ['USER'], db, phamName), 'wb')
+    pickle.dump(phageNames, output)
+    output.close() 
   return phageNames
   
 def get_phams_from_PhageID(c,phageID):
