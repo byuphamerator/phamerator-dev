@@ -1419,8 +1419,10 @@ def get_pham_from_GeneID(c, GeneID):
 
 def do_blast_search(c, query):
   import shutil
-  from Bio.Blast import NCBIStandalone
+  #from Bio.Blast import NCBIStandalone
   from Bio.Blast import NCBIXML
+  from Bio.Blast.Applications import NcbiblastpCommandline
+  from StringIO import StringIO
 
   '''performs a blast search with the given query and returns a dict of results'''
   blastDbDirectory='/tmp/BLAST'
@@ -1464,8 +1466,9 @@ def do_blast_search(c, query):
      blast_db = win32api.GetShortPathName(blast_db)
      blast_file = win32api.GetShortPathName(blast_file)
      blast_exe = win32api.GetShortPathName(blast_exe)
-  blast_out, error_info = NCBIStandalone.blastall(blast_exe, 'blastp', blast_db, blast_file, expectation=100, align_view=7)
-  blast_records = NCBIXML.parse(blast_out)
+  #blast_out, error_info = NCBIStandalone.blastall(blast_exe, 'blastp', blast_db, blast_file, expectation=100, align_view=7)
+  blast_out = NcbiblastpCommandline(query=blast_file, db=blast_db, evalue=100, outfmt=5)()[0]
+  blast_records = NCBIXML.parse(StringIO(blast_out))
   #print 'got iterator'
   results = {}
   recordnumber = 0
