@@ -983,7 +983,7 @@ class phageManager:
     phams = controller.get_pham()
     phages = get_phages(self.c, name=True)
     phages.sort()
-    handle.write('pham\t%s\t' % 'number of members')
+    handle.write('domains\tpham\t%s\t' % 'number of members')
     handle.write('%s\t' % 'mean translation length')
     handle.write('%s' % string.join(phages, '\t'))
     for p in phams:
@@ -998,7 +998,8 @@ class phageManager:
         else:
           n = gene
         phageGeneDict[phage].append(n)
-      handle.write('\n%s\t' % p.name)
+      handle.write('\n%s\t' % get_domains_from_pham(self.c, p.name))
+      handle.write('%s\t' % p.name)
       handle.write('%s\t' % get_number_of_pham_members(self.c, p.name))
       handle.write('%s\t' % get_mean_translation_size_for_pham(self.c, p.name))
       for phage in phages:
@@ -1018,7 +1019,7 @@ class phageManager:
     clusters = get_clusters(self.c, include_unclustered=True)
     phages.sort()
     print clusters
-    handle.write('pham\t%s\t' % 'number of members')
+    handle.write('domains\tpham\t%s\t' % 'number of members')
     handle.write('%s\t' % 'mean translation length')
     handle.write('%s' % string.join(clusters, '\t'))
 
@@ -1035,7 +1036,8 @@ class phageManager:
         else:
           pClusters[cluster] += 1
 
-      handle.write('\n%s\t' % p.name)
+      handle.write('\n%s\t' % get_domains_from_pham(self.c, p.name))
+      handle.write('%s\t' % p.name)
       handle.write('%s\t' % get_number_of_pham_members(self.c, p.name))
       handle.write('%s\t' % get_mean_translation_size_for_pham(self.c, p.name))
 
