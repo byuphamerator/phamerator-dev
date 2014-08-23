@@ -3858,6 +3858,18 @@ because it already exists.</property>
                   <object class="GtkMenu" id="menuitem4_menu">
                     <property name="can_focus">False</property>
                     <child>
+                      <object class="GtkImageMenuItem" id="UserManual">
+                        <property name="label" translatable="yes">User Manual</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">Learn how to use Phamerator</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="image">image13</property>
+                        <property name="use_stock">False</property>
+                        <signal name="activate" handler="on_UserManual_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkImageMenuItem" id="whatsNew">
                         <property name="label">What's New?</property>
                         <property name="use_action_appearance">False</property>

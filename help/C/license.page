@@ -1,0 +1,14 @@
+<page xmlns="http://projectmallard.org/1.0/"
+  type="topic"
+  id="license">
+  
+  <info>
+    <link type="seealso" xref="index"/>
+    <revision pkgversion="2.30" version="0.1" date="2009-12-28" status="com[plete"/>
+    <desc>Legal information.</desc>
+  </info>
+
+  <title>License</title>
+  <p>This work is distributed under a GNU General Public License.</p>
+  
+</page>

@@ -1,0 +1,41 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="topic"
+      id="phamcircle">
+
+  <info>
+    <link type="guide" xref="index#phamcircles"/>
+    <revision pkgversion="0.13.4" version="0.1" date="2012-07-06" status="complete"/>
+    <credit type="author">
+      <name>Steven Cresawn</name>
+      <email>scresawn@gmail.com</email>
+    </credit>
+    <credit type="contributor">
+      <name>Anisa Tracy</name>
+      <email>anisa.tracy@gmail.com</email>
+    </credit>
+    <desc>
+     Learn how to draw a pham circle.
+    </desc>
+    <license>
+      <p>GNU General Public License</p>
+    </license>
+  </info>
+
+    <title>The Basics</title>
+    
+    <p>A phamily circle is drawn by placing all of the component phages in the dataset around the circumference of a circle, ordered according to their cluster and subcluster designations. An arc is drawn between members of that pham that are related to each other above the threshold values; blue and red arcs show CLUSTALW and BLASTP matches respectively.</p>
+     
+     <section>
+      <title>Drawing a Pham Circle</title>
+       <p>In order to draw a pham circle you must first select a pham from the phams source list. Once you have selected a pham, a pham circle can be created by clicking on the "Pham Circle" icon on the top left of your window.</p>
+     </section>
+     
+     <section>
+	  <title>Batch Saving Pham Circles</title>
+	  <p>The Batch Save tool allows for multiple Pham Circles to be drawn and saved to a file on your computer at once.</p>
+	  <p>You can first search by name, cluster, size, or any other factor to select the group of phage that you wish to draw Pham Circles for. Next the phams that you wish to draw Pham Circles for should be selected. With multiple Phams selected under the Tools menu select Batch Save. Create a new folder for the Pham circles to be saved to and press Save in the lower right hand corner.</p>
+	  <p>Pham Circles for the selected Phams should now appear in the folder that you created.</p>
+     </section>
+
+</page>

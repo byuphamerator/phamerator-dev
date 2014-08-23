@@ -1,0 +1,39 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="topic"
+      id="phams">
+
+  <info>
+    <link type="guide" xref="index#sources"/>
+    <revision pkgversion="0.13.4" version="0.1" date="2012-07-01" status="complete"/>
+    <credit type="author">
+      <name>Steven Cresawn</name>
+      <email>scresawn@gmail.com</email>
+    </credit>
+    <credit type="contributor">
+      <name>Anisa Tracy</name>
+      <email>anisa.tracy@gmail.com</email>
+    </credit>
+    <desc>
+      Browse the list of Phams and sort by Phamily, Number of Members or Clusters.
+    </desc>
+    <license>
+      <p>GNU General Public License</p>
+    </license>
+  </info>
+
+    <title>Phams</title>
+    <p>Protein phamilies or phams are created by comparing all ORFs with all other mycobacteriophage ORFs using both ClustalW and BlastP. Any two ORFs with a score of 32.5% amino acid identity or an E value of 1E -50 or better respectively are grouped into the same pham.</p>
+	<note><p>For further reading about pham and cluster generation see the paper <link href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2830324/?tool=pubmed">"Comparative genomic analysis of sixty mycobacteriophage genomes: Genome clustering, gene acquisition and gene size"</link></p></note>
+     <section>
+      <title>Using the Phams Search Tool</title>
+       <p>The pham search bar can be used to find specific phamilies in a cluster by seaching for a specific cluster. The search tool can also be used by searching by phage name, this will return all phams found in that specific phage.</p>
+     </section>
+    
+
+     <section>
+      <title>Selecting Multiple Phamilies</title>
+      <p>For help selecting multiple phamilies see the <link xref="phages#selectingphages">Selecting Multiple Phages</link> section for more instructions.</p>
+     </section>
+
+</page>

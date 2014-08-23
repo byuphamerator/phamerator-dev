@@ -1,0 +1,51 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="guide"
+      id="index">
+
+  <info>
+    <title type="link">Phamerator Quick Start Manual</title>
+    <title type="text">Phamerator Quick Start Manual</title>
+    <revision pkgversion="0.14.0" version="0.2" date="2012-06-29" status="complete"/>
+    <credit type="author">
+      <name>Steven Cresawn</name>
+      <email>scresawn@gmail.com</email>
+    </credit>
+    <credit type="contributor">
+      <name>Anisa Tracy</name>
+      <email>anisa.tracy@gmail.com</email>
+    </credit>
+    <license>
+      <p>GNU General Public License</p>
+    </license>
+  </info>
+
+  <title>
+    <media type="image" mime="image/png" src="figures/phamerator.png">Logo</media>
+    Phamerator
+  </title>
+   <p>Phamerator is a program that compares phage genomes, their genes, and their gene products.
+   This guide is intended to help you better understand the concepts behind its design and get productive quickly.</p>
+
+  <section id="intro" style="2column">
+    <title>Introduction</title>
+  </section>
+
+  <section id="sources" style="2column">
+    <title>Sources</title>
+  </section>
+
+  <section id="drawingmaps" style="2column">
+    <title>Drawing Maps</title>
+  </section>
+
+  <section id="phamcircles" style="2column">
+    <title>Pham Circles</title>
+  </section>
+
+  <section id="exporting" style="2column">
+    <title>Exporting Raw Data</title>
+  </section>
+
+
+</page>

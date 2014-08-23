@@ -615,6 +615,7 @@ class phageManager:
           "on_searchEntry_changed" : self.on_searchEntry_changed,
           "on_searchClearButton_clicked" : self.on_searchClearButton_clicked,
           "on_about1_activate" : self.show_about_dialog,
+          "on_UserManual_activate" : self.on_UserManual_activate,
           "on_whatsNew_activate" : self.show_whatsNew_dialog,
           "on_dbStatsMenuItem_activate" : self.show_dbStats_dialog,
           "on_preferences_activate":self.show_preferences_dialog,
@@ -2869,6 +2870,21 @@ class phageManager:
     self.logger.log('show about dialog')
     AboutDlg = AboutDialog()
     AboutDlg.run()
+    
+  def on_UserManual_activate(self, widget):
+    self.logger.log('show user manual dialog')
+    root_dir = '/'.join(os.path.dirname(os.path.abspath(__file__)).split('/')[:-1])
+
+    uri = 'ghelp://%s' % os.path.join(root_dir, 'help/C')
+    time_now = int(time.time())
+    #for uri in (APPMANUALURL_OFFLINE, APPMANUALURL_ONLINE):
+    try:
+      gtk.show_uri(None, uri, time_now)
+      return
+    except Exception, e:
+      self.logger.log("Failed loading URI %s: %s", uri, e)
+      #continue
+    self.logger.log("Failed loading URIs")
 
   def show_whatsNew_dialog(self, widget):
     self.logger.log("show what's new dialog")

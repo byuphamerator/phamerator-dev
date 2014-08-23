@@ -1,0 +1,35 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="topic"
+      id="domains">
+
+  <info>
+    <link type="guide" xref="index#sources"/>
+    <revision pkgversion="0.13.4" version="0.1" date="2012-07-02" status="complete"/>
+    <credit type="author">
+      <name>Steven Cresawn</name>
+      <email>scresawn@gmail.com</email>
+    </credit>
+    <credit type="contributor">
+      <name>Anisa Tracy</name>
+      <email>anisa.tracy@gmail.com</email>
+    </credit>
+    <desc>
+     Find your phages conserved domains.
+    </desc>
+    <license>
+      <p>GNU General Public License</p>
+    </license>
+  </info>
+
+    <title>Domains</title>
+
+     <section>
+      <title>Using the Domains Search tool</title>
+       <p>Conserved domains within your phage can be viewed by typing the name of your phage. It is also possible to search the name of the domain to return the phages that contain that domain.</p>
+       <note><p>The full results of your search can be viewed by clicking on the small grey triangle to the left of the desired domain.</p>
+        <media type="image" mime="image/png" src="figures/domains.png">domains</media>
+       </note>
+     </section>
+
+</page> 

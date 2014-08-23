@@ -1,0 +1,44 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="topic"
+      id="phamcircleoptions">
+
+  <info>
+    <link type="guide" xref="index#phamcircles"/>
+    <revision pkgversion="0.14.2" version="0.2" date="2012-07-08" status="complete"/>
+    <credit type="author">
+      <name>Steven Cresawn</name>
+      <email>scresawn@gmail.com</email>
+      </credit>
+    <credit type="contributor">
+      <name>Anisa Tracy</name>
+      <email>anisa.tracy@gmail.com</email>
+    </credit>
+    <desc>Eplore the viewing options for a Pham Circle</desc>
+    <license>
+      <p>GNU General Public License</p>
+    </license>
+  </info>
+
+    <title>Viewing Options</title>
+     
+    <section>
+        <title>Zoom Options</title>
+        <p>Within the Pham Circle window there are two ways to adjust the zoom.</p>
+        <p>The first option is using the buttons at the top of your window. The second is using the zoom options under the view menu. As in the map window the normal size option will return the circle to the defalt zoom level that appeared when the pham circle was first drawn.</p>
+    </section>
+   <section>
+	   <title>Color Options</title>
+	   <p>Under the Edit menu select Preferences and the Phamily Circles tab. Within this tab you can choose to color the pham circle by either the pham color, or alignment type.</p>
+   </section>
+   
+   <section>
+		<title>Transparency</title>
+		<p>Adjusting the transparency can help improve the view of your Pham Circle.</p>
+		<media type="image" mime="image/png" src="figures/finalphamcircle.png">finalphamcircle</media>
+		<p><em>The Pham Circle shown above demonstrates the default transparency settings.</em></p>
+		<p>There are two ways to adjust the transparency of your Pham Circle. The first way is by sliding the Score Threshhold % bar to the right. The second option can be found in preferences under the Edit menu within the Phamily Circle window. Selecting the Phamily Circle tab shows a slider for adjusting transparency below the coloring options. By sliding the bar to the right you can increase the transparency. Please be patient as this may take a few moments.</p>
+		<media type="image" mime="image/png" src="figures/finalphamcircle1.png">finalphamcircle</media>
+		<p><em>The Pham Circle shown above shows transparency that was adjusted using both methods.</em></p>
+		</section>
+</page>
