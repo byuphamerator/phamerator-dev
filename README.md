@@ -34,7 +34,7 @@ For the server backend, you will need
 * ClustalW (clustalw) - this package is located in non-free for Debian distributions
 * ClustalOmega (clustalo) - also non-free, only required if using phamClientOmega.py
 * BLAST (ftp://ftp.ncbi.nih.gov/blast/executables/release/LATEST)
-* BLAST+ (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/)
+* BLAST+ (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) (ncbi-blast+)
 * Parallel Python (python-pp)
 * MySQL for Python (python-mysqldb)
 * curl
@@ -70,7 +70,7 @@ After installing Git, you can download the latest version of this branch of
 Phamerator by running this command, which will download to the current working 
 directory:
 
-> git clone https://github.com/phamerator/phamerator-dev.git
+> git clone https://github.com/byuphamerator/phamerator-dev.git
 
 After downloading Phamerator with Git, in order to check for updates, simply 
 change into the new phamerator directory that was downloaded and then run:
