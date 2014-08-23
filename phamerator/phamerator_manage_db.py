@@ -400,7 +400,7 @@ def add_phage(record, c=None):
   c.execute("LOCK TABLES phage WRITE")
   Accession = record.id
   Notes = record.description
-  Sequence = record.seq.tostring()
+  Sequence = str(record.seq)
   SequenceLength = len(Sequence)
   for feature in record.features:
     if feature.type == 'source':
@@ -587,17 +587,17 @@ def check_record_for_problems(record):
         problems.append(error)
         print error
       if orientation == 'F':
-        startCodon = record.seq[int(start):int(start)+3].tostring()
-        stopCodon = record.seq[int(stop)-3:int(stop)].tostring()
+        startCodon = str(record.seq[int(start):int(start)+3])
+        stopCodon = str(record.seq[int(stop)-3:int(stop)])
         recordSeq = record.seq[int(start):int(stop)]
       else:
-        stopCodon = record.seq[int(start):int(start)+3].reverse_complement().tostring()
-        startCodon = record.seq[int(stop)-3:int(stop)].reverse_complement().tostring()
-        recordSeq = record.seq[int(start):int(stop)].reverse_complement()
+        stopCodon = str(record.seq[int(start):int(start)+3].reverse_complement())
+        startCodon = str(record.seq[int(stop)-3:int(stop)].reverse_complement())
+        recordSeq = str(record.seq[int(start):int(stop)].reverse_complement())
 
       if translation[-1] in ('*', 'Z'): translation = translation[:-1]
 
-      bpTranslation = translate(recordSeq).tostring()
+      bpTranslation = str(translate(recordSeq))
       try:
         if bpTranslation[-1] == '*': bpTranslation = bpTranslation[:-1]
         if bpTranslation[0] in ('L', 'V'): bpTranslation = 'M' + bpTranslation[1:]
@@ -614,13 +614,13 @@ def check_record_for_problems(record):
 
       if startCodon not in ['ATG', 'GTG', 'TTG']:
         s = Seq(startCodon)
-        t = translate(s).tostring()
+        t = str(translate(s))
         error = "start codon for gene %s is '%s', which is not valid. ('%s' encodes residue '%s'.)" % (name, startCodon, startCodon, t)
         problems.append(error)
         print error
       if stopCodon not in ['TAA', 'TAG', 'TGA']:
         s = Seq(stopCodon)
-        t = translate(s).tostring()
+        t = str(translate(s))
         error = "stop codon for gene %s is '%s', which is not valid. ('%s' encodes residue '%s'.)" % (name, stopCodon, stopCodon, t)
         problems.append(error)
         print error
@@ -723,11 +723,11 @@ def add_genes(record, c=None):
         c.execute("UNLOCK TABLES")
         sys.exit()
       if orientation == 'F':
-        startCodon = record.seq[int(start):int(start)+3].tostring()
-        stopCodon = record.seq[int(stop)-3:int(stop)].tostring()
+        startCodon = str(record.seq[int(start):int(start)+3])
+        stopCodon = str(record.seq[int(stop)-3:int(stop)])
       else:
-        stopCodon = record.seq[int(start):int(start)+3].reverse_complement().tostring()
-        startCodon = record.seq[int(stop)-3:int(stop)].reverse_complement().tostring()
+        stopCodon = str(record.seq[int(start):int(start)+3].reverse_complement())
+        startCodon = str(record.seq[int(stop)-3:int(stop)].reverse_complement())
       if startCodon not in ['ATG', 'GTG', 'TTG']:
         print 'error with start codon'
         print "start:", startCodon
@@ -1366,7 +1366,7 @@ def get_seq_from_GeneID(c, GeneID, extra=None):
   if extra:
     start = start - extra
     stop = stop + extra
-  #print 'start:', start, 'stop:', stop, 'seq:', sequence[start:stop].tostring()
+  #print 'start:', start, 'stop:', stop, 'seq:', str(sequence[start:stop])
   #print sequence[start:stop]
   if orientation == 'R':
     temp = list(sequence[start:stop])
@@ -1380,7 +1380,7 @@ def get_seq_from_GeneID(c, GeneID, extra=None):
     #print 'sequence: %s' % sequence
     return sequence
   #print 'sequence: %s' % sequence
-  #return sequence[start:stop].tostring()
+  #return str(sequence[start:stop])
   return sequence[start:stop]
 
 def get_seq_from_PhageID(c, PhageID):
