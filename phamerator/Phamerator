@@ -1228,7 +1228,7 @@ class phageManager:
       self.canvas.modify_base(gtk.STATE_NORMAL, bg_color)
       self.canvas.props.anchor = gtk.ANCHOR_NW
       self.canvas.props.automatic_bounds = True
-      self.canvas.props.bounds_padding = 10
+      self.canvas.props.bounds_padding = 500
       """
       self.canvasController.DNATextView = self.mapWTree.get_object('DNATextView')
       self.canvasController.DNATextView.set_wrap_mode(gtk.WRAP_CHAR)
