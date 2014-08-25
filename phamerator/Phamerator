@@ -2043,6 +2043,7 @@ class phageManager:
         else:
           # the visible parameter is a bool that indicates whether the column is shown
           self.tvcolumn = gtk.TreeViewColumn(col, self.cell, visible=6)
+	  self.tvcolumn.set_sort_column_id(n)
         #self.tvcolumn.set_sort_column_id(n)
 
         self.dataTreeView.append_column(self.tvcolumn)
@@ -2100,6 +2101,15 @@ class phageManager:
       match = True
       match = match & ((text in clusters) | (text in phages))
       return match
+
+    if self.selectedSource == "Genes":
+      text = text.upper()
+      gene = model.get_value(iter, 1).upper()
+      phages = model.get_value(iter, 2).upper()
+      match = True
+      match = match & ((text in gene) | (text in phages))
+      return match
+      
     elif self.selectedSource == "Phams":
       text = text.replace(' ', ',').upper()
       textList = text.split(',')
