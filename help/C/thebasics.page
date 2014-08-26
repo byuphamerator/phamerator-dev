@@ -1,0 +1,67 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="topic"
+      id="thebasics">
+
+  <info>
+    <link type="guide" xref="index#drawingmaps"/>
+    <revision pkgversion="0.13.4" version="0.1" date="2012-07-03" status="complete"/>
+    <credit type="author">
+      <name>Steven Cresawn</name>
+      <email>scresawn@gmail.com</email>
+    </credit>
+    <credit type="contributor">
+      <name>Anisa Tracy</name>
+      <email>anisa.tracy@gmail.com</email>
+    </credit>
+    <desc>
+      Learn how to draw a map of your phages.
+    </desc>
+    <license>
+      <p>GNU General Public License</p>
+    </license>
+  </info>
+
+    <title>The Basics</title>
+     
+     <p>Phamerator is useful to provide a representation of how your genome compares with similar genomes.  In particular, if there are substantial disagreements between the auto-annotation and the annotation of closely related genomes, Phamerator helps to focus on these and any other areas that require inspection and resolution.  It also provides a genome-wide perspective and thus a context for the annotation refinement, functional analysis, and other explorations to follow.</p>
+
+     <section>
+      <title>Selecting Phages for your Map</title>
+      <p>Before selecting phages for your map it is important to insure that you are in the correct database. For information on selecting a database see <link xref="phages#selectingadatabase">Selecting a Database</link>. The name of the database will appear in the top of the window.</p>
+      <p>Once you confirm that you are in the correct database, you can select phages from the source menu. Once the window is populated multiple phages can be selected at once in order to compare several genomes. For information on how to do this please see <link xref="phages#selectingphages">Selecting Multiple Phages</link>.</p>
+	  <note><p>You should decide carefully which genomes you want to compare.  For example you may not want to compare all of the genomes from a particular cluster if that is a lot.  If you have a phage in a cluster with several different subclusters, you may want to select a representative of each of these.</p>  
+	  <p>A good rule of thumb is to shoot for no more than about half a dozen genomes to start with. You can always return to this and generate more maps as you need them to refine your annotation and begin to assign putative functions.</p></note>
+     </section>
+
+     <section>
+      <title>Making the Map</title>
+       <p>After you have selected the phages that you would like you use click on the button that says Map. Be patient it can take up to a minute (or more for a large number of genomes) to generate the map. You should now have a map that looks something like this.<media type="image" src="figures/map.png" mime="image/png" style="right"></media></p>
+       <p><em>Above is an example of a comparison between four different phage genomes.</em></p>
+       <p>When the map window appears, you may choose to re-size it. The edges can be moved by a click-and-drag.</p>
+     </section>
+     
+     <section>
+     <title>Basic Interpretation of your Map</title>
+     <p>Note that you are only looking at part of these genomes: the leftmost part.  Each genome is shown as a horizontal line with the gene shown above (Forwards: rightwards transcribed) or below (Reverse: leftwards transcribed). If you would like to see all of the genome, then you can use the Zoom Out option at the top left. For further information on Zooming see <link xref="view#zooming">Viewing options</link></p>
+     <p>It is also important to note that the gene numers are given starting with the leftmost gene, not based on the actual gene.</p>
+     </section>
+     
+     <section>
+     <title>Moving your Genomes</title>
+     <p>Another important functionality is that you can move the order of genomes around in the display. This is important, because as you recall, the nucleotide similarities are only displayed by comparing two genomes that are next to each other in the display. To do this, click and hold on the <em>name</em> of a Phage you want to move (it is on the extreme left, and you may need to scroll over to it). Drag the genome either up or down to where you want it, then release the mouse.</p>
+     </section>
+     
+     <section>
+     <title>Viewing the Sequence</title>
+     <p>The sequence for your genome can be viewed several diferent ways. To view the sequence of a specific gene simply click on the gene and the nucleotide sequence will appear in the box in the lower left corner of the window while the amino acid sequence will appear in the lower right hand window.</p>
+     <p>You can also pick any sequence that you wish by clicking and dragging on the background of the genome map. It is important to note that the sequence does not necessarily include the sequence of a gene.</p>
+     </section>
+     
+     <section>
+     <title>Saving Maps</title>
+     <p>To save your genome maps select the Save As option from the toolbar at the top of your window.</p>
+     <p>The maps can be saved in a pdf, svg, png or ps format. For most users the pdf format is appropriate.</p>
+     </section>
+
+</page>

@@ -1,0 +1,61 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="topic"
+      id="phages">
+
+  <info>
+    <link type="guide" xref="index#sources"/>
+    <revision pkgversion="0.15" version="0.4" date="2012-07-01" status="complete"/>
+    <credit type="author">
+      <name>Steven Cresawn</name>
+      <email>scresawn@gmail.com</email>
+    </credit>
+    <credit type="contributor">
+      <name>Anisa Tracy</name>
+      <email>anisa.tracy@gmail.com</email>
+    </credit>
+    <desc>
+     Browse the list of phages and sort by Name, Length, GC%, Numer of Genes or Cluster.
+    </desc>
+    <license>
+      <p>GNU General Public License</p>
+    </license>
+  </info>
+
+    <title>Phages</title>
+
+    <p>Selecting "Phages" from the source list displayed on the left hand side of the window displays a list of phages from your selected database. The window is populated with phages by several features including name, genome length, GC%, number of genes and cluster.</p>
+   
+   <section>
+	   <title>Finding A Phage</title>
+	   <p>In order to find a specific phage you can scroll through the list of phages using the scroll bar to the right of the window.</p>
+	   <p>The search bar can also be used to find a specific phage by typing the name of the phage or cluster. For example typing LeBron will filter out all other phages while typing A4 will return all phages in the subcluster A4. Typing the word draft will display all draft quality annotations.</p>
+	   <note><p>When searching for a cluster you will also return phages starting with or including that letter. For example searching K will retun all phages in cluster K as well as phages that start with or include the letter K in their name.</p></note>
+	</section>
+	
+	<section id="selectingphages">
+		<title>Selecting Multiple Phages</title>
+		<p>Multiple phages can be selected from the list of phages. Consecutive phages can be selected by <keyseq><key>Shift</key>Click</keyseq> while non consecutive phages can be selected using <keyseq><key>Control</key>Click</keyseq> on the desired phages.</p>
+		 <note><p>Depending on how Phamerator is installed on you computer these keys or key combinations may vary.</p></note> 
+	</section>
+		 
+    <section>
+        <title>Sorting by Column </title>
+        <p>Phages can be sorted by any of the colum headings depending on what you are interested in. This is done by simply clicking on the heading that you wish to sort by. Clicking the heading again will reverse the sort order.</p>
+    </section>
+    
+     <section id="selectingadatabase">
+		<title>Selecting a Database </title>
+		<p>The databases available for use are found under the Edit menu in preferences. The Network tab will appear with a dropdown menu titled Database.</p> 
+		<note><p>Phamerator updates its database every time that it is opened, however if you suspect that this process has failed the Forced Update button can be used. This button is found under the Edit menu in preferences, using the Network tab. The Force Update button is located just below the dropdown menu for database selection.</p>
+		 <media type="image" src="figures/preferences.png" mime="image/png" style="center">
+        </media></note>
+	</section>
+	
+	<section>
+		<title>Phages DB</title>
+		<p>When you have selected your phage the bottom window will be populated with your phages page at phagesdb.org. For more information about this website please visit <link href="http://phagesdb.org">phagesdb.org</link></p>
+	</section>
+	
+	
+</page>

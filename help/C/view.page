@@ -1,0 +1,83 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="topic"
+      id="view">
+
+  <info>
+    <link type="guide" xref="index#drawingmaps"/>
+    <revision pkgversion="0.13.4" version="0.1" date="2010-12-05" status="complete"/>
+    <credit type="author">
+      <name>Steven Cresawn</name>
+      <email>scresawn@gmail.com</email>
+    </credit>
+    <credit type="contributor">
+      <name>Anisa Tracy</name>
+      <email>anisa.tracy@gmail.com</email>
+    </credit>
+    <desc>
+	Explore the viewing options and what they can tell you about your phage.
+    </desc>
+    <license>
+      <p>GNU General Public License</p>
+    </license>
+  </info>
+
+    <title>Vewing Options</title> 
+    
+     <p>Explore the options that you have when viewing your map. The menu for the Viewing Options can be found in the upper left hand corner of your desktop.</p>
+     <media type="image" mime="image/png" src="figures/viewoptions.png">coloroptions</media>
+     <p><em>Image showing the location of the view menu.</em></p>
+   
+     <section id="zooming">
+      <title>Zooming</title>
+       <p>When viewing your map you can zoom in to get a closer look at a specific area of your genome or zoom out to get a look from a more global prespective. The Zoom options are found under the Viewing menu.</p>
+     </section>
+
+     <section>
+      <title>Normal Size</title>
+       <p>By selecting the Normal Size option your map view will return to the defalt zoom. This is the level of zoom that you first get after drawing a map.</p>
+     </section>
+
+     <section>
+      <title>Show Nucleotide Conservation</title>
+       <p>When the Show Nucleotide Conservation option is selected you will notice color is shown connecting your genomes. The color shown corresponds with an E-Value. Nucleotide conservaion with an E-Value of zero will appear in a violet color while connections between sequence shown in red indicates a match with an E-Value of 10E-4. Sequences with E-Values falling between the two are shown in the colors of the rainbow, with the order of red, orange, yellow, green, blue, indigo, violet (listed from least to most conserved).</p>
+       <p>E-Values for a specific area of conservation can also be viewed by hovering over the area on the map. For more information on showing E-Values see below in <link xref="view#evalues">Show E-Values</link></p>
+       <media type="image" mime="image/png" src="figures/mapcolorview.png">mapcolor</media>
+       <p><em>It is apparent from the diagram above that the top two phages (Adephagia and Angelica) are extremely similar to each other, consistent with both being members of SubCluster K1.  The other two phages shown in the display (TM4 and Larva) are both different and you can see segments of similarity at different strengths (i.e. in different colors).</em></p>
+     </section>
+     
+     <section id="evalues">
+     <title>Show E-Values</title>
+     <p>The E-Values for the conserved nucleotide sequence can be displayed on the map by selecting the Show E-Values option in the drop down menu.</p>
+     </section>
+     
+     <section>
+	 <title>Show Descriptions</title>
+	 <p>This tool displays the notes entered in Genbank at the time of submission and is activated by selecting the Show Descriptions option from the drop down menu.</p>
+	 <media type="image" mime="image/png" src="figures/showdescriptions.png">showdescriptions</media>
+	 <p><em>Because of the inconsistent usage of this field the information in the notes may vary from one genome to another.</em></p>
+     </section>
+     
+     <section>
+     <title>Show Domains</title>
+     <p>When the Show Domains function is activated yellow boxes can be observed within genes. These yellow boxes denote a match to a database of conserved protein domains.</p>
+     <media type="image" mime="image/png" src="figures/showdomains.png">showdomains</media>
+     <p><em>The yellow boxes within genes denote matches to conserved protein domains.</em></p>
+     </section> 
+     
+     <section>
+     <title>Show Phamily Names</title>
+     <p>Selecting the Show Phamily Names option from the drop down menu displays the phamily name. The number in parentheses is the total number of members that compose that Phamily.</p>
+     <media type="image" mime="image/png" src="figures/showphamnames.png">showphamilies</media>
+     <p><em>Pham names are shown above each gene and the number of members for each phamily is shown in parentheses.</em></p>
+     </section>
+     
+     <section>
+     <title>Hover Highlight Phams</title>
+     <p>The hover highlight function allows for you to highlight a specific phamily or 'pham' within several genomes at once. This is done by hovering over the pham that you wish to highlight in your genomes. Bubbles will appear to highlight these phams, but will disapear after a short amount of time if you are no longer hovering over that specific pham. Multiple phams will be higlighted if you continue to move over different phams.</p>
+     <media type="image" mime="image/png" src="figures/hoverhighlight.png">hoverhiglight</media>
+     <p><em>This map shows a single phamily highlighted in all four genomes.</em></p>
+     </section>
+     
+
+</page>

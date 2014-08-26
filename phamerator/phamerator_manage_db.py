@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
+import pdb
 import Bio
 from Bio import GenBank
 from Bio import SeqIO
 from Bio import AlignIO
 from Bio.Align.Applications import ClustalwCommandline
 from Bio.Seq import Seq, translate
-import getopt, getpass, signal, sys, os, MySQLdb, re, query, db_conf, time, string
+import getopt, getpass, signal, sys, os, MySQLdb, re, query, db_conf, time, string, pickle
 import Pyro.EventService.Clients
 import ConfigParser
 
@@ -399,7 +400,7 @@ def add_phage(record, c=None):
   c.execute("LOCK TABLES phage WRITE")
   Accession = record.id
   Notes = record.description
-  Sequence = record.seq.tostring()
+  Sequence = str(record.seq)
   SequenceLength = len(Sequence)
   for feature in record.features:
     if feature.type == 'source':
@@ -586,17 +587,17 @@ def check_record_for_problems(record):
         problems.append(error)
         print error
       if orientation == 'F':
-        startCodon = record.seq[int(start):int(start)+3].tostring()
-        stopCodon = record.seq[int(stop)-3:int(stop)].tostring()
+        startCodon = str(record.seq[int(start):int(start)+3])
+        stopCodon = str(record.seq[int(stop)-3:int(stop)])
         recordSeq = record.seq[int(start):int(stop)]
       else:
-        stopCodon = record.seq[int(start):int(start)+3].reverse_complement().tostring()
-        startCodon = record.seq[int(stop)-3:int(stop)].reverse_complement().tostring()
-        recordSeq = record.seq[int(start):int(stop)].reverse_complement()
+        stopCodon = str(record.seq[int(start):int(start)+3].reverse_complement())
+        startCodon = str(record.seq[int(stop)-3:int(stop)].reverse_complement())
+        recordSeq = str(record.seq[int(start):int(stop)].reverse_complement())
 
       if translation[-1] in ('*', 'Z'): translation = translation[:-1]
 
-      bpTranslation = translate(recordSeq).tostring()
+      bpTranslation = str(translate(recordSeq))
       try:
         if bpTranslation[-1] == '*': bpTranslation = bpTranslation[:-1]
         if bpTranslation[0] in ('L', 'V'): bpTranslation = 'M' + bpTranslation[1:]
@@ -613,13 +614,13 @@ def check_record_for_problems(record):
 
       if startCodon not in ['ATG', 'GTG', 'TTG']:
         s = Seq(startCodon)
-        t = translate(s).tostring()
+        t = str(translate(s))
         error = "start codon for gene %s is '%s', which is not valid. ('%s' encodes residue '%s'.)" % (name, startCodon, startCodon, t)
         problems.append(error)
         print error
       if stopCodon not in ['TAA', 'TAG', 'TGA']:
         s = Seq(stopCodon)
-        t = translate(s).tostring()
+        t = str(translate(s))
         error = "stop codon for gene %s is '%s', which is not valid. ('%s' encodes residue '%s'.)" % (name, stopCodon, stopCodon, t)
         problems.append(error)
         print error
@@ -722,11 +723,11 @@ def add_genes(record, c=None):
         c.execute("UNLOCK TABLES")
         sys.exit()
       if orientation == 'F':
-        startCodon = record.seq[int(start):int(start)+3].tostring()
-        stopCodon = record.seq[int(stop)-3:int(stop)].tostring()
+        startCodon = str(record.seq[int(start):int(start)+3])
+        stopCodon = str(record.seq[int(stop)-3:int(stop)])
       else:
-        stopCodon = record.seq[int(start):int(start)+3].reverse_complement().tostring()
-        startCodon = record.seq[int(stop)-3:int(stop)].reverse_complement().tostring()
+        stopCodon = str(record.seq[int(start):int(start)+3].reverse_complement())
+        startCodon = str(record.seq[int(stop)-3:int(stop)].reverse_complement())
       if startCodon not in ['ATG', 'GTG', 'TTG']:
         print 'error with start codon'
         print "start:", startCodon
@@ -765,10 +766,13 @@ def query_NCBI(query):
   else:
     selection = 0
     
-  feature_parser = GenBank.FeatureParser()
-  ncbi_dict = GenBank.NCBIDictionary('nucleotide', 'genbank', parser = feature_parser)
-  gb_seqrecord = ncbi_dict[gi_list[selection]]
-  return gb_seqrecord
+  #feature_parser = GenBank.FeatureParser()
+  #ncbi_dict = GenBank.NCBIDictionary('nucleotide', 'genbank', parser = feature_parser)
+  #gb_seqrecord = ncbi_dict[gi_list[selection]]
+  #return gb_seqrecord
+  from Bio import Entrez, SeqIO
+  handle = Entrez.efetch(db='nucleotide', id=result, rettype='gb')
+  return SeqIO.read(handle, 'genbank')
 
 def parse_GenBank_file(gb_file):
   '''Parses a GenBank file using the Biopython.GenBank parser'''
@@ -778,8 +782,8 @@ def parse_GenBank_file(gb_file):
   gb_handle = open(gb_file, 'rU')
   feature_parser = GenBank.FeatureParser()
   gb_iterator = GenBank.Iterator(gb_handle, feature_parser)
-  gb_seqrecord = gb_iterator.next()
-  #gb_seqrecord = SeqIO.read(gb_handle, "genbank")
+  #gb_seqrecord = gb_iterator.next()
+  gb_seqrecord = SeqIO.read(gb_handle, "genbank")
   return gb_seqrecord
 
 def get_phages(c, PhageID=None, name=None):
@@ -975,19 +979,45 @@ def get_clusters(c, include_unclustered=False):
     for error in errors: print error
   return clusters + unclustered
 
-def get_clusters_from_pham(c, phamName):
+def get_clusters_from_pham(c, phamName, db=None):
   '''returns a list of the cluster(s) containing a phage with a member of the given pham'''
-  PhageIDs = get_PhageID_members_of_pham(c, phamName)
-  clusters = []
-  unclustered = []
-  for PhageID in PhageIDs:
-    cluster = get_cluster_from_PhageID(c, PhageID)
-    # for unclustered phages, add the phage's name instead of 'None'
-    if not cluster: unclustered.append(get_phage_name_from_PhageID(c, PhageID))
-    elif cluster and cluster not in clusters:
-      clusters.append(cluster)
-  clusters.sort() 
-  unclustered.sort()
+
+  if os.path.exists('/tmp/%s/%s/phams/%s/clusters' % (os.environ['USER'], db, phamName)) \
+    and os.path.exists('/tmp/%s/%s/phams/%s/unclustered' % (os.environ['USER'], db, phamName)):
+    pkl_file = open('/tmp/%s/%s/phams/%s/clusters' % (os.environ['USER'], db, phamName), 'rb')
+    clusters = pickle.load(pkl_file)
+    pkl_file.close()
+    pkl_file = open('/tmp/%s/%s/phams/%s/unclustered' % (os.environ['USER'], db, phamName), 'rb')
+    unclustered = pickle.load(pkl_file)
+    pkl_file.close()
+    
+  else:
+    PhageIDs = get_PhageID_members_of_pham(c, phamName)
+    clusters = []
+    unclustered = []
+    for PhageID in PhageIDs:
+      cluster = get_cluster_from_PhageID(c, PhageID)
+      # for unclustered phages, add the phage's name instead of 'None'
+      if not cluster: unclustered.append(get_phage_name_from_PhageID(c, PhageID))
+      elif cluster and cluster not in clusters:
+        clusters.append(cluster)
+    clusters.sort() 
+    unclustered.sort()
+    if not os.path.exists('/tmp/%s/%s/' % (os.environ['USER'], db)):
+      os.mkdir('/tmp/%s/%s/' % (os.environ['USER'], db))
+    if not os.path.exists('/tmp/%s/%s/phams/' % (os.environ['USER'], db)):
+      os.mkdir('/tmp/%s/%s/phams/' % (os.environ['USER'], db))
+    if not os.path.exists('/tmp/%s/%s/phams/%s' % (os.environ['USER'], db, phamName)):
+      os.mkdir('/tmp/%s/%s/phams/%s' % (os.environ['USER'], db, phamName))
+    if not os.path.exists('/tmp/%s/%s/phams/%s/clusters' % (os.environ['USER'], db, phamName)):
+      output = open('/tmp/%s/%s/phams/%s/clusters' % (os.environ['USER'], db, phamName), 'wb')
+      pickle.dump(clusters, output)
+      output.close()
+    if not os.path.exists('/tmp/%s/%s/phams/%s/unclustered' % (os.environ['USER'], db, phamName)):
+      output = open('/tmp/%s/%s/phams/%s/unclustered' % (os.environ['USER'], db, phamName), 'wb')
+      pickle.dump(unclustered, output)
+      output.close()
+
   return clusters, unclustered
 
 def get_cluster_from_PhageID(c, PhageID):
@@ -1239,20 +1269,51 @@ def get_pham_names(c):
   results = c.fetchall()
   return results
 
-def get_number_of_pham_members(c, phamName, PhageID=None):
+def get_number_of_pham_members(c, phamName, PhageID=None, db=None):
   '''returns an int that is the number of members of a pham, or None if the pham does not exist. If specified only report members from given genome'''
-  try:
-    if PhageID:
-      sqlQuery = "SELECT COUNT(*) FROM pham, gene, phage WHERE pham.name = '%s' AND phage.PhageID = '%s' AND pham.GeneID = gene.GeneID and gene.PhageID = phage.PhageID" % (phamName, PhageID)
-    else:
-      sqlQuery = "SELECT COUNT(*) FROM pham WHERE pham.name = '%s'" % phamName
+  if PhageID:
+    print 'using phageid %s' % PhageID
+    sqlQuery = "SELECT COUNT(*) FROM pham, gene, phage WHERE pham.name = '%s' AND phage.PhageID = '%s' AND pham.GeneID = gene.GeneID and gene.PhageID = phage.PhageID" % (phamName, PhageID)
     c.execute(sqlQuery)
     count = c.fetchone()[0]
     return count
-  except:
-    print sqlQuery
-    sys.exit()
+    
+  if os.path.exists('/tmp/%s/%s/phams/%s/size' % (os.environ['USER'], db, phamName)):
+    pkl_file = open('/tmp/%s/%s/phams/%s/size' % (os.environ['USER'], db, phamName), 'rb')
+    size = pickle.load(pkl_file)
+    print 'using cached size %s' % size
+    pkl_file.close()
+    return size
+  else:
+    #try:
+    sqlQuery = "SELECT COUNT(*) FROM pham WHERE pham.name = '%s'" % phamName
+    c.execute(sqlQuery)
+    count = c.fetchone()[0]
+    if not os.path.exists('/tmp/%s/' % (os.environ['USER'])):
+      os.mkdir('/tmp/%s/' % (os.environ['USER']))
+    if not os.path.exists('/tmp/%s/%s' % (os.environ['USER'], db)):
+      os.mkdir('/tmp/%s/%s' % (os.environ['USER'], db))
+    if not os.path.exists('/tmp/%s/%s/phams/' % (os.environ['USER'], db)):
+      os.mkdir('/tmp/%s/%s/phams' % (os.environ['USER'], db))
+    if not os.path.exists('/tmp/%s/%s/phams/%s' % (os.environ['USER'], db, phamName)):
+      os.mkdir('/tmp/%s/%s/phams/%  s' % (os.environ['USER'], db, phamName))
+    output = open('/tmp/%s/%s/phams/%s/size' % (os.environ['USER'], db, phamName), 'wb')
+    print 'caching size %s for pham %s' % (count, phamName)
+    pickle.dump(count, output)
+    output.close()
+    return count
+    #except:
+    #  print sqlQuery
+    #  sys.exit()
 
+def get_domains_from_pham(c, phamName):
+  '''returns a concatenated list of domains for each pham'''
+  sqlQuery1 = "SET SESSION group_concat_max_len = 1000000;"
+  sqlQuery2 = "SELECT DISTINCT GROUP_CONCAT(domain.description SEPARATOR '.. ') AS domain FROM pham LEFT JOIN gene_domain ON gene_domain.GeneID = pham.GeneID LEFT JOIN domain ON gene_domain.hit_id = domain.hit_id WHERE pham.name = '%s'" % phamName
+  c.execute(sqlQuery1)
+  c.execute(sqlQuery2)
+  return c.fetchone()
+  
 def get_translation_from_GeneID(c, GeneID):
   '''returns a translated sequence from a GeneID'''
   sqlQuery = "SELECT translation FROM gene WHERE GeneID = '%s'" % GeneID
@@ -1305,7 +1366,7 @@ def get_seq_from_GeneID(c, GeneID, extra=None):
   if extra:
     start = start - extra
     stop = stop + extra
-  #print 'start:', start, 'stop:', stop, 'seq:', sequence[start:stop].tostring()
+  #print 'start:', start, 'stop:', stop, 'seq:', str(sequence[start:stop])
   #print sequence[start:stop]
   if orientation == 'R':
     temp = list(sequence[start:stop])
@@ -1319,7 +1380,7 @@ def get_seq_from_GeneID(c, GeneID, extra=None):
     #print 'sequence: %s' % sequence
     return sequence
   #print 'sequence: %s' % sequence
-  #return sequence[start:stop].tostring()
+  #return str(sequence[start:stop])
   return sequence[start:stop]
 
 def get_seq_from_PhageID(c, PhageID):
@@ -1358,8 +1419,10 @@ def get_pham_from_GeneID(c, GeneID):
 
 def do_blast_search(c, query):
   import shutil
-  from Bio.Blast import NCBIStandalone
+  #from Bio.Blast import NCBIStandalone
   from Bio.Blast import NCBIXML
+  from Bio.Blast.Applications import NcbiblastpCommandline
+  from StringIO import StringIO
 
   '''performs a blast search with the given query and returns a dict of results'''
   blastDbDirectory='/tmp/BLAST'
@@ -1403,8 +1466,9 @@ def do_blast_search(c, query):
      blast_db = win32api.GetShortPathName(blast_db)
      blast_file = win32api.GetShortPathName(blast_file)
      blast_exe = win32api.GetShortPathName(blast_exe)
-  blast_out, error_info = NCBIStandalone.blastall(blast_exe, 'blastp', blast_db, blast_file, expectation=100, align_view=7)
-  blast_records = NCBIXML.parse(blast_out)
+  #blast_out, error_info = NCBIStandalone.blastall(blast_exe, 'blastp', blast_db, blast_file, expectation=100, align_view=7)
+  blast_out = NcbiblastpCommandline(query=blast_file, db=blast_db, evalue=100, outfmt=5)()[0]
+  blast_records = NCBIXML.parse(StringIO(blast_out))
   #print 'got iterator'
   results = {}
   recordnumber = 0
@@ -1665,14 +1729,22 @@ def get_phageID_from_pham(c,phamName):
     if phageID not in phageIDs:
       phageIDs.append(phageID)
   return phageIDs
-  
-def get_phage_name_from_pham(c, phamName):
-  genes = get_members_of_pham(c, phamName)
-  phageNames = []
-  for gene in genes:
-    phageName = get_phage_name_from_GeneID(c,gene)
-    if phageName not in phageNames:
-      phageNames.append(phageName)
+
+def get_phage_name_from_pham(c, db, phamName):
+  if os.path.exists('/tmp/%s/%s/phams/%s/phageNames' % (os.environ['USER'], db, phamName)):
+    pkl_file = open('/tmp/%s/%s/phams/%s/phageNames' % (os.environ['USER'], db, phamName), 'rb')
+    phageNames = pickle.load(pkl_file)
+    pkl_file.close()
+  else:
+    genes = get_members_of_pham(c, phamName)
+    phageNames = []
+    for gene in genes:
+      phageName = get_phage_name_from_GeneID(c,gene)
+      if phageName not in phageNames:
+        phageNames.append(phageName)
+    output = open('/tmp/%s/%s/phams/%s/phageNames' % (os.environ['USER'], db, phamName), 'wb')
+    pickle.dump(phageNames, output)
+    output.close() 
   return phageNames
   
 def get_phams_from_PhageID(c,phageID):
@@ -1703,11 +1775,12 @@ def get_unique_phams(c):
   return returnList
 
 def reset_blast_table(c):
-  print 'Resetting BLAST and ClustalW tables'
-  print 'Alignments will have to be recalculated'
+  print 'The database changed'
+  # all BLAST alignments need to be recalculated
+  print '..mark BLAST alignments as needing to be redone'
   c.execute("UPDATE gene SET blast_status = 'avail'")
-  c.execute("UPDATE gene SET clustalw_status = 'avail'")
-  c.execute("TRUNCATE TABLE scores_summary")
+  c.execute("DELETE FROM scores_summary WHERE blast_score IS NOT NULL")
+  #c.execute("TRUNCATE TABLE scores_summary")
   #c.execute("DELETE FROM scores_summary WHERE blast_score IS NOT NULL")
   c.execute("COMMIT")
   try:
@@ -1869,8 +1942,11 @@ def main(argv):
     NcbiQuery = query.query(queryString, allowRefSeqs=refseq)
     NcbiQuery.run()
     ###
-    feature_parser = GenBank.FeatureParser()
-    ncbi_dict = GenBank.NCBIDictionary('nucleotide', 'genbank', parser = feature_parser)
+    #feature_parser = GenBank.FeatureParser()
+    #ncbi_dict = GenBank.NCBIDictionary('nucleotide', 'genbank', parser = feature_parser)
+    from Bio import Entrez, SeqIO
+    handle = Entrez.efetch(db='nucleotide', id=queryString, rettype='gb', retmode='text')
+    results = SeqIO.read(handle, 'gb')
     if len(NcbiQuery.results) > 1:
       selection = -1
       for i in range(len(NcbiQuery.results)):
@@ -1927,7 +2003,13 @@ def main(argv):
     remove_phage_from_db(id, c, confirm)
   new_phages = get_phages(c, PhageID='PhageID')
   #reset_blast_table(c)
-  if phages_have_changed(original_phages, new_phages): reset_blast_table(c)
+  if phages_have_changed(original_phages, new_phages):
+    print 'Deleting BLAST and ClustalW scores means that the database will need to be recomputed. If you choose to NOT delete these scores, only undone alignments will be computed the next time you run ClustalW or BLAST.'
+    go = raw_input("Do you want to delete all BLAST and ClustalW scores [y/N]: ").upper()
+    if go == 'Y': reset_blast_table(c)
+    else:
+      print 'BLAST and ClustalW scores were not deleted.'
+      return
   
   #  phamPub.publish_db_update("fasta", 'BLAST database is current') if __name__ == '__main__': main(sys.argv[1:])
 

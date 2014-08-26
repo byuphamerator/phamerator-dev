@@ -1,0 +1,70 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="topic"
+      id="mapcolor">
+
+  <info>
+    <link type="guide" xref="index#drawingmaps"/>
+    <revision pkgversion="0.13.4" version="0.1" date="2012-07-07" status="complete"/>
+    <credit type="author">
+      <name>Steven Cresawn</name>
+      <email>scresawn@gmail.com</email>
+    </credit>
+    <credit type="contributor">
+      <name>Anisa Tracy</name>
+      <email>anisa.tracy@gmail.com</email>
+    </credit>
+    <desc>
+      Color code your genes to learn more about their sequence.
+    </desc>
+    <license>
+      <p>GNU General Public License</p>
+    </license>
+  </info>
+    
+    <title>Map Color</title>
+     
+     <p>Genome maps can be colored in order to learn more about your genomes. The color options for the genome maps can be found on the Color menu at the top of the screen when the genome map is open.</p>
+     <media type="image" mime="image/png" src="figures/coloroptions.png">coloroptions</media>
+     <p><em>This image shows the uper left hand corner of the desktop where the color options can be found. Note that color by phamily is the defalt view.</em></p>
+     <note><p>Images in this section are shown with all extraneous items hidden, for more information on these options see the <link xref="view">viewing options</link>.</p></note>
+     
+     <section>
+     <title>Color by Pham</title>
+     <p>Color by pham is the defalt when a map is created in Phamerator. When using this option the genes are colored according to the phamily to which they belong, as determined by comparison of their protein coding sequences.</p>
+     <media type="image" mime="image/png" src="figures/phammap.png">phammap</media>
+     <p><em>The map above shows the defalt view coloring for maps made in Phamerator, using phams to color code genes.</em></p>
+     </section>
+     
+     <section>
+	 <title>No color</title>
+	 <p>The option to not show color will remove all color from your map, making the map appear with only an outline.</p>
+	 <media type="image" mime="image/png" src="figures/nocolormap.png">nocolormap</media>
+	 <p><em>The map above shows the genomes without any color.</em></p>
+     </section>
+     
+     <section>
+     <title>Color by Abundance</title>
+     <p>When you select the option to color your map by abundance each gene is colored a different shade of grey depending on the number of members within a specific pham. It is important to note that each gene is representative of a pham. For each pham the darker the coloring of the representative gene the more members that pham contains.</p>
+     <media type="image" mime="image/png" src="figures/abundancemap.png">abundancemap</media>
+     <p><em>The map shown above demonstrates the contrast in the number of phamily members. For example in the map of Museum you can visually see that phamily 6 contains fewer members than phamily 10 based on the shading of the genes.</em></p>
+     </section>
+     
+     <section>
+	 <title>Color by Cluster Conservation</title>
+	 <p>Genome maps can be colored based on cluster conservation. With this option the phams will be colored either blue, red, green or yellow.</p>
+	 <p>If a pham is colored blue this denotes that a pham is in every genome in that specific cluster as well as at least one other cluster. For example, if you are looking at a cluster A phage, a blue colored pham would be found in all cluster A genomes as well as in at least one non-cluster A genome.</p>
+	 <p>If a pham is colored red this denotes that a pham is in every genome in that specific cluster but no other cluster. These phams could be considered "signatures" for their particular cluster. For example, if you are looking at a cluster A phage, a red colored pham would be found in all cluster A genomes, but not any other non-cluster A genomes.</p>
+	 <p>If a pham is colored green this denotes a pham that is in some (but not all) phages of that specific cluster and at least one other phage. For example, if you are looking at a cluster A phage, a green colored pham would be found in some (but not all) cluster A phages, but also found in at least one other non-cluster A genome.</p>
+	 <p>If a pham is colored yellow this denotes that a specific pham is found in some (but not all) phages of a specific cluster and is not seen in any other cluster. For example, if you are looking at a cluster A phage, a yellow colored pham would indicate that that pham is found in some (but not all) cluster A genomes but not in any other cluster.</p>
+	 <media type="image" mime="image/png" src="figures/clusterconservationmap.png">cluster conservation</media>
+	 <p><em>Phams will be colored blue, red, green or yellow based on the conservation observed throughout clusters.</em></p>
+	 </section>
+	 <section>
+	 <title>Color by GC content</title>
+	 <p>For the color by GC% content the genes are colored various shades of green based on the GC% content. The shade of green is determined based on a range known for the host. The range is currently set for mycobacteriophages. The darker the shade of green the lower the GC% content is for that particular gene.</p>
+	 <media type="image" mime="image/png" src="figures/gccontentmap.png">gccontent</media>
+	 <p><em>In the map shown above the genes with a lighter more neon green indicate a high GC% content while the darker forest green colored genes indicate a low GC%.</em></p>
+	 </section>
+
+</page>

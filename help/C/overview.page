@@ -1,0 +1,41 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="guide"
+      id="overview">
+
+  <info>
+    <link type="guide" xref="index#intro"/>
+    <revision pkgversion="0.14" version="0.2" date="2012-06-30" status="complete"/>
+     <credit type="author">
+      <name>Steven Cresawn</name>
+      <email>scresawn@gmail.com</email>
+    </credit>
+    <credit type="contributor">
+      <name>Anisa Tracy</name>
+      <email>anisa.tracy@gmails.com</email>
+    </credit>
+    <desc>Discover more about how Phamerator works.</desc>
+    <license>
+      <p>GNU General Public License</p>
+    </license>
+  </info>
+
+    <title>An Overview</title>
+    <media type="image" src="figures/mainwindow.png" mime="image/png" style="center"></media>
+    <p><em>Phamerator main window showing the main components of the user interface</em></p>
+   <!-- <figure>
+       <title><app>Phamerator Main Window</app></title>
+       <desc>The main window, as the name implies, is the window containing the main components of the user interface.</desc>
+        <media type="image" src="figures/mainwindow.png" mime="image/png" style="right">
+        </media>
+      </figure> -->
+     
+
+    <section>
+     <title>What is Phamerator?</title>
+      <p>Phamerator is a program that compares phage genomes, their genes, and their gene products. Phamerator is comprised of two parts, a database and the user interface. The database contains the phage genomes and their pair-wise comparisons of every protein within each genome to every other protein within the whole database and a visual interface to that database that allows you to display the data from the database in multiple ways. The pair-wise comparisons between proteins are performed using BLASTP and ClustalW.  If an alignment score is above a certain threshold, these proteins are considered similar enough to be grouped into a “phamily”. Phamilies, or phams, are groups of proteins that, for the most part, share a high level of similarity to each other.</p>
+      <note><p>An important exception to this occurs in the extension of pham building, i.e. if protein A is similar to protein B and protein B is similar to protein C, all three will be grouped into the same pham, even if proteins A and C are not similar to each other. This is very useful in identifying proteins with multiple domains that may be fused in one phage genome and split in another.</p>
+      </note>
+    </section>
+
+</page>

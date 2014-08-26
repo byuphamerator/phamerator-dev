@@ -19,8 +19,8 @@ class PhamCircle:
         self.radius = kargs["radius"]
     except:
         self.radius = 750
-    self.h, self.k = self.radius + 400,self.radius + 240
-    
+    self.h, self.k = self.radius + 900,self.radius + 500
+    #The radii above change where the circle is positioned on the page
     self.c = c
     self.phamName = phamName
     if 'verbose' in kargs.keys(): 
@@ -79,29 +79,30 @@ class PhamCircle:
       comparator = self.getName(gL)
       labels.append(Label(gL, 'gene',comparator))
     clusters = {}
-    for clust in get_clusters(self.c, include_unclustered=False):
+    for clust in get_clusters(self.c, include_unclustered=False): # WAS FALSE
       clusters[clust] = Cluster(clust)
 
-    clusters['NONMEM'] = Cluster('NONMEM')
+    clusters[''] = Cluster('')
 
+    #print 'clusters: %s' % clusters
     for label in labels:
       cluster = get_cluster_from_PhageID(self.c, get_PhageID_from_name(self.c,label.comparator.split(' ')[0]))
       if cluster in clusters:
         clusters[cluster].add(label)
       else:
-        clusters['NONMEM'].add(label)
+        clusters[''].add(label)
     self.clusters = clusters
-    for clust in get_clusters(self.c, include_unclustered=False):
-      print "################################################"
-      print clust
-      print "################################################"
-      for lbl in clusters[clust].getLabels():
-        print lbl.comparator
-    print "##############################################"
-    print "NON MEMBERS"
-    print "##############################################"
-    for lbl in clusters["NONMEM"].getLabels():
-        print lbl.comparator
+    #for clust in get_clusters(self.c, include_unclustered=False):
+    #  print "################################################"
+    #  print clust
+    #  print "################################################"
+    #  for lbl in clusters[clust].getLabels():
+    #    print lbl.comparator
+    #print "##############################################"
+    #print "NON MEMBERS"
+    #print "##############################################"
+    #for lbl in clusters[''].getLabels():
+    #    print lbl.comparator
     #########################################
     
     """Set up all constants and initialize some variables to be used for drawing polygon/arcs"""
@@ -112,7 +113,8 @@ class PhamCircle:
     rectWidth = (2*math.pi*radius)/numItems
     rectHeight = rectWidth/4
     self.rectHeight = rectHeight
-    font = str(int(rectWidth/4))
+    font = str(int(rectWidth/2.0))
+    print 'using font size %s' % font
     #font = '6'
     bigFont =  str(int((rectWidth/2)+10))
     #bigFont = '50'
@@ -136,6 +138,7 @@ class PhamCircle:
     lastY = yPos - 10
     cluster_list = clusters.keys()
     cluster_list.sort()
+
     color_counter = 0
     self.clusterCenters = {}
     color_list = ['#ea55ff','#ffaaea','#ff5f00','#d7b9a8','#e47532','#ffdcc7','#6aff55','#ceffc7','#e0ff00','#1cffff','#9c38ff','#bb7ef8','#b8ff71','#ff5555','#ffaaaa','#1c55ff']
@@ -206,12 +209,12 @@ class PhamCircle:
         else:
           text = label.comparator
       
-        if (90-rotationIncrement)<currentRotation<(90+rotationIncrement) or (270-rotationIncrement)<currentRotation<(270+rotationIncrement):
-          textY = textY + (signY*int(font)*3)
-        if (90-(rotationIncrement*2))<currentRotation<(90-rotationIncrement) or (90+rotationIncrement)<currentRotation<(90+rotationIncrement*2) or (270-(rotationIncrement*2))<currentRotation<(270-rotationIncrement) or (270+rotationIncrement)<currentRotation<(270+(rotationIncrement*2)):
-          textY = textY + (signY*int(font)*2)
-        if (90-(rotationIncrement*3))<currentRotation<(90-(rotationIncrement*2)) or (90+rotationIncrement*2)<currentRotation<(90+rotationIncrement*3) or (270-(rotationIncrement*3))<currentRotation<(270-(rotationIncrement*2)) or (270+(rotationIncrement*2))<currentRotation<(270+(rotationIncrement*3)):
-          textY = textY + (signY*int(font))
+#        if (90-rotationIncrement)<currentRotation<(90+rotationIncrement) or (270-rotationIncrement)<currentRotation<(270+rotationIncrement):
+#          textY = textY + (signY*int(font)*3)
+#        if (90-(rotationIncrement*2))<currentRotation<(90-rotationIncrement) or (90+rotationIncrement)<currentRotation<(90+rotationIncrement*2) or (270-(rotationIncrement*2))<currentRotation<(270-rotationIncrement) or (270+rotationIncrement)<currentRotation<(270+(rotationIncrement*2)):
+#          textY = textY + (signY*int(font)*2)
+#        if (90-(rotationIncrement*3))<currentRotation<(90-(rotationIncrement*2)) or (90+rotationIncrement*2)<currentRotation<(90+rotationIncrement*3) or (270-(rotationIncrement*3))<currentRotation<(270-(rotationIncrement*2)) or (270+(rotationIncrement*2))<currentRotation<(270+(rotationIncrement*3)):
+#          textY = textY + (signY*int(font))
         textModel =goocanvas.TextModel(text=text,
                   x=textX, y=textY,
                   anchor=anchor,
@@ -219,19 +222,19 @@ class PhamCircle:
                   font="Arial " + font)
         lastY = textY
         self.polygon_n_labels.add_child(textModel, -1)
+        if currentRotation <= 90 or currentRotation >= 270:
+          textModel.rotate(currentRotation, textX, textY)
+        else:
+          textModel.rotate(180+currentRotation, textX, textY)          
+
         if self.verbose == True:
           print str(text) + " at rotation of " + str(currentRotation) + " degrees, with a Y-sign value of " + str(signY) + "\n"
         currentRotation = currentRotation + rotationIncrement
-    
 
-    
-      
-         
     self.root.add_child(self.polygon_n_labels,-1)
     self.first_time = True
     root = self.update_arc_groupModel(adjustment)
     return root
-    
 
   def showClusters(self):
       self.clusterGroup = goocanvas.GroupModel()
@@ -249,11 +252,23 @@ class PhamCircle:
         d = "M%s,%s A%s,%s 0 0,1 %s,%s" %(startx,starty,(self.radius+5),(self.radius+5),endx,endy)
         item = goocanvas.PathModel(data=d,stroke_color="#969696",line_width=4)
         self.clusterGroup.add_child(item,-1)
+
+        # add a label for the cluster on the circle, change number + self.radius to move cluster labels outward
+        if startAngle <= endAngle:
+          x = self.h + (math.cos((startAngle+endAngle)/2.0)*(200 + self.radius))
+        else:
+          x = self.h + (math.cos((startAngle+endAngle)/2.0)*-(200 + self.radius))
+        y = self.k + (math.sin((startAngle+endAngle)/2.0)*(200 + self.radius))
+        item = goocanvas.TextModel(text=cluster,
+            x=x, y=y,
+            anchor=gtk.ANCHOR_WEST,
+            font="Arial %s" % str(3500/self.numItems),
+            fill_color="#0000ff")
+        self.clusterGroup.add_child(item,-1)
       self.root.add_child(self.clusterGroup,2)
 
   def hideClusters(self):
     self.root.remove_child(2)
-
 
   def update_arc_groupModel(self,adjustment):
     """Iterate through all nodes containing arc data, and draw them to the n-sided polygon """
@@ -268,7 +283,6 @@ class PhamCircle:
     for node in self.inputList.nodeList:
       if node.relation >= adjustment:
         alpha = hex(255)
-        
       else:
         scaler = ((node.relation/adjustment) - self.threshold)/.725
         if scaler < 0:
@@ -301,9 +315,6 @@ class PhamCircle:
     
     #########################################
 
-    
-      
-        
   """This is our handler for the "item-view-created" signal of the GooCanvasView.  We connect to the "button-press-event" signal of new rect views."""
   def on_item_view_created (self, view, item_view, item):
     if isinstance(item, goocanvas.Rect):
@@ -541,7 +552,6 @@ class InputData:
 """End InputData """
 #########################################
 
-
 class Cluster:
   def __init__(self,name):
     self.name = name
@@ -601,8 +611,7 @@ def main(argv):
     phamCircleCanvas = goocanvas.Canvas()
     scrolled_win.add(phamCircleCanvas)
     phamCircleCanvas.set_root_item_model(phamCircle.create_canvas_model(nonMemberPhages, genes, l,adjustment,'27.0',blastColor='#ff0000', clustalwColor='#0000ff'))
-    
- 
+
     x, y = (800, 800)
     phamCircleCanvas.set_size_request(x, y)
     defaultPhamCircleCanvasSize = (x, y)

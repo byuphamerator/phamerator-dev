@@ -1,0 +1,40 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="topic"
+      id="exporting">
+
+  <info>
+    <link type="guide" xref="index#exporting"/>
+    <revision pkgversion="0.13.4" version="0.1" date="2012-07-26" status="complete"/>
+    <credit type="author">
+      <name>Steven Cresawn</name>
+      <email>scresawn@gmail.com</email>
+    </credit>
+    <credit type="contributor">
+      <name>Anisa Tracy</name>
+      <email>anisa.tracy@gmail.com</email>
+    </credit>
+    <desc>
+      Learn how to export raw data from Phamerator.
+    </desc>
+    <license>
+      <p>GNU General Public License</p>
+    </license>
+  </info>
+
+    <title>Exporting Data</title>
+     
+     <section>
+		 <title>Exporting Protiens, Genes and Genome Data</title>
+		 <p>Using these functions allows for protein, gene or genome sequence to be exported in the FASTA format.</p>
+		 <p>These functions can be found under the file menu. Before selcting any of these functions you must first seclect the phage that you wish to export data for. Once Selected you can now click on your desired function, and will then be prompted to specify the location that you wish to save the data to.</p>
+     </section>
+     
+     <section>
+		<title>Exporting Pham or Cluster Tables</title>
+		<p>These functions allow for Pham tables or Cluster tables to be exported to your computer.</p>
+		<p>Pham and Cluster tables can also be exported. This is done in a similar matter as exporting protein, gene and genome data. Once you have selected the Pham or Cluster that you would like to export the export function can be seclected under the file menu. You will then be prompted to specify the location that you wish to save the data. Click save in the lower righthand corner of the window and your data will be exported to that location.</p>
+	</section>
+     
+
+</page>

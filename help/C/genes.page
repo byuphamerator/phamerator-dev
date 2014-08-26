@@ -1,0 +1,32 @@
+ <page xmlns="http://projectmallard.org/1.0/"
+      xmlns:e="http://projectmallard.org/experimental/"
+      type="topic"
+      id="genes">
+
+  <info>
+    <link type="guide" xref="index#sources"/>
+    <revision pkgversion="0.14.2" version="0.2" date="2011-07-02" status="complete"/>
+    <credit type="author">
+      <name>Steven Cresawn</name>
+      <email>scresawn@gmail.com</email>
+    </credit>
+    <credit type="contributor">
+      <name>Anisa Tracy</name>
+      <email>anisa.tracy@gmail.com</email>
+    </credit>
+    <desc>
+     Browse the genes and sort by Gene, Phage, Orientation, Phamily, Type of Description.
+    </desc>
+    <license>
+      <p>GNU General Public License</p>
+    </license>
+  </info>
+
+    <title>Genes</title>
+
+    <section>
+        <title>Sorting by Column</title>
+        <p>It is possible to sort by any of the headings within the gene source tab. This is done by simply clicking on the colum heading.</p>
+    </section>
+    
+</page> 
