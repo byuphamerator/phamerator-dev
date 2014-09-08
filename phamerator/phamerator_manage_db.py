@@ -1308,7 +1308,7 @@ def get_number_of_pham_members(c, phamName, PhageID=None, db=None):
 
 def get_domains_from_pham(c, phamName):
   '''returns a concatenated list of domains for each pham'''
-  sqlQuery1 = "SET SESSION group_concat_max_len = 1000000;"
+  sqlQuery1 = "SET SESSION group_concat_max_len = 32000;"
   sqlQuery2 = "SELECT DISTINCT GROUP_CONCAT(domain.description SEPARATOR '.. ') AS domain FROM pham LEFT JOIN gene_domain ON gene_domain.GeneID = pham.GeneID LEFT JOIN domain ON gene_domain.hit_id = domain.hit_id WHERE pham.name = '%s'" % phamName
   c.execute(sqlQuery1)
   c.execute(sqlQuery2)
