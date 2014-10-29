@@ -58,7 +58,7 @@ def remove_phage_from_db(PhageID, c, confirm=True):
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
     from phamerator import plugins
     from phamerator.plugins import phamchecker
-
+  
   c.execute("SELECT COUNT(*) FROM phage WHERE PhageID = '%s'" % PhageID)
   print "SELECT COUNT(*) FROM phage WHERE PhageID = '%s'" % PhageID
   count = c.fetchone()[0]
@@ -275,23 +275,23 @@ def remove_phage_from_db(PhageID, c, confirm=True):
                 for error in errors:
                   print error
               c.execute("COMMIT")
-
-    c.execute("DELETE gene_domain FROM gene, phage, gene_domain WHERE gene_domain.GeneID = gene.GeneID AND gene.PhageID = phage.PhageID AND phage.PhageID = '%s'" % PhageID)
-    print 'deleted', c.rowcount, 'rows from gene_domain'
-    c.execute("DELETE pham FROM pham, gene, phage WHERE pham.GeneID = gene.GeneID AND gene.PhageID = phage.PhageID AND phage.PhageID = '%s'" % PhageID)
-    print 'deleted', c.rowcount, 'rows from pham'
-    c.execute("DELETE pham_old FROM pham_old, gene, phage WHERE pham_old.GeneID = gene.GeneID AND gene.PhageID = phage.PhageID AND phage.PhageID = '%s'" % PhageID)
-    print 'deleted', c.rowcount, 'rows from pham_old'
+  c.execute("set foreign_key_checks = 0")
+  c.execute("DELETE gene_domain FROM gene, phage, gene_domain WHERE gene_domain.GeneID = gene.GeneID AND gene.PhageID = phage.PhageID AND phage.PhageID = '%s'" % PhageID)
+  print 'deleted', c.rowcount, 'rows from gene_domain'
+  c.execute("DELETE pham FROM pham, gene, phage WHERE pham.GeneID = gene.GeneID AND gene.PhageID = phage.PhageID AND phage.PhageID = '%s'" % PhageID)
+  print 'deleted', c.rowcount, 'rows from pham'
+  c.execute("DELETE pham_old FROM pham_old, gene, phage WHERE pham_old.GeneID = gene.GeneID AND gene.PhageID = phage.PhageID AND phage.PhageID = '%s'" % PhageID)
+  print 'deleted', c.rowcount, 'rows from pham_old'
 
     #print 'genes in pham that should not be there: %s' % c.fetchall()
-    c.execute("DELETE gene FROM gene, phage WHERE gene.PhageID = phage.PhageID AND phage.PhageID = '%s'" % PhageID)
-    print 'deleted', c.rowcount, 'rows from gene'
-    print 'deleted genes'
-    c.execute("DELETE FROM phage WHERE PhageID = '%s'" % PhageID)
-    print 'deleted', c.rowcount, 'rows from phage'
-    print 'deleted phage'
-    c.execute("COMMIT")
-    print "PhageID '" + PhageID + "' has been successfully removed from the database."
+  c.execute("DELETE gene FROM gene, phage WHERE gene.PhageID = phage.PhageID AND phage.PhageID = '%s'" % PhageID)
+  print 'deleted', c.rowcount, 'rows from gene'
+  print 'deleted genes'
+  c.execute("DELETE FROM phage WHERE PhageID = '%s'" % PhageID)
+  print 'deleted', c.rowcount, 'rows from phage'
+  print 'deleted phage'
+  c.execute("COMMIT")
+  print "PhageID '" + PhageID + "' has been successfully removed from the database."
     
 def create_db(db_name=None, template=None, clone=False):
   '''Creates a new database from a .sql template using the supplied db_name as the database name'''
@@ -1773,7 +1773,15 @@ def get_unique_phams(c):
   for r in results:
     returnList.append(r[0])
   return returnList
-
+		
+def reset_clustalw_table(c):
+  print 'The database changed'
+  # all BLAST alignments need to be recalculated
+  print '..mark Clustalw alignments as needing to be redone'
+  c.execute("UPDATE gene SET clustalw_status = 'avail'")
+  c.execute("DELETE FROM scores_summary WHERE clustalw_score IS NOT NULL")
+  c.execute("COMMIT")
+		
 def reset_blast_table(c):
   print 'The database changed'
   # all BLAST alignments need to be recalculated
@@ -2006,7 +2014,8 @@ def main(argv):
   if phages_have_changed(original_phages, new_phages):
     print 'Deleting BLAST and ClustalW scores means that the database will need to be recomputed. If you choose to NOT delete these scores, only undone alignments will be computed the next time you run ClustalW or BLAST.'
     go = raw_input("Do you want to delete all BLAST and ClustalW scores [y/N]: ").upper()
-    if go == 'Y': reset_blast_table(c)
+    if go == 'Y': reset_blast_table(c) 
+    if go == 'Y': reset_clustalw_table(c)
     else:
       print 'BLAST and ClustalW scores were not deleted.'
       return
