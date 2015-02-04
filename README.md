@@ -46,6 +46,10 @@ In addition, for the GUI you will need
 * Python Webkit Bindings (python-webkit)
 * Python Gnome configuration Bindings (python-gconf)
 * GTK+ 3 or newer
+ 
+```bash
+apt-get install python-biopython pyro clustalw clustalo ncbi-blast+ python-pp python-mysqldb python-pygoocanvas python-webkit python-gconf
+```
 
 Phamerator Quick-Start Guide
 ----------------------------------
