@@ -178,7 +178,7 @@ class downloadBlastThread(threading.Thread):
     else:
       fname = "blast-" + blast_version + "-x64-linux.tar.gz"
     if not os.path.exists(os.path.join(blast_dir,'bin','bl2seq')):
-      url = "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/release/" + blast_version + "/" + fname
+      url = "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy/" + blast_version + "/" + fname
       self.logger.log("executable " + os.path.join(blast_dir, 'bin','bl2seq') + " does not exist, downloading from %s" % url)
       block_size = 10240
       i = 0
