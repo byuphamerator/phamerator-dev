@@ -3,4 +3,4 @@ defaultDatabase = Mycobacteriophage_Draft
 otherDatabases = 
 defaultServer = http://phamerator.csm.jmu.edu/sea
 otherServers = 
-BLAST_dir = /usr/share/Applications/BLAST/
+BLAST_dir = /usr/share/phamerator/Applications/BLAST/
