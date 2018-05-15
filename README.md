@@ -1,11 +1,16 @@
-Phamerator
+BYU-Phamerator
 ==========
+
+This is ___not___ the official version of Phamerator.
+
+### ___***To access the SEA-PHAGES online version of Phamerator, please visit http://phamerator.org.***___
 
 Overview
 --------
 ****
-This is a fork being worked on by Brigham Young University Life Sciences and is NOT the 
+This is a fork being worked on by Brigham Young University Life Sciences and is ___**NOT**___ the 
 official Phamerator repository.
+
 ****
 Phamerator is a set of computer programs that is useful for genomic analysis
 of bacteriophage genomes. In fact, these programs were specifically designed
@@ -17,11 +22,16 @@ more details.
 Documentation for this project can be found in the doc directory. A quick start guide is
 included in this README file.
 
-(C) 2006-2008 Steve Cresawn <scresawn@gmail.com> and Matt Bogel <dabogsta@gmail.com>
-
-Homepage: http://phage.cisat.jmu.edu
-
 This project was forked under GNU License v2 section 2 as above, BYU Life Sciences Information Technology.
+
+
+Publications
+------------
+Merrill and Ward et al. BMC Genomics, 2016 - https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-016-3018-2
+
+Contact information
+------------------
+If you have a problem installing or using this GitHub repository, please open an issue here or contact the corresponding authors of Merrill and Ward et al. (2016). ***Do not*** contact the original creators of Phamerator, as they will not be able to help with this fork.
 
 Requirements
 ------------
@@ -59,6 +69,8 @@ more complete documentation for each script, please see usage instructions,
 usually by running the script in question with no arguments. Before continuing 
 with this guide, be sure to install all the required dependencies at the 
 beginning of this document.
+
+Additional information about this forked project can be found at https://phagehunters.byu.edu/Phamerator.
 
 Downloading Phamerator
 ----------------------------------
